@@ -8,4 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="tabSize" parent="android:TextAppearance.Holo.Small">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

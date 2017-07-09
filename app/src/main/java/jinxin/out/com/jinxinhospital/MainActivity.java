@@ -1,6 +1,5 @@
 package jinxin.out.com.jinxinhospital;
 
-import android.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,13 +18,13 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String KEY_POSITION = "key_position";
+    public static final String KEY_POSITION = "key_position";
     String TAG = "dengguotao";
-    private static final int HOME_POSITION = 0;
-    private static final int CURRENT_CHECK_POSITION = 1;
-    private static final int VIP_POSITION = 2;
-    private static final int HEALTH_MANAGE_POSITION = 3;
-    private static final int USER_MANAGE_POSITION = 4;
+    public static final int HOME_POSITION = 0;
+    public static final int CURRENT_CHECK_POSITION = 1;
+    public static final int VIP_POSITION = 2;
+    public static final int HEALTH_MANAGE_POSITION = 3;
+    public static final int USER_MANAGE_POSITION = 4;
 
 
     private TextView mTitle;
@@ -63,27 +61,27 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout.Tab homeTab = mTabLayout.newTab();
         homeTab.setIcon(R.drawable.tb1_hover);
         homeTab.setText(R.string.page_home);
-        mTabsAdapter.addTab(homeTab, FisrtPageFragment.class, HOME_POSITION);
+        mTabsAdapter.addTab(homeTab, HomePageFragment.class, HOME_POSITION);
 
         final TabLayout.Tab currentCheckTab = mTabLayout.newTab();
         currentCheckTab.setIcon(R.drawable.tb2);
         currentCheckTab.setText(R.string.page_current_check);
-        mTabsAdapter.addTab(currentCheckTab, FisrtPageFragment.class, CURRENT_CHECK_POSITION);
+        mTabsAdapter.addTab(currentCheckTab, HomePageFragment.class, CURRENT_CHECK_POSITION);
 
         final TabLayout.Tab vipTab = mTabLayout.newTab();
         vipTab.setIcon(R.drawable.tb5);
         vipTab.setText(R.string.page_vip);
-        mTabsAdapter.addTab(vipTab, FisrtPageFragment.class, VIP_POSITION);
+        mTabsAdapter.addTab(vipTab, HomePageFragment.class, VIP_POSITION);
 
         final TabLayout.Tab healthManageTab = mTabLayout.newTab();
         healthManageTab.setIcon(R.drawable.tb3);
         healthManageTab.setText(R.string.page_health_manage);
-        mTabsAdapter.addTab(healthManageTab, FisrtPageFragment.class, HEALTH_MANAGE_POSITION);
+        mTabsAdapter.addTab(healthManageTab, HomePageFragment.class, HEALTH_MANAGE_POSITION);
 
         final TabLayout.Tab userManageTab = mTabLayout.newTab();
         userManageTab.setIcon(R.drawable.tb4);
         userManageTab.setText(R.string.page_user);
-        mTabsAdapter.addTab(userManageTab, FisrtPageFragment.class, USER_MANAGE_POSITION);
+        mTabsAdapter.addTab(userManageTab, HomePageFragment.class, USER_MANAGE_POSITION);
 
         mContentPager.setCurrentItem(mCurrentTab);
         mTabLayout.getTabAt(mCurrentTab).select();
@@ -180,7 +178,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void notifyPageChanged(int newPage) {
-
+            for (int i = 0; i < mFragments.size(); i++) {
+                BaseFragment fragment = (BaseFragment) mFragments.get(i);
+                if (fragment != null) {
+                    fragment.onPageChange(newPage);
+                }
+            }
         }
     }
 
