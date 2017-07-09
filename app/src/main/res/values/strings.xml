@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">JinXinHospital</string>
+    <string name="app_name">锦欣健康</string>
+    <string name="page_home">首页</string>
+    <string name="page_current_check">本次检查</string>
+    <string name="page_vip">VIP</string>
+    <string name="page_health_manage">健康管理</string>
+    <string name="page_user">我的</string>
 </resources>
