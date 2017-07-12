@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout.Tab userManageTab = mTabLayout.newTab();
         userManageTab.setIcon(R.drawable.tb4);
         userManageTab.setText(R.string.page_user);
-        mTabsAdapter.addTab(userManageTab, HomePageFragment.class, USER_MANAGE_POSITION);
+        mTabsAdapter.addTab(userManageTab, UserFragment.class, USER_MANAGE_POSITION);
 
         mContentPager.setCurrentItem(mCurrentTab);
         mTabLayout.getTabAt(mCurrentTab).select();

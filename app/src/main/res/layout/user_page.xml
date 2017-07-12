@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1" >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gr_banner"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="233dp"
+                android:layout_height="93dp"
+                android:src="@drawable/contact" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="18sp"
+                android:text="用户名" />
+
+            <TextView
+                android:id="@+id/user_tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="电话号码" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <jinxin.out.com.jinxinhospital.view.UserListView
+        android:layout_marginTop="5dp"
+        android:id="@+id/user_listview"
+        android:layout_width="match_parent"
+        android:divider="#eeeeee"
+        android:dividerHeight="1dp"
+        android:layout_height="wrap_content">
+
+    </jinxin.out.com.jinxinhospital.view.UserListView>
+
+</LinearLayout>
+</ScrollView>

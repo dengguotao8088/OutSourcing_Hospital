@@ -18,9 +18,9 @@ android {
         }
 
         manifestPlaceholders = [
-                JPUSH_PKGNAME : applicationId,
+                JPUSH_PKGNAME: applicationId,
                 JPUSH_APPKEY : "ec15e5fb0fb482145056638f", //JPush上注册的包名对应的appkey.
-                JPUSH_CHANNEL : "JPush", //用户渠道统计的渠道名称
+                JPUSH_CHANNEL: "JPush", //用户渠道统计的渠道名称
         ]
 
     }
@@ -30,6 +30,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/xml'] } }
 }
 
 dependencies {
