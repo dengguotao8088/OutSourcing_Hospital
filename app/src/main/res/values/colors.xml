@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorHomePageBlue">#85D7D3</color>
+    <color name="colorUserContactMeToolbarBlue">#85D7D3</color>
 </resources>

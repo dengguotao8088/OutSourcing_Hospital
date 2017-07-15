@@ -119,6 +119,15 @@ public class UserFragment extends BaseFragment {
                 case 0:
                     Toast.makeText(mContext, "first", Toast.LENGTH_LONG).show();
                     break;
+
+                case 3:
+                    mIntent = new Intent("android.intent.action.USERCONTACTME");
+                    Bundle bundle = new Bundle();
+                    bundle.putString("title", "联系我们");
+                    mIntent.putExtras(bundle);
+                    startActivity(mIntent);
+                    break;
+
                 case 4:
                     mIntent = new Intent(mContext, LoadActivity.class);
                     startActivity(mIntent);

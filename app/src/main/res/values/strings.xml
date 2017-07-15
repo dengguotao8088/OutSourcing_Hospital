@@ -5,4 +5,10 @@
     <string name="page_vip">VIP</string>
     <string name="page_health_manage">健康管理</string>
     <string name="page_user">我的</string>
+    <string name="load_tel">手机号</string>
+    <string name="page_password">密码</string>
+    <string name="user_addr">静秀路66号四楼中医产后康复科： </string>
+    <string name="user_addr1">三官堂街3号一楼中医产后康复科： </string>
+
+
 </resources>
