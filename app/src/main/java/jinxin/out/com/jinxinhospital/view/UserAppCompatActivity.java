@@ -17,6 +17,7 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
     private static final String TAG = UserAppCompatActivity.class.getSimpleName();
     private TextView mToolbarTitle;
     private TextView mToolbarSubTitle;
+    private CharSequence mToolbarString = "";
     private android.support.v7.widget.Toolbar mToolbar;
 
     @Override
@@ -32,12 +33,12 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
             //将Toolbar显示到界面  
             setSupportActionBar(mToolbar);
         }
-        if (mToolbarTitle != null) {
-            //getTitle()的值是activity的android:lable属性值  
-            mToolbarTitle.setText(getTitle());
-            //设置默认的标题不显示  
-            getSupportActionBar().setDisplayShowTitleEnabled(false);
-        }
+//        if (mToolbarTitle != null) {
+//            //getTitle()的值是activity的android:lable属性值  
+//            mToolbarTitle.setText(getTitle());
+//            //设置默认的标题不显示  
+//            getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        }
     }
 
     @Override
@@ -49,6 +50,10 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
         if (null != getToolbar() && isShowBacking()) {
             showBack();
         }
+
+        if (mToolbarTitle != null) {
+            mToolbarTitle.setText(mToolbarString);
+        }
     }
 
     /**
@@ -56,6 +61,7 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
      * @return    
      */
     public TextView getToolbarTitle() {
+        Log.d("xie", "getToolbarTitle....");
         return mToolbarTitle;
     }
 
@@ -72,12 +78,7 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
      * @param title    
      */
     public void setToolBarTitle(CharSequence title) {
-        if (mToolbarTitle != null) {
-            mToolbarTitle.setText(title);
-        } else {
-            getToolbar().setTitle(title);
-            setSupportActionBar(getToolbar());
-        }
+        mToolbarString =  title;
     }
 
     /**

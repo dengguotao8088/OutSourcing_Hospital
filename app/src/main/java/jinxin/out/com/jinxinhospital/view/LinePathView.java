@@ -1,4 +1,4 @@
-package jinxin.out.com.jinxinhospital;
+package jinxin.out.com.jinxinhospital.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;

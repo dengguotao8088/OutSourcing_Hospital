@@ -1,17 +1,14 @@
 package jinxin.out.com.jinxinhospital;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Environment;
-import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.io.File;
 import java.io.IOException;
+
+import jinxin.out.com.jinxinhospital.view.LinePathView;
 
 /**
  * Created by Administrator on 2017/7/10.

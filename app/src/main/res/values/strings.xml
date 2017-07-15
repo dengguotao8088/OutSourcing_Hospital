@@ -9,6 +9,8 @@
     <string name="page_password">密码</string>
     <string name="user_addr">静秀路66号四楼中医产后康复科： </string>
     <string name="user_addr1">三官堂街3号一楼中医产后康复科： </string>
+    <string name="user_qrstring">请扫一扫上面的二维码</string>
+    <string name="user_qr_title">我的二维码</string>
 
 
 </resources>

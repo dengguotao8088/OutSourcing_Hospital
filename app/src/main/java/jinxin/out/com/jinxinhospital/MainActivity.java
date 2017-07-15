@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         //android.util.Log.d("xie", "IPush  Init");
         //JPushInterface.setDebugMode(true);
         //JPushInterface.init(this);
+
         initView();
     }
 

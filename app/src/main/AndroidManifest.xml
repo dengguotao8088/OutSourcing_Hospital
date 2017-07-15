@@ -36,6 +36,17 @@
                 <category android:name = "android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".QrCodeActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.QRCODEVIEW"/>
+                <category android:name = "android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.CALL_PHONE" />

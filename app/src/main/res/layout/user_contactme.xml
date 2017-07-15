@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#deffff"
     android:orientation="vertical">
+
     <include layout="@layout/user_toolbar" />
 
     <ImageView

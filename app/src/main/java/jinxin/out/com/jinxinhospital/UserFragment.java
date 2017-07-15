@@ -1,5 +1,7 @@
 package jinxin.out.com.jinxinhospital;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,6 +44,7 @@ public class UserFragment extends BaseFragment {
     private HashMap<String, Object> mMap;
     private SimpleAdapter mAdapter;
     private Intent mIntent;
+    private Bundle bundle;
 
     @Nullable
     @Override
@@ -117,12 +120,23 @@ public class UserFragment extends BaseFragment {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             switch (i) {
                 case 0:
-                    Toast.makeText(mContext, "first", Toast.LENGTH_LONG).show();
+                    //todo：消息中心
                     break;
-
+                case 1:
+                    //todo: 显示二维码
+                    mIntent = new Intent("android.intent.action.QRCODEVIEW");
+                    bundle = new Bundle();
+                    bundle.putString("name", "Test");
+                    bundle.putString("num", "12345678");
+                    mIntent.putExtras(bundle);
+                    startActivity(mIntent);
+                    break;
+                case 2:
+                    //todo: 知情同意书
+                    break;
                 case 3:
                     mIntent = new Intent("android.intent.action.USERCONTACTME");
-                    Bundle bundle = new Bundle();
+                    bundle = new Bundle();
                     bundle.putString("title", "联系我们");
                     mIntent.putExtras(bundle);
                     startActivity(mIntent);
