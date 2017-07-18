@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.jpush.android.api.JPushInterface;
+//import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,17 +67,17 @@ public class MainActivity extends AppCompatActivity {
         final TabLayout.Tab currentCheckTab = mTabLayout.newTab();
         currentCheckTab.setIcon(R.drawable.tb2);
         currentCheckTab.setText(R.string.page_current_check);
-        mTabsAdapter.addTab(currentCheckTab, HomePageFragment.class, CURRENT_CHECK_POSITION);
+        mTabsAdapter.addTab(currentCheckTab, CurrentCheckFragment.class, CURRENT_CHECK_POSITION);
 
         final TabLayout.Tab vipTab = mTabLayout.newTab();
         vipTab.setIcon(R.drawable.tb5);
         vipTab.setText(R.string.page_vip);
-        mTabsAdapter.addTab(vipTab, HomePageFragment.class, VIP_POSITION);
+        mTabsAdapter.addTab(vipTab, VipFragment.class, VIP_POSITION);
 
         final TabLayout.Tab healthManageTab = mTabLayout.newTab();
         healthManageTab.setIcon(R.drawable.tb3);
         healthManageTab.setText(R.string.page_health_manage);
-        mTabsAdapter.addTab(healthManageTab, HomePageFragment.class, HEALTH_MANAGE_POSITION);
+        mTabsAdapter.addTab(healthManageTab, HealthManageFragment.class, HEALTH_MANAGE_POSITION);
 
         final TabLayout.Tab userManageTab = mTabLayout.newTab();
         userManageTab.setIcon(R.drawable.tb4);

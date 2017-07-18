@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import retrofit.Retrofit;
+
 /**
  * Created by Administrator on 2017/7/12.
  */

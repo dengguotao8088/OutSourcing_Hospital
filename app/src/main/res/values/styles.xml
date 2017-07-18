@@ -16,4 +16,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>  
     </style>
+    <style name="myHomeActivityStyle" parent="myStyle">
+        <item name="colorPrimaryDark">#85D7D3</item>
+    </style>
 </resources>

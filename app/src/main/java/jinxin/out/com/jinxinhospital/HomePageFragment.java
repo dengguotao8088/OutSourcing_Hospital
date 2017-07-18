@@ -1,6 +1,5 @@
 package jinxin.out.com.jinxinhospital;
 
-import android.animation.Animator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
