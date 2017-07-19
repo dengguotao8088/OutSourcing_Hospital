@@ -69,27 +69,28 @@ public class UserFragment extends BaseFragment {
     private ArrayList<HashMap<String,Object>> getData() {
         mGroupView = new ArrayList<HashMap<String, Object>>();
 
+
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr1);
         mMap.put("title", "消息中心");
-        mMap.put("arrow", R.drawable.user_arrow);
+        mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr2);
         mMap.put("title", "我的二维码");
-        mMap.put("arrow", R.drawable.user_arrow);
+        mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr3);
         mMap.put("title", "知情同意书");
-        mMap.put("arrow", R.drawable.user_arrow);
+        mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr4);
-        mMap.put("arrow", R.drawable.user_arrow);
+        mMap.put("arrow", R.drawable.more);
         mMap.put("title", "联系我们");
         mGroupView.add(mMap);
 
@@ -102,7 +103,7 @@ public class UserFragment extends BaseFragment {
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr5);
         mMap.put("title", "退出当前账号");
-        mMap.put("arrow", R.drawable.user_arrow);
+        mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         return mGroupView;
@@ -137,17 +138,16 @@ public class UserFragment extends BaseFragment {
                 case 3:
                     mIntent = new Intent("android.intent.action.USERCONTACTME");
                     bundle = new Bundle();
-                    bundle.putString("title", "联系我们");
                     mIntent.putExtras(bundle);
                     startActivity(mIntent);
                     break;
 
                 case 4:
-                    mIntent = new Intent(mContext, LoadActivity.class);
-                    startActivity(mIntent);
                     break;
 
                 default:
+                    mIntent = new Intent(mContext, LoadActivity.class);
+                    startActivity(mIntent);
                     break;
             }
         }

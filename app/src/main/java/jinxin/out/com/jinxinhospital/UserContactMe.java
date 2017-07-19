@@ -27,11 +27,10 @@ public class UserContactMe extends UserAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        initActionBar();
         super.onCreate(savedInstanceState);
 
         mIntent = getIntent();
-        initActionBar();
-
 
         mTelView = findViewById(R.id.user_contantme_tel);
         mTel1View = findViewById(R.id.user_contantme_tel1);
@@ -44,7 +43,7 @@ public class UserContactMe extends UserAppCompatActivity {
     }
 
     public void initActionBar() {
-        setToolBarTitle("");
+        setToolBarTitle("联系我们");
     }
 
     View.OnLongClickListener onClickListener = new View.OnLongClickListener() {

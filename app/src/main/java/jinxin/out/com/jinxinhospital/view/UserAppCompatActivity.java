@@ -14,7 +14,6 @@ import jinxin.out.com.jinxinhospital.R;
  */
 
 public abstract class UserAppCompatActivity extends AppCompatActivity {
-    private static final String TAG = UserAppCompatActivity.class.getSimpleName();
     private TextView mToolbarTitle;
     private TextView mToolbarSubTitle;
     private CharSequence mToolbarString = "";
@@ -33,12 +32,12 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
             //将Toolbar显示到界面  
             setSupportActionBar(mToolbar);
         }
-//        if (mToolbarTitle != null) {
-//            //getTitle()的值是activity的android:lable属性值  
-//            mToolbarTitle.setText(getTitle());
-//            //设置默认的标题不显示  
-//            getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        }
+        if (mToolbarTitle != null) {
+            //getTitle()的值是activity的android:lable属性值  
+            mToolbarTitle.setText(getTitle());
+            //设置默认的标题不显示  
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
     }
 
     @Override
@@ -95,7 +94,7 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
      */
     private void showBack() {
     //setNavigationIcon必须在setSupportActionBar(toolbar);方法后面加入  
-        getToolbar().setNavigationIcon(R.drawable.icon_back);
+        getToolbar().setNavigationIcon(R.drawable.back);
         getToolbar().setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +122,6 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.v(TAG, "onDestroy...");
+        Log.v("xie", "onDestroy...");
     }
 }

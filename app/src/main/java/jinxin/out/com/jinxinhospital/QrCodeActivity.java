@@ -30,8 +30,8 @@ public class QrCodeActivity extends UserAppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        initActionBar();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qrcodeview);
 
         Bundle bundle = getIntent().getExtras();
         mName = bundle.getString("name", "");
@@ -44,8 +44,6 @@ public class QrCodeActivity extends UserAppCompatActivity {
 
         mNameView.setText(mName);
         mNumView.setText(mNum);
-
-        initActionBar();
     }
 
     @Override
@@ -54,7 +52,7 @@ public class QrCodeActivity extends UserAppCompatActivity {
     }
 
     public void initActionBar() {
-       setToolBarTitle(getApplicationContext().getString(R.string.user_qr_title));
+        setToolBarTitle(getApplicationContext().getString(R.string.user_qr_title));
     }
     @Override
     protected void onResume() {
