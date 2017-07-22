@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#43C990</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="tab_bar_pressed">#33A96F</color>
+    <color name="tab_bar">#3AC17E</color>
+    <color name="tab_bar_bac">#9B9B9B</color>
 </resources>

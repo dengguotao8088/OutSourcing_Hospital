@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Jinxin_Employee</string>
+    <string name="tab_item1">我的客户</string>
+    <string name="tab_item2">扫一扫</string>
+    <string name="tab_item3">退费申请</string>
 </resources>
