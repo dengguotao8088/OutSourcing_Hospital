@@ -60,27 +60,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void createTabs() {
         final TabLayout.Tab homeTab = mTabLayout.newTab();
-        homeTab.setIcon(R.drawable.tb1_hover);
+        homeTab.setIcon(R.drawable.navigation2);
         homeTab.setText(R.string.page_home);
         mTabsAdapter.addTab(homeTab, HomePageFragment.class, HOME_POSITION);
 
         final TabLayout.Tab currentCheckTab = mTabLayout.newTab();
-        currentCheckTab.setIcon(R.drawable.tb2);
+        currentCheckTab.setIcon(R.drawable.navigation1);
         currentCheckTab.setText(R.string.page_current_check);
         mTabsAdapter.addTab(currentCheckTab, CurrentCheckFragment.class, CURRENT_CHECK_POSITION);
 
         final TabLayout.Tab vipTab = mTabLayout.newTab();
-        vipTab.setIcon(R.drawable.tb5);
+        vipTab.setIcon(R.drawable.navigation5);
         vipTab.setText(R.string.page_vip);
         mTabsAdapter.addTab(vipTab, VipFragment.class, VIP_POSITION);
 
         final TabLayout.Tab healthManageTab = mTabLayout.newTab();
-        healthManageTab.setIcon(R.drawable.tb3);
+        healthManageTab.setIcon(R.drawable.navigation4);
         healthManageTab.setText(R.string.page_health_manage);
         mTabsAdapter.addTab(healthManageTab, HealthManageFragment.class, HEALTH_MANAGE_POSITION);
 
         final TabLayout.Tab userManageTab = mTabLayout.newTab();
-        userManageTab.setIcon(R.drawable.tb4);
+        userManageTab.setIcon(R.drawable.navigation3);
         userManageTab.setText(R.string.page_user);
         mTabsAdapter.addTab(userManageTab, UserFragment.class, USER_MANAGE_POSITION);
 
