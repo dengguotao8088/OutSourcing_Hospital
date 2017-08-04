@@ -2,6 +2,7 @@ package jinxin.out.com.jinxin_employee;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -10,6 +11,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 /**
  * Created by admin on 2017/7/22.
@@ -30,10 +37,9 @@ public class LoginActivity extends Activity {
 
         mContext = this;
         initView(this);
-
     }
 
-    private void  initView(Context context) {
+    private void initView(Context context) {
         mName = findViewById(R.id.login_name);
         mPassword = findViewById(R.id.login_password);
         mRemCheckbox = findViewById(R.id.remenber);
@@ -41,12 +47,8 @@ public class LoginActivity extends Activity {
         mLogin.setOnClickListener(onClickListener);
     }
 
-    private boolean login(String name, String password) {
-        return true;
-    }
-
     private boolean remenber(String name, String password) {
-        return  true;
+        return true;
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -64,10 +66,26 @@ public class LoginActivity extends Activity {
                     Log.d("xie", "remenber.....");
                     remenber(name, password);
                 }
-                Toast.makeText(mContext, "OK", Toast.LENGTH_SHORT).show();
-                login (name, password);
+                LoginManager.getInstance().login(name, password, mLoginCallback);
             }
 
+        }
+    };
+
+    Callback mLoginCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("dengguotao", "response: " + result);
+            if (result.contains("登录成功")) {
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
         }
     };
 }
