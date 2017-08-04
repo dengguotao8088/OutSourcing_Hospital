@@ -1,4 +1,4 @@
-package jinxin.out.com.jinxinhospital;
+package jinxin.out.com.jinxin_employee.view;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.IOException;
-
-import jinxin.out.com.jinxinhospital.view.LinePathView;
 
 /**
  * Created by Administrator on 2017/7/10.
