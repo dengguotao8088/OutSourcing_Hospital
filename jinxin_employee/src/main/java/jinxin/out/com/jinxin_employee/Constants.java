@@ -1,0 +1,11 @@
+package jinxin.out.com.jinxin_employee;
+
+/**
+ * Created by Administrator on 2017/8/5.
+ */
+
+public class Constants {
+    public static final String LOGIN_URL = "http://staff.mind-node.com/staff/api/emp/login?";
+    public static final String GET_EMPLOYEE_WITH_ID = "http://staff.mind-node.com/staff/api/emp/get?";
+    public static final String LOGIN_OUT_URL = "http://staff.mind-node.com/staff/api/emp/logout?";
+}

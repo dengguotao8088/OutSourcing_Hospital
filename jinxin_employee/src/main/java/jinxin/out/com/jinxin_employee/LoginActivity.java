@@ -14,8 +14,11 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import jinxin.out.com.jinxin_employee.JsonModule.LoginResponseJson;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -66,13 +69,16 @@ public class LoginActivity extends Activity {
                     Log.d("xie", "remenber.....");
                     remenber(name, password);
                 }
-                LoginManager.getInstance().login(name, password, mLoginCallback);
+                RequestBody body = new FormBody.Builder().add("jobNumber", name)
+                        .add("password", password)
+                        .build();
+                NetPostUtil.post(Constants.LOGIN_URL, body, mLoginCallback);
             }
 
         }
     };
 
-    Callback mLoginCallback = new Callback() {
+    private Callback mLoginCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
 
@@ -81,11 +87,21 @@ public class LoginActivity extends Activity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
-            Log.d("dengguotao", "response: " + result);
-            if (result.contains("登录成功")) {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
+            LoginResponseJson loginResponseJson =
+                    JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
+            if (loginResponseJson.code == 0) {
+                LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
+                LoginManager.getInstance(mContext).getEmployee(loginResponseJson.data.empDO.id, mGetEmployeeDoneCallBack);
             }
+        }
+    };
+
+    private LoginManager.GetEmployeeDoneCallBack mGetEmployeeDoneCallBack = new LoginManager.GetEmployeeDoneCallBack() {
+        @Override
+        public void getEmployeeDone() {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            startActivity(intent);
+            finish();
         }
     };
 }

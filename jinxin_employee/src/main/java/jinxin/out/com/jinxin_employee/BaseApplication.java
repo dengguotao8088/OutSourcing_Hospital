@@ -7,4 +7,11 @@ import android.app.Application;
  */
 
 public class BaseApplication extends Application {
+    private LoginManager mLoginManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        mLoginManager = LoginManager.getInstance(getApplicationContext());
+    }
 }
