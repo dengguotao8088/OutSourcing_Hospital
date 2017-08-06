@@ -36,6 +36,7 @@ public class QrCodeActivity extends UserAppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         mName = bundle.getString("name", "");
         mNum = bundle.getString("num", "");
+        //TODO: 二维码数据
         mContent = mName + ":" + mNum + ":" + mTel;
 
         mNameView = findViewById(R.id.user_qr_name);
