@@ -39,6 +39,10 @@ public class LoginManager {
         mToken = token;
     }
 
+    public String getToken() {
+        return mToken;
+    }
+
     public void getEmployee(int id, GetEmployeeDoneCallBack callBack) {
         final GetEmployeeDoneCallBack doneCallBack = callBack;
         RequestBody body = new FormBody.Builder().add("token", mToken).add("id", id + "").build();
@@ -59,6 +63,10 @@ public class LoginManager {
                 }
             }
         });
+    }
+
+    public Employee getEmployee(){
+        return mEmployee;
     }
 
     public interface GetEmployeeDoneCallBack {

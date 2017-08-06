@@ -12,6 +12,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.kaopiz.kprogresshud.KProgressHUD;
+
 import java.io.IOException;
 
 import jinxin.out.com.jinxin_employee.JsonModule.LoginResponseJson;
@@ -32,6 +34,8 @@ public class LoginActivity extends Activity {
     private EditText mPassword;
     private Button mLogin;
     private CheckBox mRemCheckbox;
+
+    private KProgressHUD mHUD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +63,8 @@ public class LoginActivity extends Activity {
         public void onClick(View view) {
             String name;
             String password;
-            name = mName.getText().toString();
-            password = mPassword.getText().toString();
+            name = "002";
+            password = "123456";
 
             if ("".equals(name) || "".equals(password)) {
                 Toast.makeText(mContext, "用户名和密码不能空", Toast.LENGTH_SHORT).show();
@@ -73,6 +77,15 @@ public class LoginActivity extends Activity {
                         .add("password", password)
                         .build();
                 NetPostUtil.post(Constants.LOGIN_URL, body, mLoginCallback);
+                if (mHUD == null) {
+                    mHUD = KProgressHUD.create(LoginActivity.this)
+                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                            .setLabel("登录中")
+                            .setCancellable(false)
+                            .setAnimationSpeed(2)
+                            .setDimAmount(0.5f);
+                }
+                mHUD.show();
             }
 
         }
@@ -81,7 +94,7 @@ public class LoginActivity extends Activity {
     private Callback mLoginCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-
+            mHUD.dismiss();
         }
 
         @Override
@@ -99,6 +112,7 @@ public class LoginActivity extends Activity {
     private LoginManager.GetEmployeeDoneCallBack mGetEmployeeDoneCallBack = new LoginManager.GetEmployeeDoneCallBack() {
         @Override
         public void getEmployeeDone() {
+            mHUD.dismiss();
             Intent intent = new Intent(mContext, HomeActivity.class);
             startActivity(intent);
             finish();

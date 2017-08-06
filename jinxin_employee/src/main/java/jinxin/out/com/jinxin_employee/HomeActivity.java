@@ -1,11 +1,13 @@
 package jinxin.out.com.jinxin_employee;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.kaopiz.kprogresshud.KProgressHUD;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -15,11 +17,17 @@ public class HomeActivity extends AppCompatActivity {
     private TabItem mTabItem_TuiFei;
     private TabItem mTabs[];
 
+    private Fragment mCurrentFragment;
+    private MyCustormFragment myCustormFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initTab();
+        myCustormFragment = new MyCustormFragment();
+        mCurrentFragment = myCustormFragment;
+        showContent(mCurrentFragment);
     }
 
     @Override
@@ -30,7 +38,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     private void initTab() {
@@ -87,10 +94,31 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showContent(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction
                 = fragmentManager.beginTransaction();
         transaction.replace(R.id.content, fragment);
         transaction.commit();
+    }
+
+
+    private KProgressHUD mHUD;
+
+    public void showHUD(String text) {
+        if (mHUD == null) {
+            mHUD = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setCancellable(false)
+                    .setAnimationSpeed(2)
+                    .setDimAmount(0.5f);
+        }
+        mHUD.setLabel(text);
+        mHUD.show();
+    }
+
+    public void dissmissHUD() {
+        if (mHUD != null) {
+            mHUD.dismiss();
+        }
     }
 }

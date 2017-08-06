@@ -8,4 +8,6 @@ public class Constants {
     public static final String LOGIN_URL = "http://staff.mind-node.com/staff/api/emp/login?";
     public static final String GET_EMPLOYEE_WITH_ID = "http://staff.mind-node.com/staff/api/emp/get?";
     public static final String LOGIN_OUT_URL = "http://staff.mind-node.com/staff/api/emp/logout?";
+    public static final String CUSTORM_LIST = "http://staff.mind-node.com/staff/api/customer/list?";
+    public static final String CUSTORM_WITH_PHONE = "http://staff.mind-node.com/staff/api/customer/get?";
 }

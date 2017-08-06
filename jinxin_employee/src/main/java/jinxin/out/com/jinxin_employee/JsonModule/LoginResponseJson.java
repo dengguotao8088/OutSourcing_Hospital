@@ -15,7 +15,7 @@ public class LoginResponseJson {
         public EmpDO empDO;
     }
 
-    public class EmpDO {
+    public static class EmpDO {
         public String avatarPath;
         public int id;
         public String jobNumber;
