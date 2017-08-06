@@ -10,4 +10,6 @@ public class Constants {
     public static final String LOGIN_OUT_URL = "http://staff.mind-node.com/staff/api/emp/logout?";
     public static final String CUSTORM_LIST = "http://staff.mind-node.com/staff/api/customer/list?";
     public static final String CUSTORM_WITH_PHONE = "http://staff.mind-node.com/staff/api/customer/get?";
+    public static final String ZHIQIN_LIST = "http://staff.mind-node.com/staff/api/informed_consent_template/list?";
+    public static final String ZHIQIN_CONTENT = "http://staff.mind-node.com/staff/api/informed_consent_template/get?";
 }

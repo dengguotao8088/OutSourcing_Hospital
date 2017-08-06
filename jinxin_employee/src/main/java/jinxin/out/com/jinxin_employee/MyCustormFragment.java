@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -39,7 +40,7 @@ import okhttp3.Response;
  * Created by Administrator on 2017/8/6.
  */
 
-public class MyCustormFragment extends Fragment {
+public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private HomeActivity mContext;
     private LoginManager mLoginManager;
@@ -50,10 +51,25 @@ public class MyCustormFragment extends Fragment {
     private ImageView mSearchClose;
     private ListView mList;
     private List<CustormData> mCusDatas = new ArrayList<>();
+    private SwipeRefreshLayout mSwipeLayout;
 
     private MyAdapter myAdapter;
 
     private MyHandler mMainHandler;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        Log.d("dengguotao", "onrefresh");
+        RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
+                .add("empId", mEmployee.jobNumber + "").add("page", "1")
+                .add("size", "10").build();
+        NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
+    }
 
     private class MyHandler extends Handler {
         public MyHandler(Context context) {
@@ -62,7 +78,16 @@ public class MyCustormFragment extends Fragment {
 
         @Override
         public void handleMessage(Message msg) {
-            myAdapter.notifyDataSetChanged();
+            switch (msg.what) {
+                case 111:
+                    mSwipeLayout.setRefreshing(false);
+                    break;
+                case 222:
+                    myAdapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -70,19 +95,6 @@ public class MyCustormFragment extends Fragment {
         mLoginManager = LoginManager.getInstance(mContext);
         mEmployee = mLoginManager.getEmployee();
         CustormData data = new CustormData();
-        data.name = "小李";
-        data.birthday = "1500249600000";
-        data.mobile = "13702355665";
-        data.customerSource = "朋友推荐";
-        data.id = 1;
-        mCusDatas.add(data);
-        mCusDatas.add(data);
-        mCusDatas.add(data);
-        mCusDatas.add(data);
-        mCusDatas.add(data);
-        mCusDatas.add(data);
-        mCusDatas.add(data);
-        mCusDatas.add(data);
         myAdapter = new MyAdapter();
     }
 
@@ -90,12 +102,15 @@ public class MyCustormFragment extends Fragment {
         @Override
         public void onFailure(Call call, IOException e) {
             mContext.dissmissHUD();
+            mMainHandler.sendEmptyMessage(111);
         }
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             mContext.dissmissHUD();
+            mMainHandler.sendEmptyMessage(111);
             String result = response.body().string();
+            mCusDatas.clear();
             Log.d("dengguotao", result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code != 0) {
@@ -106,13 +121,12 @@ public class MyCustormFragment extends Fragment {
             } else {
                 module = JsonUtil.parsoJsonWithGson(result, MyCustormJson2.class);
             }
-            mCusDatas.clear();
             if (module instanceof MyCustormJson1) {
                 mCusDatas.addAll(((MyCustormJson1) module).data);
             } else {
                 mCusDatas.add(((MyCustormJson2) module).data);
             }
-            mMainHandler.sendMessage(mMainHandler.obtainMessage());
+            mMainHandler.sendEmptyMessage(222);
         }
     };
 
@@ -129,11 +143,17 @@ public class MyCustormFragment extends Fragment {
         super.onAttach(context);
         mContext = (HomeActivity) context;
         mMainHandler = new MyHandler(mContext);
-        RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                .add("empId", mEmployee.jobNumber + "").add("page", "1")
-                .add("size", "10").build();
-        NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
-        mContext.showHUD("downloading");
+        if (mCusDatas.size() == 0) {
+            new Thread() {
+                @Override
+                public void run() {
+                    RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
+                            .add("empId", mEmployee.jobNumber + "").add("page", "1")
+                            .add("size", "10").build();
+                    NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
+                }
+            }.start();
+        }
     }
 
     @Override
@@ -149,6 +169,16 @@ public class MyCustormFragment extends Fragment {
         mSearchView.setOnEditorActionListener(mSearchActionListener);
         mSearchClose = mView.findViewById(R.id.custom_search_close);
         mSearchClose.setOnClickListener(mSearchCloseListener);
+
+        mSwipeLayout = mView.findViewById(R.id.my_cus_refresh);
+        mSwipeLayout.setOnRefreshListener(this);
+        // 设置下拉圆圈上的颜色，蓝色、绿色、橙色、红色
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        mSwipeLayout.setDistanceToTriggerSync(300);// 设置手指在屏幕下拉多少距离会触发下拉刷新
+        mSwipeLayout.setProgressBackgroundColor(R.color.white); // 设定下拉圆圈的背景
+        mSwipeLayout.setSize(SwipeRefreshLayout.DEFAULT);
+
         mList = mView.findViewById(R.id.my_custorm_layout_list);
         mList.setOnItemClickListener(onItemClickListener);
         mList.setAdapter(myAdapter);
@@ -175,9 +205,13 @@ public class MyCustormFragment extends Fragment {
         @Override
         public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
             if (i == EditorInfo.IME_ACTION_SEARCH) {
+                mSearchView.clearFocus();
+                mSearchView.setText("");
                 HideSoft();
                 RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                        .add("mobile", mSearchView.getText().toString()).build();
+                        .add("mobile", "15108435883"
+                                //mSearchView.getText().toString()
+                        ).build();
                 NetPostUtil.post(Constants.CUSTORM_WITH_PHONE, body, mGetCustormCallback);
                 mContext.showHUD("searching");
                 return true;
@@ -242,9 +276,18 @@ public class MyCustormFragment extends Fragment {
             }
             holder.source.setText(data.customerSource);
             holder.zhiqing_btn.setTag(data.id);
+            holder.zhiqing_btn.setOnClickListener(mZhiQinClick);
             return view;
         }
     }
+
+    private View.OnClickListener mZhiQinClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int id = (int) view.getTag();
+            mContext.showZhiQin(id);
+        }
+    };
 
     public class CustormData {
         public String birthday;

@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -17,8 +18,9 @@ public class HomeActivity extends AppCompatActivity {
     private TabItem mTabItem_TuiFei;
     private TabItem mTabs[];
 
-    private Fragment mCurrentFragment;
+    private BaseFragment mCurrentFragment;
     private MyCustormFragment myCustormFragment;
+    private CustomerInformedFragment informedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,7 +95,8 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void showContent(Fragment fragment) {
+    public void showContent(Fragment fragment) {
+        mCurrentFragment = (BaseFragment) fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction
                 = fragmentManager.beginTransaction();
@@ -108,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
         if (mHUD == null) {
             mHUD = KProgressHUD.create(this)
                     .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                    .setCancellable(false)
+                    .setCancellable(true)
                     .setAnimationSpeed(2)
                     .setDimAmount(0.5f);
         }
@@ -120,5 +123,26 @@ public class HomeActivity extends AppCompatActivity {
         if (mHUD != null) {
             mHUD.dismiss();
         }
+    }
+
+    public void showZhiQin(int id) {
+        informedFragment = new CustomerInformedFragment();
+        Bundle data = new Bundle();
+        data.putInt("custorm_id", id);
+        informedFragment.setArguments(data);
+        informedFragment.mParentFragment = myCustormFragment;
+        showContent(informedFragment);
+        mCurrentFragment = informedFragment;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_BACK || mCurrentFragment == null)
+            return super.onKeyDown(keyCode, event);
+        boolean result = mCurrentFragment.onKeyDown(keyCode, event);
+        if (!result) {
+            return super.onKeyDown(keyCode, event);
+        }
+        return result;
     }
 }

@@ -1,0 +1,317 @@
+package jinxin.out.com.jinxin_employee;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import jinxin.out.com.jinxin_employee.JsonModule.BaseModule;
+import jinxin.out.com.jinxin_employee.JsonModule.ZhiQinModule;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+/**
+ * Created by Administrator on 2017/8/6.
+ */
+
+public class CustomerInformedFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    private int mCusId;
+
+    private HomeActivity mActivity;
+
+    private View mView;
+    private TextView mAddinfoText;
+    private ImageView mAddinfoImg;
+    private TextView mAddreText;
+    private ImageView mAddreImg;
+    private Button mAdd;
+
+    private ListView mList;
+    private SwipeRefreshLayout mSwipeLayout;
+
+    private MyAdapter myAdapter;
+
+    private MyHandler mMainHandler;
+
+    private LoginManager manager;
+
+    private List<ZhiQinModule> mZhiQinList = new ArrayList<ZhiQinModule>();
+    private List<MyCusZhiQinModule> mCusZhiQinList = new ArrayList<MyCusZhiQinModule>();
+
+    private Dialog mChooseInfoDialog;
+    private ZhiQinModule mChooseModule;
+
+    @Override
+    public void onRefresh() {
+        RequestBody body = new FormBody.Builder().add("token", manager.getToken())
+                .add("customerId", mCusId + "")
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/list?",
+                body, mGetZhiQinCallback);
+    }
+
+    private class MyHandler extends Handler {
+        public MyHandler(Context context) {
+            super(context.getMainLooper());
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 111:
+                    mSwipeLayout.setRefreshing(false);
+                    break;
+                case 222:
+                    myAdapter.notifyDataSetChanged();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public CustomerInformedFragment() {
+        manager = LoginManager.getInstance(mActivity);
+        RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
+        NetPostUtil.post(Constants.ZHIQIN_LIST, body, mGetZhiQinListCallback);
+        myAdapter = new MyAdapter();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    private Callback mGetZhiQinListCallback = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            Log.d("dengguotao", result);
+            if (baseModule.code == 0) {
+                ZhiQinList list = JsonUtil.parsoJsonWithGson(result, ZhiQinList.class);
+                if (list.data.size() > 0) {
+                    mZhiQinList.addAll(list.data);
+                    mMainHandler.sendEmptyMessage(222);
+                }
+            }
+        }
+    };
+
+    private Callback mGetZhiQinCallback = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("dengguotao", result);
+            mMainHandler.sendEmptyMessage(111);
+            BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 0) {
+                mCusZhiQinList.clear();
+                MyResponseModule myResponseModule = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);
+                mCusZhiQinList.addAll(myResponseModule.data);
+                mMainHandler.sendEmptyMessage(222);
+            }
+        }
+    };
+
+    public class ZhiQinList extends BaseModule {
+        public List<ZhiQinModule> data;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mActivity = (HomeActivity) context;
+        mMainHandler = new MyHandler(mActivity);
+        mCusId = getArguments().getInt("custorm_id");
+        Log.d("dengguotao", "mCusId: " + mCusId);
+        if (mCusZhiQinList.size() == 0) {
+            RequestBody body = new FormBody.Builder().add("token", manager.getToken())
+                    .add("customerId", mCusId + "")
+                    .build();
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/list?",
+                    body, mGetZhiQinCallback);
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.custorm_info_page, container, false);
+        ImageView backView = mView.findViewById(R.id.back);
+        backView.setOnClickListener(mBackListener);
+        TextView title = mView.findViewById(R.id.header_title);
+        title.setText("知情同意书");
+
+        mAddinfoText = mView.findViewById(R.id.add_info_text);
+        mAddinfoText.setText("选择知情同意书：");
+        mAddinfoImg = mView.findViewById(R.id.add_info_btn);
+        mAddinfoImg.setOnClickListener(mAddinfoListener);
+        mAddreText = mView.findViewById(R.id.add_relation_text);
+        mAddreText.setText("签字人与客户关系：");
+        mAddreImg = mView.findViewById(R.id.add_relation_btn);
+        mAddreImg.setOnClickListener(mAddReListener);
+
+        mAdd = mView.findViewById(R.id.add_btn);
+        mAdd.setOnClickListener(mAddListener);
+
+        mSwipeLayout = mView.findViewById(R.id.my_cus_info_refresh);
+        mSwipeLayout.setOnRefreshListener(this);
+        // 设置下拉圆圈上的颜色，蓝色、绿色、橙色、红色
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
+                android.R.color.holo_orange_light, android.R.color.holo_red_light);
+        mSwipeLayout.setDistanceToTriggerSync(300);// 设置手指在屏幕下拉多少距离会触发下拉刷新
+        mSwipeLayout.setProgressBackgroundColor(R.color.white); // 设定下拉圆圈的背景
+        mSwipeLayout.setSize(SwipeRefreshLayout.DEFAULT);
+        mList = mView.findViewById(R.id.my_custorm_info_layout_list);
+        mList.setAdapter(myAdapter);
+        return mView;
+    }
+
+    private View.OnClickListener mAddinfoListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mChooseInfoDialog == null) {
+                int size = mZhiQinList.size();
+                String[] list = new String[size];
+                for (int i = 0; i < size; i++) {
+                    list[i] = mZhiQinList.get(i).title;
+                }
+                mChooseInfoDialog = new AlertDialog.Builder(mActivity)
+                        .setTitle("选择知情同意书")
+                        .setItems(list, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mChooseModule = mZhiQinList.get(i);
+                                mAddinfoText.setText("选择知情同意书：" + mChooseModule.title);
+                            }
+                        })
+                        .create();
+            }
+            mChooseInfoDialog.show();
+        }
+    };
+
+    private View.OnClickListener mAddReListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mAddreText.setText("签字人与客户关系：" + "本人");
+        }
+    };
+
+    private View.OnClickListener mAddListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+        }
+    };
+
+    private View.OnClickListener mBackListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mActivity.showContent(mParentFragment);
+        }
+    };
+
+    public class MyResponseModule extends BaseModule {
+        public List<MyCusZhiQinModule> data;
+    }
+
+    public class MyCusZhiQinModule extends BaseModule {
+        public int id;
+        public int informedConsentTemplateId;
+        public String informedConsentTemplateName;
+    }
+
+    public class MyAdapter extends BaseAdapter {
+
+        public class ViewHolder {
+            public TextView name;
+            public Button qianming;
+        }
+
+        @Override
+        public int getCount() {
+            return mCusZhiQinList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return mCusZhiQinList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            ViewHolder holder;
+            if (view == null) {
+                view = mActivity.getLayoutInflater().inflate(R.layout.custorm_info_item, viewGroup, false);
+                holder = new ViewHolder();
+                holder.name = view.findViewById(R.id.cus_info_item_title);
+                holder.qianming = view.findViewById(R.id.cus_info_item_qianming);
+                holder.qianming.setOnClickListener(mQianMing);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+            MyCusZhiQinModule zhiQinModule = mCusZhiQinList.get(i);
+            holder.name.setText(zhiQinModule.informedConsentTemplateName);
+            holder.qianming.setTag(zhiQinModule.informedConsentTemplateId);
+            return view;
+        }
+    }
+
+    ;
+
+    private View.OnClickListener mQianMing = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d("dengguotao", "id: " + view.getTag());
+        }
+    };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (mParentFragment == null || mActivity == null) return false;
+        mActivity.showContent(mParentFragment);
+        return true;
+    }
+}
