@@ -31,6 +31,7 @@ import jinxin.out.com.jinxinhospital.JsonModule.LoginResponseJson;
 import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.News.News;
 import jinxin.out.com.jinxinhospital.News.NewsListResponseJson;
+import jinxin.out.com.jinxinhospital.News.NewsListResponseJson;
 import jinxin.out.com.jinxinhospital.News.NewsResponseJson;
 import jinxin.out.com.jinxinhospital.view.UserListView;
 import okhttp3.Call;
@@ -46,6 +47,8 @@ import okhttp3.Response;
 public class HomePageFragment extends BaseFragment {
 
     private static final int CHANGE_SHOW_IMAGE = 0x111;
+    private static final int ADD_EMPLOYEE_TO_LIST = 0x112;
+    private static final int ADD_NEWS_TO_LIST = 0x113;
     private static final String TAG = "HomePageFragment";
 
     private int mIndex;
@@ -132,7 +135,7 @@ public class HomePageFragment extends BaseFragment {
         }
     };
 
-    private void AddEmployeeToList() {
+    private void addEmployeeToList() {
         Log.d("xie", "AddEmployeeToList...");
         SimpleAdapter mAdpter = new SimpleAdapter(mContext, getEmployeesListFromJson(),
                 R.layout.news_item,
@@ -142,7 +145,7 @@ public class HomePageFragment extends BaseFragment {
         //TODO: 员工详情显示
         //mListView.setOnItemClickListener(mNewsOnItemClickListener);
     }
-    private void AddNewsToList() {
+    private void addNewsToList() {
         Log.d("xie", "AddNewsToList...");
         mListView.setAdapter(null);
         SimpleAdapter mAdpter = new SimpleAdapter(mContext, getNewsListFromJson(),
@@ -214,12 +217,8 @@ public class HomePageFragment extends BaseFragment {
             String result = response.body().string();
             mNewsResponseJson =
                     JsonUtil.parsoJsonWithGson(result, NewsResponseJson.class);
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    AddNewsToList();
-                }
-            });
+            mHandler.removeMessages(ADD_NEWS_TO_LIST);
+            mHandler.sendEmptyMessage(ADD_NEWS_TO_LIST);
         }
     };
 
@@ -235,12 +234,8 @@ public class HomePageFragment extends BaseFragment {
             String result = response.body().string();
             mEmployeesResponseJson =
                     JsonUtil.parsoJsonWithGson(result, EmployeeResponseJson.class);
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    AddEmployeeToList();
-                }
-            });
+            mHandler.removeMessages(ADD_EMPLOYEE_TO_LIST);
+            mHandler.sendEmptyMessage(ADD_EMPLOYEE_TO_LIST);
         }
     };
 
@@ -251,7 +246,6 @@ public class HomePageFragment extends BaseFragment {
     }
 
     private final Handler mHandler = new Handler() {
-
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -263,6 +257,11 @@ public class HomePageFragment extends BaseFragment {
                         mHandler.sendEmptyMessageDelayed(CHANGE_SHOW_IMAGE, 1500);
                     }
                     break;
+                case ADD_EMPLOYEE_TO_LIST:
+                    addEmployeeToList();
+                    break;
+                case ADD_NEWS_TO_LIST:
+                    addNewsToList();
                 default:
                     break;
             }
