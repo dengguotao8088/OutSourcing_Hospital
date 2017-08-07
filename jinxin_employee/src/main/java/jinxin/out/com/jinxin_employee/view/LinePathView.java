@@ -58,7 +58,7 @@ public class LinePathView extends View {
     /**
      * 画笔宽度 px；
      */
-    private int mPaintWidth = 10;
+    private int mPaintWidth = 3;
     /**
      * 前景色
      */
@@ -66,7 +66,8 @@ public class LinePathView extends View {
     /**
      * 背景色（指最终签名结果文件的背景颜色，默认为透明色）
      */
-    private int mBackColor=Color.TRANSPARENT;
+    private int mBackColor = Color.WHITE;
+
     public LinePathView(Context context) {
         super(context);
     }
@@ -98,7 +99,7 @@ public class LinePathView extends View {
         cachebBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         cacheCanvas = new Canvas(cachebBitmap);
         cacheCanvas.drawColor(mBackColor);
-        isTouched=false;
+        isTouched = false;
     }
 
     @Override
@@ -125,6 +126,7 @@ public class LinePathView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //canvas.drawColor(mBackColor);
         //画此次笔画之前的签名
         canvas.drawBitmap(cachebBitmap, 0, 0, mGesturePaint);
         // 通过画布绘制多点形成的图形
@@ -163,6 +165,7 @@ public class LinePathView extends View {
             mY = y;
         }
     }
+
     /**
      * 清除画板
      */
@@ -170,30 +173,32 @@ public class LinePathView extends View {
         if (cacheCanvas != null) {
             isTouched = false;
             //更新画板信息
-            mGesturePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            mGesturePaint.setColor(mPenColor);
             cacheCanvas.drawPaint(mGesturePaint);
-            mGesturePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
+            cacheCanvas.drawColor(mBackColor);
             invalidate();
         }
     }
 
     /**
      * 保存画板
+     *
      * @param path 保存到路径
      */
-    public void save(String path)  throws IOException {
+    public void save(String path) throws IOException {
         save(path, false, 0);
     }
 
     /**
      * 保存画板
+     *
      * @param path       保存到路径
      * @param clearBlank 是否清除边缘空白区域
-     * @param blank  要保留的边缘空白距离
+     * @param blank      要保留的边缘空白距离
      */
     public void save(String path, boolean clearBlank, int blank) throws IOException {
 
-        Bitmap bitmap=cachebBitmap;
+        Bitmap bitmap = cachebBitmap;
         //BitmapUtil.createScaledBitmapByHeight(srcBitmap, 300);//  压缩图片
         if (clearBlank) {
             bitmap = clearBlank(bitmap, blank);
@@ -214,16 +219,22 @@ public class LinePathView extends View {
 
     /**
      * 获取画板的bitmap
+     *
      * @return
      */
-    public Bitmap getBitMap()
-    {
+    public Bitmap getBitMap() {
+        Bitmap result = null;
         setDrawingCacheEnabled(true);
-        buildDrawingCache();
-        Bitmap bitmap=getDrawingCache();
+        buildDrawingCache(true);
+        Bitmap bitmap = getDrawingCache();
+        if (bitmap != null) {
+            result = Bitmap.createBitmap(bitmap);
+            bitmap.recycle();
+        }
         setDrawingCacheEnabled(false);
-        return bitmap;
+        return result;
     }
+
     /**
      * 逐行扫描 清楚边界空白。
      *
@@ -321,9 +332,11 @@ public class LinePathView extends View {
 
     }
 
-    public void setBackColor(@ColorInt int backColor)
-    {
-        mBackColor=backColor;
+    public void setBackColor(@ColorInt int backColor) {
+        mBackColor = backColor;
+        if (cacheCanvas != null) {
+            cacheCanvas.drawColor(mBackColor);
+        }
     }
 
     /**

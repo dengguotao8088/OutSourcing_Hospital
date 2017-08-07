@@ -125,14 +125,30 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void showZhiQin(int id) {
+    public void showZhiQin(int id, String name) {
         informedFragment = new CustomerInformedFragment();
         Bundle data = new Bundle();
         data.putInt("custorm_id", id);
+        data.putString("custorm_name", name);
         informedFragment.setArguments(data);
         informedFragment.mParentFragment = myCustormFragment;
         showContent(informedFragment);
         mCurrentFragment = informedFragment;
+    }
+
+    private ZhiQinDetail mZhiQinDetail;
+
+    public void showZhiQinDetail(int id, String name) {
+        if (mZhiQinDetail == null) {
+            mZhiQinDetail = new ZhiQinDetail();
+        }
+        Bundle data = new Bundle();
+        data.putInt("zhiqin_id", id);
+        data.putString("custorm_name", name);
+        mZhiQinDetail.setArguments(data);
+        mZhiQinDetail.mParentFragment = informedFragment;
+        showContent(mZhiQinDetail);
+        mCurrentFragment = mZhiQinDetail;
     }
 
     @Override

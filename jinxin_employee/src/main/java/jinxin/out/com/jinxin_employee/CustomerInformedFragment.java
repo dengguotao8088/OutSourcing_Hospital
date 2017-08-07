@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ import okhttp3.Response;
 public class CustomerInformedFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private int mCusId;
+    private String mCusName;
 
     private HomeActivity mActivity;
 
@@ -159,6 +161,7 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
         mActivity = (HomeActivity) context;
         mMainHandler = new MyHandler(mActivity);
         mCusId = getArguments().getInt("custorm_id");
+        mCusName = getArguments().getString("custorm_name");
         Log.d("dengguotao", "mCusId: " + mCusId);
         if (mCusZhiQinList.size() == 0) {
             RequestBody body = new FormBody.Builder().add("token", manager.getToken())
@@ -200,8 +203,18 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
         mSwipeLayout.setSize(SwipeRefreshLayout.DEFAULT);
         mList = mView.findViewById(R.id.my_custorm_info_layout_list);
         mList.setAdapter(myAdapter);
+        mList.setOnItemClickListener(mListClick);
         return mView;
     }
+
+    private AdapterView.OnItemClickListener mListClick = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            Log.d("dengguotao", "click: " + i);
+            MyCusZhiQinModule module = (MyCusZhiQinModule) myAdapter.getItem(i);
+            mActivity.showZhiQinDetail(module.id, mCusName);
+        }
+    };
 
     private View.OnClickListener mAddinfoListener = new View.OnClickListener() {
         @Override
@@ -299,12 +312,19 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
         }
     }
 
-    ;
-
+    private QianMing qianMing;
     private View.OnClickListener mQianMing = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Log.d("dengguotao", "id: " + view.getTag());
+            if (qianMing == null) {
+                qianMing = new QianMing();
+            }
+            Bundle data = new Bundle();
+            data.putInt("zhiqin_id", (Integer) view.getTag());
+            qianMing.setArguments(data);
+            qianMing.mParentFragment = CustomerInformedFragment.this;
+            mActivity.showContent(qianMing);
         }
     };
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
@@ -39,6 +40,7 @@
             android:id="@+id/cus_info_item_qianming"
             android:layout_width="75dp"
             android:layout_height="35dp"
+            android:focusable="false"
             android:layout_marginRight="15dp"
             android:background="@color/tab_bar"
             android:text="点击签名"

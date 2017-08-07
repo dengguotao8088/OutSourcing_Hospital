@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
@@ -75,6 +76,7 @@
                 android:id="@+id/zhiqing_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
+                android:focusable="false"
                 android:background="@color/tab_bar"
                 android:layout_gravity="right|bottom"
                 android:text="知情同意书"

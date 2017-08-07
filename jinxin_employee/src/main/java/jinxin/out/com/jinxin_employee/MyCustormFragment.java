@@ -275,7 +275,7 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
                         data.mobile.substring(3, 7) + "-" + data.mobile.substring(7));
             }
             holder.source.setText(data.customerSource);
-            holder.zhiqing_btn.setTag(data.id);
+            holder.zhiqing_btn.setTag(data);
             holder.zhiqing_btn.setOnClickListener(mZhiQinClick);
             return view;
         }
@@ -284,8 +284,8 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
     private View.OnClickListener mZhiQinClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            int id = (int) view.getTag();
-            mContext.showZhiQin(id);
+            CustormData data = (CustormData) view.getTag();
+            mContext.showZhiQin(data.id, data.name);
         }
     };
 
