@@ -40,7 +40,7 @@ public class Constants {
     public static final String GET_CONSENT_LIST_WITH_ID = "http://client.mind-node.com/staff/api/customer_informed_consent_record/list?";
 
     //根据客户Id获取购买记录
-    public static final String GET_PURCHASE_WITH_ID = "http://client.mind-node.com/staff/api/purchase_record/list?";
+    public static final String GET_PURCHASE_WITH_ID = "http://client.mind-node.com/client/api/purchase_record/list?";
 
     //获取部门列表
     public static final String GET_DERP_LIST = "http://client.mind-node.com/client/api/department/list?";

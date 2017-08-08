@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +28,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import jinxin.out.com.jinxinhospital.Employee.EmployeeResponseJson;
+import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
 import jinxin.out.com.jinxinhospital.JsonModule.Constants;
 import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
-import jinxin.out.com.jinxinhospital.JsonModule.LoginResponseJson;
+import jinxin.out.com.jinxinhospital.Customer.LoginResponseJson;
 import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.News.News;
-import jinxin.out.com.jinxinhospital.News.NewsListResponseJson;
-import jinxin.out.com.jinxinhospital.News.NewsListResponseJson;
+import jinxin.out.com.jinxinhospital.News.NewsContentResponseJson;
 import jinxin.out.com.jinxinhospital.News.NewsResponseJson;
 import jinxin.out.com.jinxinhospital.view.UserListView;
 import okhttp3.Call;
@@ -49,6 +52,8 @@ public class HomePageFragment extends BaseFragment {
     private static final int CHANGE_SHOW_IMAGE = 0x111;
     private static final int ADD_EMPLOYEE_TO_LIST = 0x112;
     private static final int ADD_NEWS_TO_LIST = 0x113;
+    private static final int SHOW_NEWS_CONTENT = 0x114;
+    private static final int SHOW_EMPLOYEE_CONTENT = 0x114;
     private static final String TAG = "HomePageFragment";
 
     private int mIndex;
@@ -64,8 +69,10 @@ public class HomePageFragment extends BaseFragment {
     private int colorId;
 
     private NewsResponseJson mNewsResponseJson;
+    private NewsContentResponseJson mNewsContentResponseJson;
     private EmployeeResponseJson mEmployeesResponseJson;
     private Context mContext;
+    private MainActivity mMainContext;
 
     private int[] mHomePageShow = new int[]{
             R.drawable.banner1,
@@ -79,6 +86,12 @@ public class HomePageFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIndex = getArguments().getInt(MainActivity.KEY_POSITION);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mMainContext = (MainActivity)context;
     }
 
     @Nullable
@@ -131,7 +144,7 @@ public class HomePageFragment extends BaseFragment {
             RequestBody requestBody = new FormBody.Builder()
                     .add("id", String.valueOf(id))
                     .build();
-            NetPostUtil.post(Constants.GET_NEWS_CONTENT_WITH_ID, requestBody, mNewsContentListCallback);
+      //      NetPostUtil.post(Constants.GET_NEWS_CONTENT_WITH_ID, requestBody, mNewsContentListCallback);
         }
     };
 
@@ -154,7 +167,7 @@ public class HomePageFragment extends BaseFragment {
                 new int[]{R.id.news_img, R.id.news_title, R.id.news_content});
         mListView.setAdapter(mAdpter);
         //TODO: 新闻详情显示
-        //mListView.setOnItemClickListener(mNewsOnItemClickListener);
+        mListView.setOnItemClickListener(mNewsOnItemClickListener);
     }
 
     private void getDataFromHttp(){
@@ -183,7 +196,7 @@ public class HomePageFragment extends BaseFragment {
                     //TODO:加载网络图片  news.data.coverPath
                     mMap.put("img", R.drawable.gr1);
                     mMap.put("title", mNewsResponseJson.data[i].title);
-                    mMap.put("content", mNewsResponseJson.data[i].content);
+                    mMap.put("content", mNewsResponseJson.data[i].summary);
                     mGroupView.add(mMap);
                 }
         }
@@ -200,7 +213,7 @@ public class HomePageFragment extends BaseFragment {
                 //TODO:加载网络图片  news.data.coverPath
                 mMap.put("img", R.drawable.gr1);
                 mMap.put("title", mEmployeesResponseJson.data[i].name);
-                mMap.put("content", mEmployeesResponseJson.data[i].shows);
+                mMap.put("content", mEmployeesResponseJson.data[i].summary);
                 mGroupView.add(mMap);
             }
         }
@@ -222,6 +235,23 @@ public class HomePageFragment extends BaseFragment {
         }
     };
 
+    private Callback mNewsContentCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e(TAG,"mNewsContentCallback onFailure...");
+            return;
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            mNewsContentResponseJson =
+                    JsonUtil.parsoJsonWithGson(result, NewsContentResponseJson.class);
+            mHandler.removeMessages(SHOW_NEWS_CONTENT);
+            mHandler.sendEmptyMessage(ADD_NEWS_TO_LIST);
+        }
+    };
+
     private Callback mEmployeesListCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
@@ -232,6 +262,10 @@ public class HomePageFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             Log.d("xie", "mEmployeesListCallback onResponse...");
             String result = response.body().string();
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code < 0 ) {
+                return;
+            }
             mEmployeesResponseJson =
                     JsonUtil.parsoJsonWithGson(result, EmployeeResponseJson.class);
             mHandler.removeMessages(ADD_EMPLOYEE_TO_LIST);
@@ -262,6 +296,15 @@ public class HomePageFragment extends BaseFragment {
                     break;
                 case ADD_NEWS_TO_LIST:
                     addNewsToList();
+                    break;
+                case SHOW_NEWS_CONTENT:
+//                    NewsContentFragment mNewsContentFragment = new NewsContentFragment();
+//                    Bundle data = new Bundle();
+//                    data.putString("title", mNewsContentResponseJson.data.title);
+//                    data.putString("content", mNewsContentResponseJson.data.coverPath);
+//                    mNewsContentFragment.setArguments(data);
+//                    mMainContext.showContent(mNewsContentFragment);
+                    break;
                 default:
                     break;
             }

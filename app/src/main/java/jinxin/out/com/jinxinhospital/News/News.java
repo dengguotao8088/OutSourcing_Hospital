@@ -12,6 +12,7 @@ public class News {
     public String titleColor;//标题颜色（存颜色代码）
     public String coverPath;//新闻封面图地址
     public String content;//内容
+    public String summary;
     public int newsTypeId;//
     public String keyWord;//关键字
     public int publisherId;//发布人Id

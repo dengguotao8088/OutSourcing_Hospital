@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../JPushExample(667873)/JPushExample(667873).iml" filepath="$PROJECT_DIR$/../JPushExample(667873)/JPushExample(667873).iml" />
+      <module fileurl="file://$PROJECT_DIR$/../OutSourcing_Hospital.iml" filepath="$PROJECT_DIR$/../OutSourcing_Hospital.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../jinxin_employee/jinxin_employee.iml" filepath="$PROJECT_DIR$/../jinxin_employee/jinxin_employee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library/library.iml" filepath="$PROJECT_DIR$/../library/library.iml" />
+    </modules>
+  </component>
+</project>

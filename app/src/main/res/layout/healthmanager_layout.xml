@@ -4,21 +4,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/my_cus_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/health_message"
+        android:paddingTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555454"/>
 
-        <ListView
+        <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/my_custorm_layout_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:divider="#00000000"
-            android:dividerHeight="6dp"
+            android:divider="#eeeeee"
+            android:dividerHeight="10dp"
+            android:headerDividersEnabled="true"
+            android:smoothScrollbar="true"
             android:listSelector="@android:color/transparent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-    <ListView
-        android:id="@+id/health_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+            <!--
+            android:cacheColorHint="#00000000"    //设置背景透明
+        android:divider="#19000000"      //分割线颜色
+        android:dividerHeight="4dp"     //分割线高度
+        android:fadingEdge="none"   // 设置上边和下边没有黑色的阴影
+        android:fastScrollEnabled="false"       //是不是允许快速滑动
+        android:footerDividersEnabled="false"    //底部没分割线
+        android:headerDividersEnabled="false"     //头部没分割线
+        android:smoothScrollbar="true"    //显示变化滚动条高度
+        -->
+
+
 </LinearLayout>

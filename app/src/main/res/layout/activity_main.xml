@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context="jinxin.out.com.jinxinhospital.MainActivity">
 
+    <LinearLayout
+        android:id="@+id/content"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,5 +50,6 @@
         app:tabSelectedTextColor="#F2C499"
         app:tabTextAppearance="@style/tabSize"
         app:tabTextColor="@android:color/black" />
+    </LinearLayout>
 
 </LinearLayout>

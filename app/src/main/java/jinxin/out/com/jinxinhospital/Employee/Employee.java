@@ -15,6 +15,7 @@ public class Employee {
     public String mobile;//联系电话
     public String idCard;//身份证号码
     public String birthday;//生日
+    public String summary;
     public String introduction;//简介
     public int status;//账号状态，1：正常，2：停用，默认1
     public int shows;//APP端介绍是否显示，1：显示，2：不显示，默认1

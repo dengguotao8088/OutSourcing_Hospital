@@ -21,8 +21,8 @@ public class UserContactMe extends UserAppCompatActivity {
     private Intent mIntent;
     private TextView mTelView;
     private TextView mTel1View;
-    private static final String TEL = "15188888888";
-    private static final String TEL1 = "02888888888";
+    private static final String TEL = "028-65078768";
+    private static final String TEL1 = "67695858";
 
 
     @Override
@@ -43,7 +43,7 @@ public class UserContactMe extends UserAppCompatActivity {
     }
 
     public void initActionBar() {
-        setToolBarTitle("联系我们");
+        setToolBarTitle(getApplicationContext().getString(R.string.user_cantact_me_title));
     }
 
     View.OnLongClickListener onClickListener = new View.OnLongClickListener() {

@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class LoginResponseJson {
     public int code;
-    public String action;
+//    public String action;
     public String message;
     public Data data;
 
@@ -18,7 +18,7 @@ public class LoginResponseJson {
     }
     public class Customer{
         public int id;//
-        public Date birthday;
+        public String birthday;
         public int consumptionTypeId;//消费类型Id
         public String name;//客户姓名
         public int sex;//性别，1：男，2：女，默认1

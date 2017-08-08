@@ -1,5 +1,6 @@
 package jinxin.out.com.jinxinhospital.PurchaseRecord;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,6 +11,5 @@ public class PurchaseRecordResponseJson {
     public int code;
     public String action;
     public String message;
-//    public PurchaseResponseData[] data;
     public PurchaseResponseData[] data;
 }

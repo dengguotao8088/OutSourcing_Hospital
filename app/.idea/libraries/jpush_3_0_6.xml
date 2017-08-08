@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="jpush-3.0.6">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jpush-3.0.6.aar/52a4ee1ef4e6fe722836f6ebf58699aa/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jpush-3.0.6.aar/52a4ee1ef4e6fe722836f6ebf58699aa/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/cn.jiguang.sdk/jpush/3.0.6/51c44ce3960899f15ca0ff56278f0c82cde264d7/jpush-3.0.6-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

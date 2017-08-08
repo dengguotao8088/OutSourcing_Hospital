@@ -1,7 +1,16 @@
 package jinxin.out.com.jinxinhospital;
 
+import android.*;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,20 +40,53 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mContentPager;
     private TabsAdapter mTabsAdapter;
+    private Context mContext;
 
     private int mCurrentTab = 0;
+    private static final String[] PERMISSIONS_STORAGE = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = this;
 
         //Init JPush
         //android.util.Log.d("xie", "IPush  Init");
         //JPushInterface.setDebugMode(true);
         //JPushInterface.init(this);
 
+        verifyStoragePermissions(this);
         initView();
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(activity,  PERMISSIONS_STORAGE,
+                    0);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 0:
+                if (grantResults[0] == PackageManager.PERMISSION_DENIED
+                        || grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    // Permission Granted
+                    finish();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     private void initView() {
@@ -94,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             int position = (int) tab.getTag();
+            if ((position != 0 )
+                    && (LoadActivity.getToken() == "" || LoadActivity.getmCustomerId() < 0)) {
+                Intent intent = new Intent(mContext, LoadActivity.class);
+                startActivity(intent);
+            }
             mContentPager.setCurrentItem(position);
         }
 
@@ -186,6 +233,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void showContent(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction
+                = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content, fragment);
+        transaction.commit();
     }
 
 }

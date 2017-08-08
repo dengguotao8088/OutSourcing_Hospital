@@ -10,7 +10,7 @@ public class NewsResponseJson {
     public int code;
     public String action;
     public String message;
-    public Data[] data;
+    public News[] data;
 
     public class Data {
         public int id;//

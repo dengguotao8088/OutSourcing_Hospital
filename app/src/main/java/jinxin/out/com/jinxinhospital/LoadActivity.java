@@ -16,6 +16,7 @@ import java.io.IOException;
 
 import jinxin.out.com.jinxinhospital.Customer.LoginManager;
 import jinxin.out.com.jinxinhospital.Customer.LoginResponseJson;
+import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
 import jinxin.out.com.jinxinhospital.JsonModule.Constants;
 import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
 import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
@@ -42,6 +43,8 @@ public class LoadActivity extends Activity {
     private EditText mPwd;
     private static String token;
     private static int mCustomerId = -1;
+    private static String name= "";
+    private static String tel = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +63,15 @@ public class LoadActivity extends Activity {
     public static String getToken(){
         return token;
     }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static String getTel() {
+        return tel;
+    }
+
     public static int getmCustomerId(){
         return mCustomerId;
     }
@@ -68,6 +80,7 @@ public class LoadActivity extends Activity {
         @Override
         public void onClick(View view) {
 
+            Log.d("xie", "Login....");
             String tel = mTel.getText().toString();
             String pwd = mPwd.getText().toString();
             if ("".equals(tel) || "".equals(pwd)) {
@@ -91,15 +104,21 @@ public class LoadActivity extends Activity {
         public void onResponse(Call call, Response response) throws IOException {
             Log.d("xie", "mLoginCallback onResponse");
             String result = response.body().string();
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0) {
+                return;
+            }
             LoginResponseJson loginResponseJson =
                     JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
             if (loginResponseJson.code == 0) {
                 token = loginResponseJson.data.token;
                 mCustomerId = loginResponseJson.data.customer.id;
+                name = loginResponseJson.data.customer.name;
+                tel = loginResponseJson.data.customer.mobile;
                 Log.d("xie", "....token = " + token);
                 Log.d("xie", "....customerId = " + mCustomerId);
-                LoginManager.getInstance(mContext).setToken(token);
-                LoginManager.getInstance(mContext).getCustomer(mCustomerId, customerDoneCallBack);
+                LoginManager loginManager = LoginManager.getInstance(mContext, token, mCustomerId+"");
+                loginManager.getCustomer(customerDoneCallBack);
             }
         }
     };
@@ -107,7 +126,8 @@ public class LoadActivity extends Activity {
     private LoginManager.GetCustomerDoneCallBack customerDoneCallBack = new LoginManager.GetCustomerDoneCallBack() {
         @Override
         public void getCustomerDone() {
-            Intent intent = new Intent(mContext, HomePageFragment.class);
+            Log.d("xie", "getCustomerDone, startActivity:HomePageFragment");
+            Intent intent = new Intent(mContext, MainActivity.class);
             startActivity(intent);
             finish();
         }

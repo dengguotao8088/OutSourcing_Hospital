@@ -56,6 +56,8 @@ public class UserFragment extends BaseFragment {
         mTelText = mView.findViewById(R.id.user_tel);
         mListView = mView.findViewById(R.id.user_listview);
 
+        mTelText.setText(LoadActivity.getTel());
+        mNameText.setText(LoadActivity.getName());
         mAdapter = new SimpleAdapter(mContext, getData(), R.layout.user_item,
                 new String[]{"icon", "title", "arrow"}, new int[]{R.id.icon, R.id.title, R.id.arrow});
 
@@ -122,6 +124,8 @@ public class UserFragment extends BaseFragment {
             switch (i) {
                 case 0:
                     //todo：消息中心
+                    mIntent = new Intent("android.intent.action.USERMESSAGECENTER");
+                    startActivity(mIntent);
                     break;
                 case 1:
                     //todo: 显示二维码
@@ -129,6 +133,7 @@ public class UserFragment extends BaseFragment {
                     bundle = new Bundle();
                     bundle.putString("name", "Test");
                     bundle.putString("num", "12345678");
+                    bundle.putString("tel", "12345678");
                     mIntent.putExtras(bundle);
                     startActivity(mIntent);
                     break;

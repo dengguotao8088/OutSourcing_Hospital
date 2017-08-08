@@ -55,6 +55,11 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
 
     private MyAdapter myAdapter;
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     private MyHandler mMainHandler;
 
     @Override

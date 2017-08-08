@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <include layout="@layout/user_toolbar" />
+    <TextView
+        android:id="@+id/message_message"
+        android:paddingTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#555454"/>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/message_custorm_layout_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:divider="#e6e3e3"
+        android:dividerHeight="10dp"
+        android:headerDividersEnabled="true"
+        android:smoothScrollbar="true"
+        android:background="#e6e3e3"
+        android:listSelector="@android:color/transparent" />
+
+</LinearLayout>

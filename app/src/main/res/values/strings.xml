@@ -14,7 +14,6 @@
     <string name="user_addr">静秀路66号四楼中医产后康复科： </string>
     <string name="user_addr1">三官堂街3号一楼中医产后康复科： </string>
     <string name="user_qrstring">请扫一扫上面的二维码</string>
-    <string name="user_qr_title">我的二维码</string>
 
     <!-- 健康管理界面 -->
     <string name="page_health_manage">健康管理</string>
@@ -28,5 +27,10 @@
     <string name="health_manager_status_3">过期</string>
     <string name="health_manager_status_4">退费</string>
     <string name="health_manager_status_5">作废</string>
+
+    <string name="user_message_center_title">消息中心</string>
+    <string name="user_qr_title">我的二维码</string>
+    <string name="user_cantact_me_title">联系我们</string>
+    <string name="user_zhiqing_title">知情同意书</string>
 
 </resources>
