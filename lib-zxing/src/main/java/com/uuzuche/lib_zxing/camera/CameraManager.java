@@ -23,6 +23,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Handler;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import java.io.IOException;
@@ -216,28 +217,46 @@ public final class CameraManager {
      * @return The rectangle to draw on screen in window coordinates.
      */
     public Rect getFramingRect() {
-        try {
-            Point screenResolution = configManager.getScreenResolution();
-            // if (framingRect == null) {
+//        try {
+//            Point screenResolution = configManager.getScreenResolution();
+//            // if (framingRect == null) {
+//            if (camera == null) {
+//                return null;
+//            }
+//
+//            int leftOffset = (screenResolution.x - FRAME_WIDTH) / 2;
+//
+//            int topOffset;
+//            if (FRAME_MARGINTOP != -1) {
+//                topOffset = FRAME_MARGINTOP;
+//            } else {
+//                topOffset = (screenResolution.y - FRAME_HEIGHT) / 2;
+//            }
+//            framingRect = new Rect(leftOffset, topOffset, leftOffset + FRAME_WIDTH, topOffset + FRAME_HEIGHT);
+//            // }
+//            return framingRect;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+        Point screenResolution = configManager.getScreenResolution();
+        if (framingRect == null) {
             if (camera == null) {
                 return null;
             }
 
-            int leftOffset = (screenResolution.x - FRAME_WIDTH) / 2;
+            //修改之后
+            int width = screenResolution.x * 7 / 10;
+            int height = screenResolution.y * 5 / 10;
 
-            int topOffset;
-            if (FRAME_MARGINTOP != -1) {
-                topOffset = FRAME_MARGINTOP;
-            } else {
-                topOffset = (screenResolution.y - FRAME_HEIGHT) / 2;
-            }
-            framingRect = new Rect(leftOffset, topOffset, leftOffset + FRAME_WIDTH, topOffset + FRAME_HEIGHT);
-            // }
-            return framingRect;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            int leftOffset = (screenResolution.x - width) / 2;
+            int topOffset = (screenResolution.y - height) / 3;
+            framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+
+
+            Log.d(TAG, "Calculated framing rect: " + framingRect);
         }
+        return framingRect;
     }
 
     /**

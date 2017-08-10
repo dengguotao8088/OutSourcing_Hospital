@@ -1,7 +1,12 @@
 package jinxin.out.com.jinxin_employee;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +20,9 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity {
 
     private int mCurrentSelect = 0;
@@ -27,14 +35,51 @@ public class HomeActivity extends AppCompatActivity {
     private CaptureFragment mCaptureFragment;
     private MyCustormFragment myCustormFragment;
 
+    private static final String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        verifyStoragePermissions(this);
         initTab();
         myCustormFragment = new MyCustormFragment();
         mCurrentFragment = myCustormFragment;
         showContent(mCurrentFragment);
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < PERMISSIONS.length; i++) {
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    PERMISSIONS[i]);
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                list.add(PERMISSIONS[i]);
+            }
+        }
+        if (list.size() > 0) {
+            ActivityCompat.requestPermissions(activity, list.toArray(new String[list.size()]),
+                    0);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 0:
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                        finish();
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
