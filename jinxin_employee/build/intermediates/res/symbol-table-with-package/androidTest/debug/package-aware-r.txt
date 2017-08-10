@@ -1,2 +1,0 @@
-jinxin.out.com.jinxin_employee.test
-int string app_name 0x7f010000

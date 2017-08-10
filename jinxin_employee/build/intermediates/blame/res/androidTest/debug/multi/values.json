@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "D:\\JX\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "outputFile": "Y:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {
                 "to": {
@@ -11,31 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "C:\\Program Files\\Android\\android-studio\\gradle\\gradle-2.2.1\\caches\\transforms-1\\files-1.1\\rules-0.5.aar\\b71da95d90843c5c0f06c6542808b303\\res\\values\\values.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 229,
-                        "endColumn": 45,
-                        "endOffset": 270
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 45,
-                    "endOffset": 96
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\rules-0.5.aar\\b5dac1c1afc7b6ffb5b1a40ce16747ab\\res\\values\\values.xml",
+                    "file": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\rules-0.5.aar\\89010a52dfe02f86b64ae10c038a4cd8\\res\\values\\values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

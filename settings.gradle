@@ -1,2 +1,2 @@
-include ':app', ':JPushExample(667873)', ':jinxin_employee'
+include ':app', ':JPushExample(667873)', ':jinxin_employee', ':lib-zxing'
 include ':library'

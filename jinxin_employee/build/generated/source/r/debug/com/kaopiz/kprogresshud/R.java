@@ -8,19 +8,19 @@ package com.kaopiz.kprogresshud;
 
 public final class R {
     public static final class color {
-        public static final int kprogresshud_default_color = 0x7f040032;
-        public static final int kprogresshud_grey_color = 0x7f040033;
+        public static final int kprogresshud_default_color = 0x7f04003a;
+        public static final int kprogresshud_grey_color = 0x7f04003b;
     }
     public static final class drawable {
-        public static final int kprogresshud_spinner = 0x7f06005d;
+        public static final int kprogresshud_spinner = 0x7f060062;
     }
     public static final class id {
-        public static final int background = 0x7f070025;
-        public static final int container = 0x7f070030;
-        public static final int details_label = 0x7f07003f;
-        public static final int label = 0x7f070050;
+        public static final int background = 0x7f070026;
+        public static final int container = 0x7f070032;
+        public static final int details_label = 0x7f070044;
+        public static final int label = 0x7f07005c;
     }
     public static final class layout {
-        public static final int kprogresshud_hud = 0x7f090020;
+        public static final int kprogresshud_hud = 0x7f090022;
     }
 }

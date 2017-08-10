@@ -1,640 +1,6 @@
 [
     {
-        "outputFile": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 233,
-                        "endColumn": 57,
-                        "endOffset": 286
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 113,
-                    "endColumn": 51,
-                    "endOffset": 160
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 112,
-                        "endColumn": 51,
-                        "endOffset": 159
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 165,
-                    "endColumn": 55,
-                    "endOffset": 216
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 4,
-                        "startOffset": 398,
-                        "endColumn": 55,
-                        "endOffset": 449
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 221,
-                    "endColumn": 61,
-                    "endOffset": 278
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 561,
-                        "endColumn": 61,
-                        "endOffset": 618
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 6,
-                    "startColumn": 4,
-                    "startOffset": 283,
-                    "endColumn": 55,
-                    "endOffset": 334
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 341,
-                        "endColumn": 55,
-                        "endOffset": 392
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 7,
-                    "startColumn": 4,
-                    "startOffset": 339,
-                    "endColumn": 51,
-                    "endOffset": 386
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 455,
-                        "endColumn": 51,
-                        "endOffset": 502
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 8,
-                    "startColumn": 4,
-                    "startOffset": 391,
-                    "endColumn": 51,
-                    "endOffset": 438
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 508,
-                        "endColumn": 51,
-                        "endOffset": 555
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 443,
-                    "endColumn": 53,
-                    "endOffset": 492
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 57,
-                        "endColumn": 53,
-                        "endOffset": 106
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 497,
-                    "endColumn": 52,
-                    "endOffset": 545
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 624,
-                        "endColumn": 52,
-                        "endOffset": 672
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 550,
-                    "endColumn": 43,
-                    "endOffset": 589
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 678,
-                        "endColumn": 43,
-                        "endOffset": 717
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 594,
-                    "endColumn": 47,
-                    "endOffset": 637
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 292,
-                        "endColumn": 47,
-                        "endOffset": 335
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 13,
-                    "startColumn": 4,
-                    "startOffset": 642,
-                    "endColumn": 66,
-                    "endOffset": 704
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 165,
-                        "endColumn": 66,
-                        "endOffset": 227
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 14,
-                    "startColumn": 4,
-                    "startOffset": 709,
-                    "endLine": 23,
-                    "endColumn": 12,
-                    "endOffset": 1272
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\jpush_style.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 116,
-                        "endLine": 11,
-                        "endColumn": 12,
-                        "endOffset": 688
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 24,
-                    "startColumn": 4,
-                    "startOffset": 1277,
-                    "endLine": 27,
-                    "endColumn": 9,
-                    "endOffset": 1410
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 1,
-                        "startOffset": 302,
-                        "endLine": 10,
-                        "endColumn": 9,
-                        "endOffset": 438
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 28,
-                    "startColumn": 4,
-                    "startOffset": 1415,
-                    "endLine": 32,
-                    "endColumn": 9,
-                    "endOffset": 1595
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 3,
-                        "startOffset": 115,
-                        "endLine": 6,
-                        "endColumn": 9,
-                        "endOffset": 299
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 33,
-                    "startColumn": 4,
-                    "startOffset": 1600,
-                    "endLine": 36,
-                    "endColumn": 9,
-                    "endOffset": 1729
-                },
-                "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 1,
-                        "startOffset": 441,
-                        "endLine": 14,
-                        "endColumn": 9,
-                        "endOffset": 573
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
-        "map": [
-            {
-                "to": {
-                    "startLine": 2,
-                    "startColumn": 4,
-                    "startOffset": 55,
-                    "endColumn": 57,
-                    "endOffset": 108
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 5,
-                        "startColumn": 4,
-                        "startOffset": 233,
-                        "endColumn": 57,
-                        "endOffset": 286
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 3,
-                    "startColumn": 4,
-                    "startOffset": 113,
-                    "endColumn": 51,
-                    "endOffset": 160
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 3,
-                        "startColumn": 4,
-                        "startOffset": 112,
-                        "endColumn": 51,
-                        "endOffset": 159
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 4,
-                    "startColumn": 4,
-                    "startOffset": 165,
-                    "endColumn": 55,
-                    "endOffset": 216
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 8,
-                        "startColumn": 4,
-                        "startOffset": 398,
-                        "endColumn": 55,
-                        "endOffset": 449
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 5,
-                    "startColumn": 4,
-                    "startOffset": 221,
-                    "endColumn": 61,
-                    "endOffset": 278
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 4,
-                        "startOffset": 561,
-                        "endColumn": 61,
-                        "endOffset": 618
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 6,
-                    "startColumn": 4,
-                    "startOffset": 283,
-                    "endColumn": 55,
-                    "endOffset": 334
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 4,
-                        "startOffset": 341,
-                        "endColumn": 55,
-                        "endOffset": 392
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 7,
-                    "startColumn": 4,
-                    "startOffset": 339,
-                    "endColumn": 51,
-                    "endOffset": 386
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 9,
-                        "startColumn": 4,
-                        "startOffset": 455,
-                        "endColumn": 51,
-                        "endOffset": 502
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 8,
-                    "startColumn": 4,
-                    "startOffset": 391,
-                    "endColumn": 51,
-                    "endOffset": 438
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 10,
-                        "startColumn": 4,
-                        "startOffset": 508,
-                        "endColumn": 51,
-                        "endOffset": 555
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 9,
-                    "startColumn": 4,
-                    "startOffset": 443,
-                    "endColumn": 53,
-                    "endOffset": 492
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 57,
-                        "endColumn": 53,
-                        "endOffset": 106
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 10,
-                    "startColumn": 4,
-                    "startOffset": 497,
-                    "endColumn": 52,
-                    "endOffset": 545
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 12,
-                        "startColumn": 4,
-                        "startOffset": 624,
-                        "endColumn": 52,
-                        "endOffset": 672
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 11,
-                    "startColumn": 4,
-                    "startOffset": 550,
-                    "endColumn": 43,
-                    "endOffset": 589
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 13,
-                        "startColumn": 4,
-                        "startOffset": 678,
-                        "endColumn": 43,
-                        "endOffset": 717
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 12,
-                    "startColumn": 4,
-                    "startOffset": 594,
-                    "endColumn": 47,
-                    "endOffset": 637
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 6,
-                        "startColumn": 4,
-                        "startOffset": 292,
-                        "endColumn": 47,
-                        "endOffset": 335
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 13,
-                    "startColumn": 4,
-                    "startOffset": 642,
-                    "endColumn": 66,
-                    "endOffset": 704
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
-                    "position": {
-                        "startLine": 4,
-                        "startColumn": 4,
-                        "startOffset": 165,
-                        "endColumn": 66,
-                        "endOffset": 227
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 14,
-                    "startColumn": 4,
-                    "startOffset": 709,
-                    "endLine": 23,
-                    "endColumn": 12,
-                    "endOffset": 1272
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\jpush_style.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 4,
-                        "startOffset": 116,
-                        "endLine": 11,
-                        "endColumn": 12,
-                        "endOffset": 688
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 24,
-                    "startColumn": 4,
-                    "startOffset": 1277,
-                    "endLine": 27,
-                    "endColumn": 9,
-                    "endOffset": 1410
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
-                    "position": {
-                        "startLine": 7,
-                        "startColumn": 1,
-                        "startOffset": 302,
-                        "endLine": 10,
-                        "endColumn": 9,
-                        "endOffset": 438
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 28,
-                    "startColumn": 4,
-                    "startOffset": 1415,
-                    "endLine": 32,
-                    "endColumn": 9,
-                    "endOffset": 1595
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
-                    "position": {
-                        "startLine": 2,
-                        "startColumn": 3,
-                        "startOffset": 115,
-                        "endLine": 6,
-                        "endColumn": 9,
-                        "endOffset": 299
-                    }
-                }
-            },
-            {
-                "to": {
-                    "startLine": 33,
-                    "startColumn": 4,
-                    "startOffset": 1600,
-                    "endLine": 36,
-                    "endColumn": 9,
-                    "endOffset": 1729
-                },
-                "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
-                    "position": {
-                        "startLine": 11,
-                        "startColumn": 1,
-                        "startOffset": 441,
-                        "endLine": 14,
-                        "endColumn": 9,
-                        "endOffset": 573
-                    }
-                }
-            }
-        ]
-    },
-    {
-        "outputFile": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\build\\intermediates\\res\\merged\\debug\\values-zh_values-zh.arsc.flat",
+        "outputFile": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\build\\intermediates\\res\\merged\\debug\\values-zh_values-zh.arsc.flat",
         "map": [
             {
                 "to": {
@@ -645,13 +11,13 @@
                     "endOffset": 141
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 279,
+                        "startOffset": 274,
                         "endColumn": 90,
-                        "endOffset": 365
+                        "endOffset": 360
                     }
                 }
             },
@@ -664,13 +30,13 @@
                     "endOffset": 193
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 112,
+                        "startOffset": 109,
                         "endColumn": 51,
-                        "endOffset": 159
+                        "endOffset": 156
                     }
                 }
             },
@@ -683,13 +49,13 @@
                     "endOffset": 261
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 503,
+                        "startOffset": 495,
                         "endColumn": 67,
-                        "endOffset": 566
+                        "endOffset": 558
                     }
                 }
             },
@@ -702,13 +68,13 @@
                     "endOffset": 344
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 700,
+                        "startOffset": 689,
                         "endColumn": 82,
-                        "endOffset": 778
+                        "endOffset": 767
                     }
                 }
             },
@@ -721,13 +87,13 @@
                     "endOffset": 412
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 434,
+                        "startOffset": 427,
                         "endColumn": 67,
-                        "endOffset": 497
+                        "endOffset": 490
                     }
                 }
             },
@@ -740,13 +106,13 @@
                     "endOffset": 476
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 572,
+                        "startOffset": 563,
                         "endColumn": 63,
-                        "endOffset": 631
+                        "endOffset": 622
                     }
                 }
             },
@@ -759,13 +125,13 @@
                     "endOffset": 538
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 637,
+                        "startOffset": 627,
                         "endColumn": 61,
-                        "endOffset": 694
+                        "endOffset": 684
                     }
                 }
             },
@@ -778,13 +144,13 @@
                     "endOffset": 592
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 57,
+                        "startOffset": 55,
                         "endColumn": 53,
-                        "endOffset": 106
+                        "endOffset": 104
                     }
                 }
             },
@@ -797,13 +163,13 @@
                     "endOffset": 668
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 784,
+                        "startOffset": 772,
                         "endColumn": 75,
-                        "endOffset": 855
+                        "endOffset": 843
                     }
                 }
             },
@@ -816,13 +182,13 @@
                     "endOffset": 722
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 861,
+                        "startOffset": 848,
                         "endColumn": 53,
-                        "endOffset": 910
+                        "endOffset": 897
                     }
                 }
             },
@@ -835,13 +201,13 @@
                     "endOffset": 784
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 371,
+                        "startOffset": 365,
                         "endColumn": 61,
-                        "endOffset": 428
+                        "endOffset": 422
                     }
                 }
             },
@@ -854,13 +220,13 @@
                     "endOffset": 897
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 165,
+                        "startOffset": 161,
                         "endColumn": 112,
-                        "endOffset": 273
+                        "endOffset": 269
                     }
                 }
             },
@@ -874,14 +240,14 @@
                     "endOffset": 1035
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 1,
-                        "startOffset": 302,
+                        "startOffset": 295,
                         "endLine": 10,
                         "endColumn": 9,
-                        "endOffset": 438
+                        "endOffset": 428
                     }
                 }
             },
@@ -895,14 +261,14 @@
                     "endOffset": 1220
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 3,
-                        "startOffset": 115,
+                        "startOffset": 113,
                         "endLine": 6,
                         "endColumn": 9,
-                        "endOffset": 299
+                        "endOffset": 293
                     }
                 }
             },
@@ -916,38 +282,38 @@
                     "endOffset": 1354
                 },
                 "from": {
-                    "file": "D:\\JX\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 1,
-                        "startOffset": 441,
+                        "startOffset": 430,
                         "endLine": 14,
                         "endColumn": 9,
-                        "endOffset": 573
+                        "endOffset": 559
                     }
                 }
             }
         ]
     },
     {
-        "outputFile": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\build\\intermediates\\res\\merged\\debug\\values-zh_values-zh.arsc.flat",
+        "outputFile": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
         "map": [
             {
                 "to": {
                     "startLine": 2,
                     "startColumn": 4,
                     "startOffset": 55,
-                    "endColumn": 90,
-                    "endOffset": 141
+                    "endColumn": 57,
+                    "endOffset": 108
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
-                        "startOffset": 279,
-                        "endColumn": 90,
-                        "endOffset": 365
+                        "startOffset": 228,
+                        "endColumn": 57,
+                        "endOffset": 281
                     }
                 }
             },
@@ -955,18 +321,18 @@
                 "to": {
                     "startLine": 3,
                     "startColumn": 4,
-                    "startOffset": 146,
+                    "startOffset": 113,
                     "endColumn": 51,
-                    "endOffset": 193
+                    "endOffset": 160
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
-                        "startOffset": 112,
+                        "startOffset": 109,
                         "endColumn": 51,
-                        "endOffset": 159
+                        "endOffset": 156
                     }
                 }
             },
@@ -974,18 +340,18 @@
                 "to": {
                     "startLine": 4,
                     "startColumn": 4,
-                    "startOffset": 198,
-                    "endColumn": 67,
-                    "endOffset": 261
+                    "startOffset": 165,
+                    "endColumn": 55,
+                    "endOffset": 216
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
-                        "startOffset": 503,
-                        "endColumn": 67,
-                        "endOffset": 566
+                        "startOffset": 390,
+                        "endColumn": 55,
+                        "endOffset": 441
                     }
                 }
             },
@@ -993,18 +359,18 @@
                 "to": {
                     "startLine": 5,
                     "startColumn": 4,
-                    "startOffset": 266,
-                    "endColumn": 82,
-                    "endOffset": 344
+                    "startOffset": 221,
+                    "endColumn": 61,
+                    "endOffset": 278
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
-                        "startOffset": 700,
-                        "endColumn": 82,
-                        "endOffset": 778
+                        "startOffset": 550,
+                        "endColumn": 61,
+                        "endOffset": 607
                     }
                 }
             },
@@ -1012,18 +378,18 @@
                 "to": {
                     "startLine": 6,
                     "startColumn": 4,
-                    "startOffset": 349,
-                    "endColumn": 67,
-                    "endOffset": 412
+                    "startOffset": 283,
+                    "endColumn": 55,
+                    "endOffset": 334
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
-                        "startOffset": 434,
-                        "endColumn": 67,
-                        "endOffset": 497
+                        "startOffset": 334,
+                        "endColumn": 55,
+                        "endOffset": 385
                     }
                 }
             },
@@ -1031,18 +397,18 @@
                 "to": {
                     "startLine": 7,
                     "startColumn": 4,
-                    "startOffset": 417,
-                    "endColumn": 63,
-                    "endOffset": 476
+                    "startOffset": 339,
+                    "endColumn": 51,
+                    "endOffset": 386
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
-                        "startOffset": 572,
-                        "endColumn": 63,
-                        "endOffset": 631
+                        "startOffset": 446,
+                        "endColumn": 51,
+                        "endOffset": 493
                     }
                 }
             },
@@ -1050,18 +416,18 @@
                 "to": {
                     "startLine": 8,
                     "startColumn": 4,
-                    "startOffset": 481,
-                    "endColumn": 61,
-                    "endOffset": 538
+                    "startOffset": 391,
+                    "endColumn": 51,
+                    "endOffset": 438
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
-                        "startOffset": 637,
-                        "endColumn": 61,
-                        "endOffset": 694
+                        "startOffset": 498,
+                        "endColumn": 51,
+                        "endOffset": 545
                     }
                 }
             },
@@ -1069,18 +435,18 @@
                 "to": {
                     "startLine": 9,
                     "startColumn": 4,
-                    "startOffset": 543,
+                    "startOffset": 443,
                     "endColumn": 53,
-                    "endOffset": 592
+                    "endOffset": 492
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
-                        "startOffset": 57,
+                        "startOffset": 55,
                         "endColumn": 53,
-                        "endOffset": 106
+                        "endOffset": 104
                     }
                 }
             },
@@ -1088,18 +454,18 @@
                 "to": {
                     "startLine": 10,
                     "startColumn": 4,
-                    "startOffset": 597,
-                    "endColumn": 75,
-                    "endOffset": 668
+                    "startOffset": 497,
+                    "endColumn": 52,
+                    "endOffset": 545
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
-                        "startOffset": 784,
-                        "endColumn": 75,
-                        "endOffset": 855
+                        "startOffset": 612,
+                        "endColumn": 52,
+                        "endOffset": 660
                     }
                 }
             },
@@ -1107,18 +473,18 @@
                 "to": {
                     "startLine": 11,
                     "startColumn": 4,
-                    "startOffset": 673,
-                    "endColumn": 53,
-                    "endOffset": 722
+                    "startOffset": 550,
+                    "endColumn": 43,
+                    "endOffset": 589
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
-                        "startOffset": 861,
-                        "endColumn": 53,
-                        "endOffset": 910
+                        "startOffset": 665,
+                        "endColumn": 43,
+                        "endOffset": 704
                     }
                 }
             },
@@ -1126,18 +492,18 @@
                 "to": {
                     "startLine": 12,
                     "startColumn": 4,
-                    "startOffset": 727,
-                    "endColumn": 61,
-                    "endOffset": 784
+                    "startOffset": 594,
+                    "endColumn": 47,
+                    "endOffset": 637
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
-                        "startOffset": 371,
-                        "endColumn": 61,
-                        "endOffset": 428
+                        "startOffset": 286,
+                        "endColumn": 47,
+                        "endOffset": 329
                     }
                 }
             },
@@ -1145,18 +511,18 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 789,
-                    "endColumn": 112,
-                    "endOffset": 897
+                    "startOffset": 642,
+                    "endColumn": 66,
+                    "endOffset": 704
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\strings.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\strings.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
-                        "startOffset": 165,
-                        "endColumn": 112,
-                        "endOffset": 273
+                        "startOffset": 161,
+                        "endColumn": 66,
+                        "endOffset": 223
                     }
                 }
             },
@@ -1164,62 +530,83 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 902,
-                    "endLine": 17,
-                    "endColumn": 9,
-                    "endOffset": 1035
+                    "startOffset": 709,
+                    "endLine": 23,
+                    "endColumn": 12,
+                    "endOffset": 1272
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\jpush_style.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 114,
+                        "endLine": 11,
+                        "endColumn": 12,
+                        "endOffset": 677
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 1277,
+                    "endLine": 27,
+                    "endColumn": 9,
+                    "endOffset": 1410
+                },
+                "from": {
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 1,
-                        "startOffset": 302,
+                        "startOffset": 295,
                         "endLine": 10,
                         "endColumn": 9,
-                        "endOffset": 438
+                        "endOffset": 428
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 18,
+                    "startLine": 28,
                     "startColumn": 4,
-                    "startOffset": 1040,
-                    "endLine": 22,
+                    "startOffset": 1415,
+                    "endLine": 32,
                     "endColumn": 9,
-                    "endOffset": 1220
+                    "endOffset": 1595
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 3,
-                        "startOffset": 115,
+                        "startOffset": 113,
                         "endLine": 6,
                         "endColumn": 9,
-                        "endOffset": 299
+                        "endOffset": 293
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 23,
+                    "startLine": 33,
                     "startColumn": 4,
-                    "startOffset": 1225,
-                    "endLine": 26,
+                    "startOffset": 1600,
+                    "endLine": 36,
                     "endColumn": 9,
-                    "endOffset": 1354
+                    "endOffset": 1729
                 },
                 "from": {
-                    "file": "C:\\Users\\Administrator\\Desktop\\Project\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values-zh\\style.xml",
+                    "file": "Y:\\OutSourcing_Hospital\\JPushExample(667873)\\res\\values\\style.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 1,
-                        "startOffset": 441,
+                        "startOffset": 430,
                         "endLine": 14,
                         "endColumn": 9,
-                        "endOffset": 573
+                        "endOffset": 559
                     }
                 }
             }

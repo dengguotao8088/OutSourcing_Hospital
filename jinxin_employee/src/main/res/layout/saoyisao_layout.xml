@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+    <include layout="@layout/header_layout"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+        />
+
+        <!--
+        <attr name="inner_width" format="dimension"/>< 控制扫描框的宽度
+        <attr name="inner_height" format="dimension"/> 控制扫描框的高度
+        <attr name="inner_margintop" format="dimension" /> 控制扫描框距离顶部的距离
+        <attr name="inner_corner_color" format="color" /> 控制扫描框四角的颜色
+        <attr name="inner_corner_length" format="dimension" /> 控制扫描框四角的长度
+        <attr name="inner_corner_width" format="dimension" /> 控制扫描框四角的宽度
+        <attr name="inner_scan_bitmap" format="reference" /> 控制扫描图
+        <attr name="inner_scan_speed" format="integer" /> 控制扫描速度
+        <attr name="inner_scan_iscircle" format="boolean" /> 控制小圆点是否展示
+         -->
+        <com.uuzuche.lib_zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:inner_corner_color="@android:color/holo_blue_dark"
+            app:inner_corner_length="30dp"
+            app:inner_corner_width="5dp"
+            app:inner_height="200dp"
+            app:inner_margintop="150dp"
+            app:inner_scan_iscircle="false"
+            app:inner_scan_speed="10"
+            app:inner_width="200dp"
+        />
+
+    </FrameLayout>
+</LinearLayout>

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/OutSourcing_Hospital.iml" filepath="$PROJECT_DIR$/OutSourcing_Hospital.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/jinxin_employee/jinxin_employee.iml" filepath="$PROJECT_DIR$/jinxin_employee/jinxin_employee.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib-zxing/lib-zxing.iml" filepath="$PROJECT_DIR$/lib-zxing/lib-zxing.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
     </modules>
   </component>

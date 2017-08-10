@@ -1,14 +1,19 @@
 package jinxin.out.com.jinxin_employee;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.uuzuche.lib_zxing.activity.CaptureFragment;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -19,6 +24,7 @@ public class HomeActivity extends AppCompatActivity {
     private TabItem mTabs[];
 
     private BaseFragment mCurrentFragment;
+    private CaptureFragment mCaptureFragment;
     private MyCustormFragment myCustormFragment;
 
     @Override
@@ -66,6 +72,9 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             refreshTab(0);
+            if (mCurrentFragment != null) {
+                showContent(mCurrentFragment);
+            }
         }
     };
 
@@ -73,6 +82,12 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             refreshTab(1);
+            if (mCaptureFragment == null) {
+                mCaptureFragment = new CaptureFragment();
+                CodeUtils.setFragmentArgs(mCaptureFragment, R.layout.saoyisao_layout);
+                mCaptureFragment.setAnalyzeCallback(analyzeCallback);
+            }
+            showSaoYiSao(mCaptureFragment);
         }
     };
 
@@ -96,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showContent(BaseFragment fragment) {
         mCurrentFragment = fragment;
-        if(fragment.mActivity == null){
+        if (fragment.mActivity == null) {
             fragment.mActivity = this;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -106,6 +121,13 @@ public class HomeActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public void showSaoYiSao(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction
+                = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content, fragment);
+        transaction.commit();
+    }
 
     private KProgressHUD mHUD;
 
@@ -127,10 +149,25 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
+        @Override
+        public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
+            Log.d("dengguotao", "result: " + result);
+            showContent(mCurrentFragment);
+            refreshTab(0);
+        }
+
+        @Override
+        public void onAnalyzeFailed() {
+            Log.d("dengguotao", "fail ");
+        }
+    };
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode != KeyEvent.KEYCODE_BACK || mCurrentFragment == null)
+        if (keyCode != KeyEvent.KEYCODE_BACK || mCurrentFragment == null) {
             return super.onKeyDown(keyCode, event);
+        }
         boolean result = mCurrentFragment.onKeyDown(keyCode, event);
         if (!result) {
             return super.onKeyDown(keyCode, event);

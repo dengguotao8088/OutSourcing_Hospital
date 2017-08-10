@@ -2,169 +2,98 @@
 <instant-run
     abi="arm64-v8a,armeabi-v7a,armeabi"
     api-level="23"
-    build-mode="FULL"
+    build-mode="COLD"
     density="xxhdpi"
     format="10"
-    plugin-version="3.0.0-alpha7"
-    timestamp="1502198083097"
-    token="32640712756112896"
-    verifier="FULL_BUILD_REQUESTED" >
+    ir-eligibility="COMPATIBLE"
+    plugin-version="3.0.0-alpha5"
+    timestamp="1502358494327"
+    token="6387704349336122471"
+    verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="0" />
+        duration="1009" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="0" />
+        duration="19" />
     <task
         name="verifier"
-        duration="0" />
+        duration="17" />
 
     <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_3.apk"
+        location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
         type="SPLIT" />
     <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_8.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_4.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_1.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_1.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_7.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\dep\dependencies.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_9.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_5.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_3.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_4.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_2.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_2.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_5.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_7.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\dep\dependencies.apk"
-        type="SPLIT" />
-    <artifact
-        location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_9.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_8.apk"
-        type="SPLIT" />
-    <artifact
-        location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\outputs\apk\debug\jinxin_employee-debug.apk"
+        location="Y:\OutSourcing_Hospital\jinxin_employee\build\outputs\apk\debug\jinxin_employee-debug.apk"
         type="SPLIT_MAIN" />
 
     <build
         build-mode="FULL"
-        timestamp="1502198083097"
+        timestamp="1502357969437"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\outputs\apk\debug\jinxin_employee-debug.apk"
+            type="SPLIT_MAIN" />
+        <artifact
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\dep\dependencies.apk"
             type="SPLIT" />
         <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_8.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_3.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_8.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_9.apk"
             type="SPLIT" />
         <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_1.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_7.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\dep\dependencies.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_1.apk"
             type="SPLIT" />
         <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_9.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_3.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_5.apk"
+            type="SPLIT" />
+    </build>
+    <build
+        build-mode="COLD"
+        ir-eligibility="METHOD_DELETED"
+        timestamp="1502358381267"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_5.apk"
             type="SPLIT" />
         <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_4.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\outputs\apk\debug\jinxin_employee-debug.apk"
+            type="SPLIT_MAIN" />
+    </build>
+    <build
+        build-mode="COLD"
+        ir-eligibility="COMPATIBLE"
+        timestamp="1502358494327"
+        verifier="COLD_SWAP_REQUESTED" >
+        <artifact
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
             type="SPLIT" />
         <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_7.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_6.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\dep\dependencies.apk"
-            type="SPLIT" />
-        <artifact
-            location="D:\JX\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_9.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\intermediates\split-apk\debug\slices\slice_8.apk"
-            type="SPLIT" />
-        <artifact
-            location="C:\Users\Administrator\Desktop\Project\OutSourcing_Hospital\jinxin_employee\build\outputs\apk\debug\jinxin_employee-debug.apk"
+            location="Y:\OutSourcing_Hospital\jinxin_employee\build\outputs\apk\debug\jinxin_employee-debug.apk"
             type="SPLIT_MAIN" />
     </build>
 
