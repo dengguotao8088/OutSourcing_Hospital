@@ -31,8 +31,6 @@ public class ZhiQinDetail extends BaseFragment {
     private int Id;
     private String cusName;
 
-    private HomeActivity mActivity;
-
     private View mView;
     private TextView mContent;
     private TextView mre;
@@ -124,11 +122,15 @@ public class ZhiQinDetail extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mActivity = (HomeActivity) context;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Id = getArguments().getInt("zhiqin_id");
         cusName = getArguments().getString("custorm_name");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Nullable
@@ -143,20 +145,23 @@ public class ZhiQinDetail extends BaseFragment {
         title.setText("查看知情同意书");
         ImageView button = mView.findViewById(R.id.back);
         button.setOnClickListener(mBackListener);
+        isViewCreate = true;
         return mView;
     }
 
-    private View.OnClickListener mBackListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mActivity.showContent(mParentFragment);
-        }
-    };
+    @Override
+    public void refreshData() {
+
+    }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mParentFragment == null || mActivity == null) return false;
-        mActivity.showContent(mParentFragment);
-        return true;
+    public void loadData() {
+
     }
+
+    @Override
+    public void refreshUI() {
+
+    }
+
 }

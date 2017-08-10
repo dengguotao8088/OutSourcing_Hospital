@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,12 +39,10 @@ import okhttp3.Response;
  * Created by Administrator on 2017/8/6.
  */
 
-public class CustomerInformedFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CustomerInformedFragment extends BaseFragment {
 
     private int mCusId;
     private String mCusName;
-
-    private HomeActivity mActivity;
 
     private View mView;
     private TextView mAddinfoText;
@@ -51,12 +51,9 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
     private ImageView mAddreImg;
     private Button mAdd;
 
-    private ListView mList;
-    private SwipeRefreshLayout mSwipeLayout;
+    private PullToRefreshListView mList;
 
     private MyAdapter myAdapter;
-
-    private MyHandler mMainHandler;
 
     private LoginManager manager;
 
@@ -65,35 +62,6 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
 
     private Dialog mChooseInfoDialog;
     private ZhiQinModule mChooseModule;
-
-    @Override
-    public void onRefresh() {
-        RequestBody body = new FormBody.Builder().add("token", manager.getToken())
-                .add("customerId", mCusId + "")
-                .build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/list?",
-                body, mGetZhiQinCallback);
-    }
-
-    private class MyHandler extends Handler {
-        public MyHandler(Context context) {
-            super(context.getMainLooper());
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 111:
-                    mSwipeLayout.setRefreshing(false);
-                    break;
-                case 222:
-                    myAdapter.notifyDataSetChanged();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
 
     public CustomerInformedFragment() {
         manager = LoginManager.getInstance(mActivity);
@@ -123,7 +91,6 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
                 ZhiQinList list = JsonUtil.parsoJsonWithGson(result, ZhiQinList.class);
                 if (list.data.size() > 0) {
                     mZhiQinList.addAll(list.data);
-                    mMainHandler.sendEmptyMessage(222);
                 }
             }
         }
@@ -133,20 +100,22 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
 
         @Override
         public void onFailure(Call call, IOException e) {
-
+            mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
         }
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
             Log.d("dengguotao", result);
-            mMainHandler.sendEmptyMessage(111);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mCusZhiQinList.clear();
-                MyResponseModule myResponseModule = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);
+                MyResponseModule myResponseModule = JsonUtil.parsoJsonWithGson(result,
+                        MyResponseModule.class);
                 mCusZhiQinList.addAll(myResponseModule.data);
-                mMainHandler.sendEmptyMessage(222);
+                mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+            } else {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
             }
         }
     };
@@ -156,25 +125,34 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mCusId = getArguments().getInt("custorm_id");
+        mCusName = getArguments().getString("custorm_name");
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mActivity = (HomeActivity) context;
-        mMainHandler = new MyHandler(mActivity);
         mCusId = getArguments().getInt("custorm_id");
         mCusName = getArguments().getString("custorm_name");
-        Log.d("dengguotao", "mCusId: " + mCusId);
-        if (mCusZhiQinList.size() == 0) {
-            RequestBody body = new FormBody.Builder().add("token", manager.getToken())
-                    .add("customerId", mCusId + "")
-                    .build();
-            NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/list?",
-                    body, mGetZhiQinCallback);
-        }
+        loadAllData();
+    }
+
+    private void loadAllData() {
+        RequestBody body = new FormBody.Builder().add("token", manager.getToken())
+                .add("customerId", mCusId + "")
+                .build();
+        NetPostUtil.post(
+                "http://staff.mind-node.com/staff/api/customer_informed_consent_record/list?",
+                body, mGetZhiQinCallback);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.custorm_info_page, container, false);
         ImageView backView = mView.findViewById(R.id.back);
         backView.setOnClickListener(mBackListener);
@@ -193,26 +171,28 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
         mAdd = mView.findViewById(R.id.add_btn);
         mAdd.setOnClickListener(mAddListener);
 
-        mSwipeLayout = mView.findViewById(R.id.my_cus_info_refresh);
-        mSwipeLayout.setOnRefreshListener(this);
-        // 设置下拉圆圈上的颜色，蓝色、绿色、橙色、红色
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-                android.R.color.holo_orange_light, android.R.color.holo_red_light);
-        mSwipeLayout.setDistanceToTriggerSync(300);// 设置手指在屏幕下拉多少距离会触发下拉刷新
-        mSwipeLayout.setProgressBackgroundColor(R.color.white); // 设定下拉圆圈的背景
-        mSwipeLayout.setSize(SwipeRefreshLayout.DEFAULT);
         mList = mView.findViewById(R.id.my_custorm_info_layout_list);
+        initListView(mList);
         mList.setAdapter(myAdapter);
         mList.setOnItemClickListener(mListClick);
+        isViewCreate = true;
         return mView;
     }
 
+    private ZhiQinDetail mZhiQinDetail;
     private AdapterView.OnItemClickListener mListClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Log.d("dengguotao", "click: " + i);
-            MyCusZhiQinModule module = (MyCusZhiQinModule) myAdapter.getItem(i);
-            mActivity.showZhiQinDetail(module.id, mCusName);
+            MyCusZhiQinModule module = (MyCusZhiQinModule) myAdapter.getItem((int) l);
+            if (mZhiQinDetail == null) {
+                mZhiQinDetail = new ZhiQinDetail();
+            }
+            Bundle data = new Bundle();
+            data.putInt("zhiqin_id", module.id);
+            data.putString("custorm_name", mCusName);
+            mZhiQinDetail.setArguments(data);
+            mZhiQinDetail.mParentFragment = CustomerInformedFragment.this;
+            mActivity.showContent(mZhiQinDetail);
         }
     };
 
@@ -253,13 +233,6 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
         }
     };
 
-    private View.OnClickListener mBackListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            mActivity.showContent(mParentFragment);
-        }
-    };
-
     public class MyResponseModule extends BaseModule {
         public List<MyCusZhiQinModule> data;
     }
@@ -296,7 +269,8 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder holder;
             if (view == null) {
-                view = mActivity.getLayoutInflater().inflate(R.layout.custorm_info_item, viewGroup, false);
+                view = mActivity.getLayoutInflater().inflate(R.layout.custorm_info_item, viewGroup,
+                        false);
                 holder = new ViewHolder();
                 holder.name = view.findViewById(R.id.cus_info_item_title);
                 holder.qianming = view.findViewById(R.id.cus_info_item_qianming);
@@ -329,9 +303,21 @@ public class CustomerInformedFragment extends BaseFragment implements SwipeRefre
     };
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mParentFragment == null || mActivity == null) return false;
-        mActivity.showContent(mParentFragment);
-        return true;
+    public void refreshData() {
+        loadAllData();
     }
+
+    @Override
+    public void loadData() {
+        loadAllData();
+    }
+
+    @Override
+    public void refreshUI() {
+        if (isViewCreate) {
+            Log.d("dengguotao", "refreshUI");
+            myAdapter.notifyDataSetChanged();
+        }
+    }
+
 }

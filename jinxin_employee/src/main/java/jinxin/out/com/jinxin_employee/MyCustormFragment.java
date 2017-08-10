@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,64 +42,33 @@ import okhttp3.Response;
  * Created by Administrator on 2017/8/6.
  */
 
-public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MyCustormFragment extends BaseFragment {
 
-    private HomeActivity mContext;
     private LoginManager mLoginManager;
     private Employee mEmployee;
 
     private View mView;
     private SearchView mSearchView;
     private ImageView mSearchClose;
-    private ListView mList;
+    private PullToRefreshListView mList;
     private List<CustormData> mCusDatas = new ArrayList<>();
-    private SwipeRefreshLayout mSwipeLayout;
 
     private MyAdapter myAdapter;
+
+    private CustomerInformedFragment mCustomerInformedFragment;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private MyHandler mMainHandler;
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return false;
     }
 
-    @Override
-    public void onRefresh() {
-        Log.d("dengguotao", "onrefresh");
-        RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                .add("empId", mEmployee.jobNumber + "").add("page", "1")
-                .add("size", "10").build();
-        NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
-    }
-
-    private class MyHandler extends Handler {
-        public MyHandler(Context context) {
-            super(context.getMainLooper());
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 111:
-                    mSwipeLayout.setRefreshing(false);
-                    break;
-                case 222:
-                    myAdapter.notifyDataSetChanged();
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public MyCustormFragment() {
-        mLoginManager = LoginManager.getInstance(mContext);
+        mLoginManager = LoginManager.getInstance(mActivity);
         mEmployee = mLoginManager.getEmployee();
         CustormData data = new CustormData();
         myAdapter = new MyAdapter();
@@ -106,19 +77,19 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
     private Callback mGetCustormCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-            mContext.dissmissHUD();
-            mMainHandler.sendEmptyMessage(111);
+            mActivity.dissmissHUD();
+            mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
         }
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            mContext.dissmissHUD();
-            mMainHandler.sendEmptyMessage(111);
+            mActivity.dissmissHUD();
             String result = response.body().string();
             mCusDatas.clear();
             Log.d("dengguotao", result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code != 0) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             if (result.contains("[")) {
@@ -131,7 +102,7 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
             } else {
                 mCusDatas.add(((MyCustormJson2) module).data);
             }
-            mMainHandler.sendEmptyMessage(222);
+            mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
         }
     };
 
@@ -146,18 +117,25 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mContext = (HomeActivity) context;
-        mMainHandler = new MyHandler(mContext);
         if (mCusDatas.size() == 0) {
-            new Thread() {
-                @Override
-                public void run() {
-                    RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                            .add("empId", mEmployee.jobNumber + "").add("page", "1")
-                            .add("size", "10").build();
-                    NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
-                }
-            }.start();
+            loadAllData();
+        }
+    }
+
+    @Override
+    public void refreshData() {
+        loadAllData();
+    }
+
+    @Override
+    public void loadData() {
+        loadAllData();
+    }
+
+    @Override
+    public void refreshUI() {
+        if (isViewCreate) {
+            myAdapter.notifyDataSetChanged();
         }
     }
 
@@ -168,34 +146,29 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.my_custorm_layout, container, false);
         mSearchView = mView.findViewById(R.id.custom_search);
         mSearchView.setOnEditorActionListener(mSearchActionListener);
         mSearchClose = mView.findViewById(R.id.custom_search_close);
         mSearchClose.setOnClickListener(mSearchCloseListener);
 
-        mSwipeLayout = mView.findViewById(R.id.my_cus_refresh);
-        mSwipeLayout.setOnRefreshListener(this);
-        // 设置下拉圆圈上的颜色，蓝色、绿色、橙色、红色
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light,
-                android.R.color.holo_orange_light, android.R.color.holo_red_light);
-        mSwipeLayout.setDistanceToTriggerSync(300);// 设置手指在屏幕下拉多少距离会触发下拉刷新
-        mSwipeLayout.setProgressBackgroundColor(R.color.white); // 设定下拉圆圈的背景
-        mSwipeLayout.setSize(SwipeRefreshLayout.DEFAULT);
-
         mList = mView.findViewById(R.id.my_custorm_layout_list);
+        initListView(mList);
         mList.setOnItemClickListener(onItemClickListener);
         mList.setAdapter(myAdapter);
+        isViewCreate = true;
         return mView;
     }
 
-    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-        }
-    };
+    private AdapterView.OnItemClickListener onItemClickListener =
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.d("dengguotao", i + "" + "  " + l);
+                }
+            };
 
     private View.OnClickListener mSearchCloseListener = new View.OnClickListener() {
         @Override
@@ -206,29 +179,43 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
         }
     };
 
-    private TextView.OnEditorActionListener mSearchActionListener = new TextView.OnEditorActionListener() {
-        @Override
-        public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-            if (i == EditorInfo.IME_ACTION_SEARCH) {
-                mSearchView.clearFocus();
-                mSearchView.setText("");
-                HideSoft();
-                RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                        .add("mobile", "15108435883"
-                                //mSearchView.getText().toString()
-                        ).build();
-                NetPostUtil.post(Constants.CUSTORM_WITH_PHONE, body, mGetCustormCallback);
-                mContext.showHUD("searching");
-                return true;
-            }
-            return false;
-        }
-    };
+    private TextView.OnEditorActionListener mSearchActionListener =
+            new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    if (i == EditorInfo.IME_ACTION_SEARCH) {
+                        mSearchView.clearFocus();
+                        mSearchView.setText("");
+                        HideSoft();
+                        searchWithMobile("15108435883");
+                        mActivity.showHUD("searching");
+                        return true;
+                    }
+                    return false;
+                }
+            };
+
+    private void searchWithMobile(String mobile) {
+        RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
+                .add("mobile", "15108435883"
+                        //mSearchView.getText().toString()
+                ).build();
+        NetPostUtil.post(Constants.CUSTORM_WITH_PHONE, body, mGetCustormCallback);
+    }
+
+    private void loadAllData() {
+        RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
+                .add("empId", mEmployee.jobNumber + "").add("page", "1")
+                .add("size", "10").build();
+        NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
+    }
 
     private void HideSoft() {
-        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(
+                Context.INPUT_METHOD_SERVICE);
         if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(getActivity().getWindow().getDecorView().getWindowToken(),
+                    0);
         }
     }
 
@@ -261,7 +248,8 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder holder;
             if (view == null) {
-                view = LayoutInflater.from(mContext).inflate(R.layout.custorm_item_layout, viewGroup, false);
+                view = LayoutInflater.from(mActivity).inflate(R.layout.custorm_item_layout,
+                        viewGroup, false);
                 holder = new ViewHolder();
                 holder.name = view.findViewById(R.id.custom_name);
                 holder.birthday = view.findViewById(R.id.custom_birthday);
@@ -290,7 +278,15 @@ public class MyCustormFragment extends BaseFragment implements SwipeRefreshLayou
         @Override
         public void onClick(View view) {
             CustormData data = (CustormData) view.getTag();
-            mContext.showZhiQin(data.id, data.name);
+            if (mCustomerInformedFragment == null) {
+                mCustomerInformedFragment = new CustomerInformedFragment();
+            }
+            Bundle bundle = new Bundle();
+            bundle.putInt("custorm_id", data.id);
+            bundle.putString("custorm_name", data.name);
+            mCustomerInformedFragment.setArguments(bundle);
+            mCustomerInformedFragment.mParentFragment = MyCustormFragment.this;
+            mActivity.showContent(mCustomerInformedFragment);
         }
     };
 

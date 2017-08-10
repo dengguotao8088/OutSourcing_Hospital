@@ -20,7 +20,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private BaseFragment mCurrentFragment;
     private MyCustormFragment myCustormFragment;
-    private CustomerInformedFragment informedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +94,11 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void showContent(Fragment fragment) {
-        mCurrentFragment = (BaseFragment) fragment;
+    public void showContent(BaseFragment fragment) {
+        mCurrentFragment = fragment;
+        if(fragment.mActivity == null){
+            fragment.mActivity = this;
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction
                 = fragmentManager.beginTransaction();
@@ -123,32 +125,6 @@ public class HomeActivity extends AppCompatActivity {
         if (mHUD != null) {
             mHUD.dismiss();
         }
-    }
-
-    public void showZhiQin(int id, String name) {
-        informedFragment = new CustomerInformedFragment();
-        Bundle data = new Bundle();
-        data.putInt("custorm_id", id);
-        data.putString("custorm_name", name);
-        informedFragment.setArguments(data);
-        informedFragment.mParentFragment = myCustormFragment;
-        showContent(informedFragment);
-        mCurrentFragment = informedFragment;
-    }
-
-    private ZhiQinDetail mZhiQinDetail;
-
-    public void showZhiQinDetail(int id, String name) {
-        if (mZhiQinDetail == null) {
-            mZhiQinDetail = new ZhiQinDetail();
-        }
-        Bundle data = new Bundle();
-        data.putInt("zhiqin_id", id);
-        data.putString("custorm_name", name);
-        mZhiQinDetail.setArguments(data);
-        mZhiQinDetail.mParentFragment = informedFragment;
-        showContent(mZhiQinDetail);
-        mCurrentFragment = mZhiQinDetail;
     }
 
     @Override

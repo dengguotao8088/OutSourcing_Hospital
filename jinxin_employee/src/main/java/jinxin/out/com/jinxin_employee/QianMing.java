@@ -59,15 +59,10 @@ public class QianMing extends BaseFragment {
         title.setText("签名");
         ImageView button = mView.findViewById(R.id.back);
         button.setOnClickListener(mBackListener);
+        isViewCreate = true;
         return mView;
     }
 
-    private View.OnClickListener mBackListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            activity.showContent(mParentFragment);
-        }
-    };
     private View.OnClickListener msaveListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -90,9 +85,17 @@ public class QianMing extends BaseFragment {
     };
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mParentFragment == null || activity == null) return false;
-        activity.showContent(mParentFragment);
-        return true;
+    public void refreshData() {
+
+    }
+
+    @Override
+    public void loadData() {
+
+    }
+
+    @Override
+    public void refreshUI() {
+
     }
 }
