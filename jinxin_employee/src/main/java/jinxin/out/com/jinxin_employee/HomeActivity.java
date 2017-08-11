@@ -198,7 +198,10 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
             Log.d("dengguotao", "result: " + result);
-            showContent(mCurrentFragment);
+            Bundle data = new Bundle();
+            data.putString("search_data",result);
+            myCustormFragment.setArguments(data);
+            showContent(myCustormFragment);
             refreshTab(0);
         }
 

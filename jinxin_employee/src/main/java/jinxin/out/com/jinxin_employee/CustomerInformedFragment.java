@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -172,7 +174,8 @@ public class CustomerInformedFragment extends BaseFragment {
         mAdd.setOnClickListener(mAddListener);
 
         mList = mView.findViewById(R.id.my_custorm_info_layout_list);
-        initListView(mList);
+        TextView empty = mView.findViewById(R.id.empty);
+        initListView(mList, empty);
         mList.setAdapter(myAdapter);
         mList.setOnItemClickListener(mListClick);
         isViewCreate = true;

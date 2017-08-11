@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,7 +73,6 @@ public class MyCustormFragment extends BaseFragment {
     public MyCustormFragment() {
         mLoginManager = LoginManager.getInstance(mActivity);
         mEmployee = mLoginManager.getEmployee();
-        CustormData data = new CustormData();
         myAdapter = new MyAdapter();
     }
 
@@ -117,9 +119,6 @@ public class MyCustormFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (mCusDatas.size() == 0) {
-            loadAllData();
-        }
     }
 
     @Override
@@ -142,6 +141,17 @@ public class MyCustormFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle data = getArguments();
+        if (data != null) {
+            String search_text = data.getString("search_data");
+            if (search_text != null && !search_text.equals("")) {
+                searchWithMobile(search_text);
+            } else if (mCusDatas.size() == 0) {
+                loadAllData();
+            }
+        } else if (mCusDatas.size() == 0) {
+            loadAllData();
+        }
     }
 
     @Nullable
@@ -155,7 +165,9 @@ public class MyCustormFragment extends BaseFragment {
         mSearchClose.setOnClickListener(mSearchCloseListener);
 
         mList = mView.findViewById(R.id.my_custorm_layout_list);
-        initListView(mList);
+        TextView empty = mView.findViewById(R.id.empty);
+        initListView(mList, empty);
+        mList.setEmptyView(empty);
         mList.setOnItemClickListener(onItemClickListener);
         mList.setAdapter(myAdapter);
         isViewCreate = true;

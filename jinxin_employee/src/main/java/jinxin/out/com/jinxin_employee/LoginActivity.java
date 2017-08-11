@@ -68,6 +68,8 @@ public class LoginActivity extends Activity {
 
             if ("".equals(name) || "".equals(password)) {
                 Toast.makeText(mContext, "用户名和密码不能空", Toast.LENGTH_SHORT).show();
+            } else if (!LoginManager.getInstance(mContext).isNetworkConnected()) {
+                Toast.makeText(mContext, "没有网络", Toast.LENGTH_SHORT).show();
             } else {
                 if (mRemCheckbox.isChecked()) {
                     Log.d("xie", "remenber.....");
@@ -104,18 +106,20 @@ public class LoginActivity extends Activity {
                     JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
             if (loginResponseJson.code == 0) {
                 LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
-                LoginManager.getInstance(mContext).getEmployee(loginResponseJson.data.empDO.id, mGetEmployeeDoneCallBack);
+                LoginManager.getInstance(mContext).getEmployee(loginResponseJson.data.empDO.id,
+                        mGetEmployeeDoneCallBack);
             }
         }
     };
 
-    private LoginManager.GetEmployeeDoneCallBack mGetEmployeeDoneCallBack = new LoginManager.GetEmployeeDoneCallBack() {
-        @Override
-        public void getEmployeeDone() {
-            mHUD.dismiss();
-            Intent intent = new Intent(mContext, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    };
+    private LoginManager.GetEmployeeDoneCallBack mGetEmployeeDoneCallBack =
+            new LoginManager.GetEmployeeDoneCallBack() {
+                @Override
+                public void getEmployeeDone() {
+                    mHUD.dismiss();
+                    Intent intent = new Intent(mContext, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            };
 }

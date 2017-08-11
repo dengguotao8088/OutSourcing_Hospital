@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -32,6 +33,7 @@ public abstract class BaseFragment extends Fragment {
     public boolean isUserHint = false;
     public boolean isViewCreate = false;
 
+    private TextView emptyView;
     private PullToRefreshListView mListView;
     public MainHandler mMainHandler;
 
@@ -97,8 +99,11 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract void refreshUI();
 
-    public void initListView(PullToRefreshListView listView) {
+    public void initListView(PullToRefreshListView listView, TextView emptyView) {
         mListView = listView;
+        if (emptyView != null) {
+            mListView.setEmptyView(emptyView);
+        }
         mListView.setOnRefreshListener(mListViewOnRefreshListener2);
         mListView.setScrollingWhileRefreshingEnabled(true);
         mListView.setMode(PullToRefreshBase.Mode.BOTH);

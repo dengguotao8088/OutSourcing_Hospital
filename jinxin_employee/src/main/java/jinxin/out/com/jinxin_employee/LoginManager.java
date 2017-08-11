@@ -1,6 +1,8 @@
 package jinxin.out.com.jinxin_employee;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import java.io.IOException;
@@ -30,9 +32,33 @@ public class LoginManager {
     private String mToken;
     private Context mContext;
     private Employee mEmployee;
+    private ConnectivityManager mConnectivityManager;
 
     public LoginManager(Context context) {
         mContext = context;
+        mConnectivityManager =
+                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+    }
+
+    public boolean isNetworkConnected() {
+        if (mContext != null) {
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+
+    public boolean isWifiConnected() {
+        if (mContext != null) {
+            NetworkInfo mWiFiNetworkInfo = mConnectivityManager
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            if (mWiFiNetworkInfo != null) {
+                return mWiFiNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 
     public void setToken(String token) {
@@ -65,7 +91,7 @@ public class LoginManager {
         });
     }
 
-    public Employee getEmployee(){
+    public Employee getEmployee() {
         return mEmployee;
     }
 
