@@ -46,8 +46,6 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
     private MyHandler mMainHandler;
     private TextView mTextview;
     private String mMessage = "";
-    String token;
-    int customerId;
 
     private List<Message> mMessageList = new ArrayList<>();
     private MessageResponseJson mMessageResponseJson;
@@ -110,7 +108,7 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
         }
     };
 
-    public class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
 
         public class ViewHolder {
             public TextView time;

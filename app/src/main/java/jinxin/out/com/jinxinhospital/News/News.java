@@ -18,6 +18,6 @@ public class News {
     public int publisherId;//发布人Id
     public int status;//新闻状态，1：正常，2：停用
     public int sequence;//排序，越小越前
-    public Date createTime;//创建时间
-    public Date updateTime;//更新时间
+    public String createTime;//创建时间
+    public String updateTime;//更新时间
 }

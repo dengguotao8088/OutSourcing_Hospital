@@ -60,6 +60,7 @@ public class HealthManageFragment extends BaseFragment{
     private String mMessage = "";
     String token;
     int customerId;
+    private RequestBody requestBody;
 
     private List<PurchaseResponseData> mPurchaseContentRecord = new ArrayList<>();
     private PurchaseRecordResponseJson mPurchaseRecordResponseJson;
@@ -98,7 +99,7 @@ public class HealthManageFragment extends BaseFragment{
         }.start();
     }
 
-    public class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends BaseAdapter {
 
         public class ViewHolder {
             public TextView name;
@@ -148,26 +149,9 @@ public class HealthManageFragment extends BaseFragment{
             holder.used.setText(data.useFrequency + "");
             holder.actual.setText(data.totalPrice + "");
             holder.total.setText(data.projectFrequency + "");
-            String status = "";
-            switch (data.status) {
-                case 1:
-                    status = "可用";
-                    break;
-                case 2:
-                    status = "完成";
-                    break;
-                case 3:
-                    status = "过期";
-                    break;
-                case 4:
-                    status = "退费";
-                    break;
-                case 5:
-                    status = "作废";
-                    break;
-            }
-            holder.status.setText(status);
+            holder.status.setText(data.statusName);
             holder.check.setOnClickListener(mCheckMINXIClick);
+            holder.check.setTag(data);
             return view;
         }
     }
@@ -175,7 +159,18 @@ public class HealthManageFragment extends BaseFragment{
     private View.OnClickListener mCheckMINXIClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //TODO:
+            Log.d("xie", "mdsglsadgl......................");
+            Intent intent = new Intent("android.intent.action.CONSUMPTIONRECORD");
+            PurchaseResponseData mPurchaseResponseData = (PurchaseResponseData) view.getTag();
+            Bundle bundle = new Bundle();
+            bundle.putString("projectName", mPurchaseResponseData.projectName);
+            bundle.putString("purchaseRecordId", mPurchaseResponseData.projectId+"");
+            bundle.putString("remark", mPurchaseResponseData.remark);
+            intent.putExtras(bundle);
+            startActivity(intent);
+//            consumptionListFragment.setArguments(bundle);
+//            consumptionListFragment.mParentFragment = HealthManageFragment.this;
+//            mContext.showContent(consumptionListFragment);
         }
     };
 
@@ -237,8 +232,9 @@ public class HealthManageFragment extends BaseFragment{
         }
     }
     private void onRefreshData() {
-        RequestBody requestBody = new FormBody.Builder()
-                .add("token", token)
+        Log.d("xie", "PURCHASE: onRefreshData()");
+        requestBody = new FormBody.Builder()
+                .add("token", LoadActivity.getToken())
                 .add("customerId", customerId+"")
                 .build();
         NetPostUtil.post(Constants.GET_PURCHASE_WITH_ID, requestBody, mHealthManagerCallback);

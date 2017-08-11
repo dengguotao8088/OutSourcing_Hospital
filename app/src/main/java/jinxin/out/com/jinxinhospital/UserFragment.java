@@ -59,7 +59,7 @@ public class UserFragment extends BaseFragment {
         mTelText.setText(LoadActivity.getTel());
         mNameText.setText(LoadActivity.getName());
         mAdapter = new SimpleAdapter(mContext, getData(), R.layout.user_item,
-                new String[]{"icon", "title", "arrow"}, new int[]{R.id.icon, R.id.title, R.id.arrow});
+                new String[]{"icon", "title", "cache", "arrow"}, new int[]{R.id.icon, R.id.title, R.id.cache, R.id.arrow});
 
         mListView.setAdapter(mAdapter);
 
@@ -75,35 +75,41 @@ public class UserFragment extends BaseFragment {
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr1);
         mMap.put("title", "消息中心");
+        mMap.put("cache", "");
         mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr2);
         mMap.put("title", "我的二维码");
+        mMap.put("cache", "");
         mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr3);
         mMap.put("title", "知情同意书");
+        mMap.put("cache", "");
         mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr4);
         mMap.put("arrow", R.drawable.more);
+        mMap.put("cache", "");
         mMap.put("title", "联系我们");
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr7);
         mMap.put("title", "清除缓存");
-        mMap.put("arrow", getCacheData());
+        mMap.put("cache", getCacheData());
+        mMap.put("arrow", "");
         mGroupView.add(mMap);
 
         mMap = new HashMap<String, Object>();
         mMap.put("icon", R.drawable.gr5);
+        mMap.put("cache", "");
         mMap.put("title", "退出当前账号");
         mMap.put("arrow", R.drawable.more);
         mGroupView.add(mMap);
@@ -114,7 +120,7 @@ public class UserFragment extends BaseFragment {
     private String getCacheData() {
         double data = 0.0;
         //todo: get CACHE num:
-        return Double.toString(data) + "M";
+        return Double.toString(data) + " M";
     }
 
     private class listener implements AdapterView.OnItemClickListener {

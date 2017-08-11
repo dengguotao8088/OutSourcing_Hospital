@@ -16,6 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mContentPager;
     private TabsAdapter mTabsAdapter;
     private Context mContext;
+    private BaseFragment mCurrentFragment;
+    private LinearLayout mTitleLayout;
 
     private int mCurrentTab = 0;
     private static final String[] PERMISSIONS_STORAGE = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -90,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        mTitleLayout = findViewById(R.id.title_layout);
         mTitle = findViewById(R.id.title);
         mTabLayout = findViewById(R.id.tab);
         mTabLayout.addOnTabSelectedListener(mTabSelectedListener);
@@ -218,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            Log.d(TAG, "position: " + position);
+            Log.d("xie", "position: " + position);
             mCurrentTab = position;
             mTabLayout.getTabAt(mCurrentTab).select();
             mTitle.setText(mTabLayout.getTabAt(mCurrentTab).getText());
@@ -235,12 +241,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showContent(Fragment fragment) {
+    public void showContent(BaseFragment targetFragment) {
+        mCurrentFragment = targetFragment;
+        if (targetFragment.mActivity == null) {
+            targetFragment.mActivity = this;
+        }
+        if (mCurrentFragment.getClass().equals(HomePageFragment.class)) {
+            mTabLayout.setVisibility(View.VISIBLE);
+            mTitle.setVisibility(View.VISIBLE);
+            mTitleLayout.setVisibility(View.VISIBLE);
+        } else {
+            mTitle.setVisibility(View.GONE);
+            mTabLayout.setVisibility(View.GONE);
+            mTitleLayout.setVisibility(View.GONE);
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction
                 = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content, fragment);
+        transaction.replace(R.id.content, mCurrentFragment);
         transaction.commit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_BACK || mCurrentFragment == null) {
+            return super.onKeyDown(keyCode, event);
+        }
+        boolean result = mCurrentFragment.onKeyDown(keyCode, event);
+        if (!result) {
+            return super.onKeyDown(keyCode, event);
+        }
+        return result;
     }
 
 }

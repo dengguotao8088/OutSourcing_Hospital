@@ -23,4 +23,5 @@ public class PurchaseResponseData {
     public String expirationDate;//到期时间
     public String createTime;//创建时间
     public String updateTime;//更新时间
+    public String statusName;
 }

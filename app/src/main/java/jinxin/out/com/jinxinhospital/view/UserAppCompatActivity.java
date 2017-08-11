@@ -108,7 +108,6 @@ public abstract class UserAppCompatActivity extends AppCompatActivity {
      * @return
      */
     protected boolean isShowBacking() {
-
         return true;
     }
 

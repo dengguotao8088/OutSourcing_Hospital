@@ -30,9 +30,9 @@ public class Constants {
     //根据Id获取消费记录
     public static final String GET_CONSUMPTIONRECORD_WITH_ID = "http://client.mind-node.com/staff/api/consumption_record/get?";
     //修改消费记录
-    public static final String UPDATE_CONSUMPTIONRECORD = "http://client.mind-node.com/staff/api/consumption_record/update?";
+    public static final String UPDATE_CONSUMPTIONRECORD = "http://client.mind-node.com/client/api/consumption_record/update?";
     //根据购买记录Id获取消费记录列表
-    public static final String GET_CONSUMPTIONRECORD_LIST_WITH_ID = "http://client.mind-node.com/staff/api/consumption_record/list?";
+    public static final String GET_CONSUMPTIONRECORD_LIST_WITH_ID = "http://client.mind-node.com/client/api/consumption_record/list?";
 
     //根据Id获取客户知情同意书
     public static final String GET_CONSENT_WITH_ID = "http://client.mind-node.com/staff/api/customer_informed_consent_record/get?";

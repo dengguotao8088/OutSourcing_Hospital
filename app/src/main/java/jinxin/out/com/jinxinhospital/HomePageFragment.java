@@ -2,6 +2,8 @@ package jinxin.out.com.jinxinhospital;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,17 +18,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import jinxin.out.com.jinxinhospital.Employee.Employee;
 import jinxin.out.com.jinxinhospital.Employee.EmployeeResponseJson;
 import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
 import jinxin.out.com.jinxinhospital.JsonModule.Constants;
@@ -73,6 +81,12 @@ public class HomePageFragment extends BaseFragment {
     private EmployeeResponseJson mEmployeesResponseJson;
     private Context mContext;
     private MainActivity mMainContext;
+    private EmployeeMyAdapter mEmployeeAdpter;
+    private NewsMyAdapter mNewsMyAdapter;
+    private MyHandler myHandler;
+
+    private List<News> mNewsList = new ArrayList<>();
+    private List<Employee> mEmployeeList = new ArrayList<>();
 
     private int[] mHomePageShow = new int[]{
             R.drawable.banner1,
@@ -88,10 +102,27 @@ public class HomePageFragment extends BaseFragment {
         mIndex = getArguments().getInt(MainActivity.KEY_POSITION);
     }
 
+    private class MyHandler extends Handler {
+        public MyHandler(Context context) {
+            super(context.getMainLooper());
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 000:
+                    mNewsMyAdapter = new NewsMyAdapter();
+                    mEmployeeAdpter = new EmployeeMyAdapter();
+            }
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mMainContext = (MainActivity)context;
+        myHandler = new MyHandler(mMainContext);
+        myHandler.sendEmptyMessage(000);
     }
 
     @Nullable
@@ -150,22 +181,14 @@ public class HomePageFragment extends BaseFragment {
 
     private void addEmployeeToList() {
         Log.d("xie", "AddEmployeeToList...");
-        SimpleAdapter mAdpter = new SimpleAdapter(mContext, getEmployeesListFromJson(),
-                R.layout.news_item,
-                new String[]{"img", "title", "content"},
-                new int[]{R.id.news_img, R.id.news_title, R.id.news_content});
-        mListView.setAdapter(mAdpter);
+        mListView.setAdapter(mEmployeeAdpter);
         //TODO: 员工详情显示
         //mListView.setOnItemClickListener(mNewsOnItemClickListener);
     }
     private void addNewsToList() {
         Log.d("xie", "AddNewsToList...");
         mListView.setAdapter(null);
-        SimpleAdapter mAdpter = new SimpleAdapter(mContext, getNewsListFromJson(),
-                R.layout.news_item,
-                new String[]{"img", "title", "content"},
-                new int[]{R.id.news_img, R.id.news_title, R.id.news_content});
-        mListView.setAdapter(mAdpter);
+        mListView.setAdapter(mNewsMyAdapter);
         //TODO: 新闻详情显示
         mListView.setOnItemClickListener(mNewsOnItemClickListener);
     }
@@ -186,39 +209,39 @@ public class HomePageFragment extends BaseFragment {
         NetPostUtil.post(Constants.GET_EMPLOYEE_LIST, requestBodyEmp, mEmployeesListCallback);
     }
 
-    private ArrayList<HashMap<String,Object>> getNewsListFromJson() {
-        ArrayList<HashMap<String,Object>> mGroupView = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> mMap;
-
-        if (mNewsResponseJson != null ) {
-                for (int i = 0; i < mNewsResponseJson.data.length; i++) {
-                    mMap = new HashMap<String, Object>();
-                    //TODO:加载网络图片  news.data.coverPath
-                    mMap.put("img", R.drawable.gr1);
-                    mMap.put("title", mNewsResponseJson.data[i].title);
-                    mMap.put("content", mNewsResponseJson.data[i].summary);
-                    mGroupView.add(mMap);
-                }
-        }
-        return mGroupView;
-    }
-
-    private ArrayList<HashMap<String,Object>> getEmployeesListFromJson() {
-        ArrayList<HashMap<String,Object>> mGroupView = new ArrayList<HashMap<String, Object>>();
-        HashMap<String, Object> mMap;
-
-        if (mEmployeesResponseJson != null ) {
-            for (int i = 0; i < mEmployeesResponseJson.data.length; i++) {
-                mMap = new HashMap<String, Object>();
-                //TODO:加载网络图片  news.data.coverPath
-                mMap.put("img", R.drawable.gr1);
-                mMap.put("title", mEmployeesResponseJson.data[i].name);
-                mMap.put("content", mEmployeesResponseJson.data[i].summary);
-                mGroupView.add(mMap);
-            }
-        }
-        return mGroupView;
-    }
+//    private ArrayList<HashMap<String,Object>> getNewsListFromJson() {
+//        ArrayList<HashMap<String,Object>> mGroupView = new ArrayList<HashMap<String, Object>>();
+//        HashMap<String, Object> mMap;
+//
+//        if (mNewsResponseJson != null ) {
+//                for (int i = 0; i < mNewsResponseJson.data.length; i++) {
+//                    mMap = new HashMap<String, Object>();
+//                    //TODO:加载网络图片  news.data.coverPath
+//                    mMap.put("img", R.drawable.gr1);
+//                    mMap.put("title", mNewsResponseJson.data[i].title);
+//                    mMap.put("content", mNewsResponseJson.data[i].summary);
+//                    mGroupView.add(mMap);
+//                }
+//        }
+//        return mGroupView;
+//    }
+//
+//    private ArrayList<HashMap<String,Object>> getEmployeesListFromJson() {
+//        ArrayList<HashMap<String,Object>> mGroupView = new ArrayList<HashMap<String, Object>>();
+//        HashMap<String, Object> mMap;
+//
+//        if (mEmployeesResponseJson != null ) {
+//            for (int i = 0; i < mEmployeesResponseJson.data.length; i++) {
+//                mMap = new HashMap<String, Object>();
+//                //TODO:加载网络图片  news.data.coverPath
+//                mMap.put("img", R.drawable.gr1);
+//                mMap.put("title", mEmployeesResponseJson.data[i].name);
+//                mMap.put("content", mEmployeesResponseJson.data[i].summary);
+//                mGroupView.add(mMap);
+//            }
+//        }
+//        return mGroupView;
+//    }
     private Callback mNewsContentListCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
@@ -230,24 +253,10 @@ public class HomePageFragment extends BaseFragment {
             String result = response.body().string();
             mNewsResponseJson =
                     JsonUtil.parsoJsonWithGson(result, NewsResponseJson.class);
+            for(int i=0; i<mNewsResponseJson.data.length; i++) {
+                mNewsList.add(mNewsResponseJson.data[i]);
+            }
             mHandler.removeMessages(ADD_NEWS_TO_LIST);
-            mHandler.sendEmptyMessage(ADD_NEWS_TO_LIST);
-        }
-    };
-
-    private Callback mNewsContentCallback = new Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-            Log.e(TAG,"mNewsContentCallback onFailure...");
-            return;
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            String result = response.body().string();
-            mNewsContentResponseJson =
-                    JsonUtil.parsoJsonWithGson(result, NewsContentResponseJson.class);
-            mHandler.removeMessages(SHOW_NEWS_CONTENT);
             mHandler.sendEmptyMessage(ADD_NEWS_TO_LIST);
         }
     };
@@ -262,12 +271,16 @@ public class HomePageFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             Log.d("xie", "mEmployeesListCallback onResponse...");
             String result = response.body().string();
+            Log.d("xie" , "result = " + result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code < 0 ) {
                 return;
             }
             mEmployeesResponseJson =
                     JsonUtil.parsoJsonWithGson(result, EmployeeResponseJson.class);
+            for(int i=0; i<mEmployeesResponseJson.data.length; i++) {
+                mEmployeeList.add(mEmployeesResponseJson.data[i]);
+            }
             mHandler.removeMessages(ADD_EMPLOYEE_TO_LIST);
             mHandler.sendEmptyMessage(ADD_EMPLOYEE_TO_LIST);
         }
@@ -319,4 +332,152 @@ public class HomePageFragment extends BaseFragment {
             mHandler.sendEmptyMessageDelayed(CHANGE_SHOW_IMAGE, 1500);
         }
     }
+
+    private class EmployeeMyAdapter extends BaseAdapter {
+
+        public class ViewHolder {
+            public ImageView mImageView;
+            public TextView name;
+            public TextView summary;
+            public LinearLayout mItem;
+        }
+
+        @Override
+        public int getCount() {
+            return mEmployeeList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return mEmployeeList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            final ViewHolder holder;
+            if (view == null) {
+                view = LayoutInflater.from(mContext).inflate(R.layout.news_item, viewGroup, false);
+                holder = new ViewHolder();
+                holder.mImageView = view.findViewById(R.id.news_img);
+                holder.name = view.findViewById(R.id.news_title);
+                holder.summary = view.findViewById(R.id.news_content);
+                holder.mItem = view.findViewById(R.id.news_item);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+            final Employee data = mEmployeeList.get(i);
+            holder.name.setText(data.name);
+            holder.summary.setText(data.summary);
+            holder.mImageView.setImageResource(R.drawable.user);
+            holder.mItem.setTag(R.id.tag_first, false);
+            holder.mItem.setTag(R.id.tag_second, data.id);
+            holder.mItem.setOnClickListener(onItemClickListener);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        URL url= new URL(data.avatarPath);
+//                        Bitmap pngBM = BitmapFactory.decodeStream(url.openStream());
+//                        holder.mImageView.setImageBitmap(pngBM);
+//                    } catch (MalformedURLException e) {
+//
+//                    } catch (IOException e) {
+//
+//                    }
+//                }
+//            }).start();
+            //TODO:
+            return view;
+        }
+    }
+
+    private class NewsMyAdapter extends BaseAdapter {
+
+        public class ViewHolder {
+            public ImageView mImageView;
+            public TextView name;
+            public TextView summary;
+            public LinearLayout mItem;
+        }
+
+        @Override
+        public int getCount() {
+            return mNewsList.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return mNewsList.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            final ViewHolder holder;
+            if (view == null) {
+                view = LayoutInflater.from(mContext).inflate(R.layout.news_item, viewGroup, false);
+                holder = new ViewHolder();
+                holder.mImageView = view.findViewById(R.id.news_img);
+                holder.name = view.findViewById(R.id.news_title);
+                holder.summary = view.findViewById(R.id.news_content);
+                holder.mItem = view.findViewById(R.id.news_item);
+                view.setTag(holder);
+            } else {
+                holder = (ViewHolder) view.getTag();
+            }
+            final News data = mNewsList.get(i);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        URL url= new URL(data.coverPath);
+//                        Bitmap pngBM = BitmapFactory.decodeStream(url.openStream());
+//                        holder.mImageView.setImageBitmap(pngBM);
+//                    } catch (MalformedURLException e) {
+//
+//                    } catch (IOException e) {
+//
+//                    }
+//                }
+//            }).start();
+
+            holder.mImageView.setImageResource(R.drawable.user);
+            holder.name.setText(data.title);
+            holder.summary.setText(data.summary);
+            holder.mItem.setTag(R.id.tag_first, true);
+            holder.mItem.setTag(R.id.tag_second, data.id);
+            holder.mItem.setOnClickListener(onItemClickListener);
+            //TODO:
+            return view;
+        }
+    }
+
+    private NewsContentFragment newsContentFragment;
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Log.d("xie", "222222222222222222222222222222");
+            Boolean isNews = (Boolean) view.getTag(R.id.tag_first);
+            int id = (int) view.getTag(R.id.tag_second);
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isNews", isNews);
+            bundle.putInt("id", id);
+            if (newsContentFragment == null) {
+                newsContentFragment = new NewsContentFragment();
+            }
+            newsContentFragment.setArguments(bundle);
+            newsContentFragment.mParentFragment = HomePageFragment.this;
+            mMainContext.showContent(newsContentFragment);
+        }
+    };
 }

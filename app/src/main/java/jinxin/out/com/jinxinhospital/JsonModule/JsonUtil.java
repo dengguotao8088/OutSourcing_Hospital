@@ -29,7 +29,7 @@ public class JsonUtil {
 
     public static String getDate(String time) {
         Date date = new Date(Long.parseLong(time));
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
         time = formatter.format(date);
         return time;
     }

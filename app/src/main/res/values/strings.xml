@@ -33,4 +33,11 @@
     <string name="user_cantact_me_title">联系我们</string>
     <string name="user_zhiqing_title">知情同意书</string>
 
+    <string name="consumption_title">消费记录</string>
+
+        <item type="id" name="tag_first">
+        </item>
+        <item type="id" name="tag_second">
+        </item>
+
 </resources>
