@@ -20,7 +20,45 @@ import jinxin.out.com.jinxin_employee.view.LinePathView;
  * Created by Administrator on 2017/8/7.
  */
 
+
+/**
+ * 1、点击签名（退费申请）
+ * {
+ * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/update?token=111&id=11&customerId=12&customerSignaturePath=客户退费申请签字图片地址
+ * responseParam {
+ * {
+ * "code": 0,
+ * "action": "",
+ * "message": "退费成功",
+ * "data": ""
+ * }
+ * }
+ * }
+ *
+ *
+ * 2、添加客户知情同意书
+ {
+ url : http://staff.mind-node.com/staff/api/customer_informed_consent_record/save?
+ token=eyJ0eXAiOiJqd3QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDE1MDQ4MjMsInN1YiI6IntcInVzZXJJZFwiOlwiM
+ VwiLFwidXNlck5hbWVcIjpcIua1i-ivlVwiLFwiam9iTnVtYmVyXCI6XCIwMDFcIn0iLCJleHAiOjE1MDIxMDk2MjMsIm5iZiI6
+ MTUwMTUwNDgyM30.s1TYLIV75hP4io-xfefmJ-u9NLTXSAQXzYOW7r1hkHM
+ &customerId=5&informedConsentTemplateId=1&relationShip=本人&customerSignaturePath=http://img002.21cnimg.com/photos/album/20150702/m600/2D79154370E073A2BA3CD4D07868861D.jpeg
+ responseParam {
+ {
+ {
+ "code": 0,
+ "action": "",
+ "message": "添加客户知情同意书成功",
+ "data": ""
+ }
+ }
+ }
+ }
+ */
 public class QianMing extends BaseFragment {
+    public static final int MODE_ZHIQIN = 1;
+    public static final int MODE_TUIFEI = 2;
+
     private HomeActivity activity;
 
     private View mView;

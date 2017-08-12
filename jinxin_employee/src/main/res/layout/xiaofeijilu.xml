@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:gravity="center_vertical">
+        <View
+            android:layout_width="2dp"
+            android:layout_height="90dp"
+            android:background="#00cc00"
+            android:layout_marginLeft="7dp"/>
+</LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="13dp"
+        android:text="射频治疗盆底肌修复 (疗程)"
+        android:textColor="#000000"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/liaocheng"/>
+    <Button
+        android:layout_width="45dp"
+        android:layout_height="20dp"
+        android:id="@+id/Ok_btn"
+        android:text="完成"
+        android:background="#FFCC00"
+        android:layout_alignBottom="@id/liaocheng"
+        android:layout_alignParentRight="true"
+
+    />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/liaocheng"
+          android:id="@+id/year"
+          android:text="2017.6.6"
+          android:layout_alignLeft="@id/liaocheng"
+          android:layout_marginTop="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/time_day"
+            android:layout_alignBottom="@id/year"
+            android:layout_marginLeft="110dp"
+            android:text="14:10:33"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/people"
+            android:text="服务人员："
+            android:layout_below="@id/year"
+            android:layout_marginTop="10dp"
+            android:layout_alignLeft="@id/liaocheng"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="王大爷"
+            android:layout_alignBottom="@id/people"
+            android:layout_marginLeft="105dp"
+            android:id="@+id/names"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="点击修改"
+            android:layout_alignBottom="@id/people"
+            android:layout_alignParentRight="true"
+            android:id="@+id/xiugai"
+            android:background="@color/tab_bar"/>
+    </RelativeLayout>
+</LinearLayout>

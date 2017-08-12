@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private BaseFragment mCurrentFragment;
     private CaptureFragment mCaptureFragment;
     private MyCustormFragment myCustormFragment;
+    private TuiFeiFragment mtuifeiFragment;
 
     private static final String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
@@ -140,6 +141,11 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             refreshTab(2);
+            if (mtuifeiFragment == null) {
+                mtuifeiFragment = new TuiFeiFragment();
+                mtuifeiFragment.mParentFragment = myCustormFragment;
+            }
+            showContent(mtuifeiFragment);
         }
     };
 
@@ -155,7 +161,12 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void showContent(BaseFragment fragment) {
-        mCurrentFragment = fragment;
+        if (!(fragment instanceof TuiFeiFragment)) {
+            mCurrentFragment = fragment;
+        }
+        if (fragment instanceof MyCustormFragment) {
+            refreshTab(0);
+        }
         if (fragment.mActivity == null) {
             fragment.mActivity = this;
         }
@@ -199,7 +210,7 @@ public class HomeActivity extends AppCompatActivity {
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
             Log.d("dengguotao", "result: " + result);
             Bundle data = new Bundle();
-            data.putString("search_data",result);
+            data.putString("search_data", result);
             myCustormFragment.setArguments(data);
             showContent(myCustormFragment);
             refreshTab(0);
