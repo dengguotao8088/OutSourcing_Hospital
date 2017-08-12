@@ -162,8 +162,16 @@ public class HomeActivity extends AppCompatActivity {
 
     public void showContent(BaseFragment fragment) {
         if (!(fragment instanceof TuiFeiFragment)) {
-            mCurrentFragment = fragment;
+            if (fragment instanceof QianMing) {
+                int mode = ((QianMing) fragment).mode;
+                if (mode == QianMing.MODE_ZHIQIN) {
+                    mCurrentFragment = fragment;
+                }
+            } else {
+                mCurrentFragment = fragment;
+            }
         }
+
         if (fragment instanceof MyCustormFragment) {
             refreshTab(0);
         }

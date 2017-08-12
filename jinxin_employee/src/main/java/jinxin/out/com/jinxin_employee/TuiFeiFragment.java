@@ -99,12 +99,11 @@ public class TuiFeiFragment extends BaseFragment {
     private PullToRefreshListView mList;
 
     private List<TuiFeiModule> mdatas = new ArrayList<>();
-    private MyAdapter myAdapter;
+    private MyAdapter myAdapter = new MyAdapter();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myAdapter = new MyAdapter();
         if (mdatas.size() == 0) {
             loadTuiFeiList();
         }
@@ -227,6 +226,7 @@ public class TuiFeiFragment extends BaseFragment {
             TuiFeiModule module = (TuiFeiModule) view.getTag();
             if (mQianMing == null) {
                 mQianMing = new QianMing();
+                mQianMing.mode = QianMing.MODE_TUIFEI;
                 mQianMing.mParentFragment = TuiFeiFragment.this;
             }
             mActivity.showContent(mQianMing);

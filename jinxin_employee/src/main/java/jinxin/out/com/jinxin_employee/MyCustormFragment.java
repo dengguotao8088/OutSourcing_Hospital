@@ -56,9 +56,10 @@ public class MyCustormFragment extends BaseFragment {
     private PullToRefreshListView mList;
     private List<CustormData> mCusDatas = new ArrayList<>();
 
-    private MyAdapter myAdapter;
+    private MyAdapter myAdapter= new MyAdapter();
 
     private CustomerInformedFragment mCustomerInformedFragment;
+    private XiaoFeiFragment xiaoFeiFragment;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -73,7 +74,6 @@ public class MyCustormFragment extends BaseFragment {
     public MyCustormFragment() {
         mLoginManager = LoginManager.getInstance(mActivity);
         mEmployee = mLoginManager.getEmployee();
-        myAdapter = new MyAdapter();
     }
 
     private Callback mGetCustormCallback = new Callback() {
@@ -157,7 +157,7 @@ public class MyCustormFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.my_custorm_layout, container, false);
         mSearchView = mView.findViewById(R.id.custom_search);
         mSearchView.setOnEditorActionListener(mSearchActionListener);
@@ -179,6 +179,14 @@ public class MyCustormFragment extends BaseFragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.d("dengguotao", i + "" + "  " + l);
+                    if (xiaoFeiFragment == null) {
+                        xiaoFeiFragment = new XiaoFeiFragment();
+                        xiaoFeiFragment.mParentFragment = MyCustormFragment.this;
+                    }
+                    Bundle data = new Bundle();
+                    data.putInt("custorm_id", mCusDatas.get((int) l).id);
+                    xiaoFeiFragment.setArguments(data);
+                    mActivity.showContent(xiaoFeiFragment);
                 }
             };
 

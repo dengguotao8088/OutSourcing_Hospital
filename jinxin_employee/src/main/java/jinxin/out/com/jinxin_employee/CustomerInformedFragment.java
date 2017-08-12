@@ -55,7 +55,7 @@ public class CustomerInformedFragment extends BaseFragment {
 
     private PullToRefreshListView mList;
 
-    private MyAdapter myAdapter;
+    private MyAdapter myAdapter = new MyAdapter();
 
     private LoginManager manager;
 
@@ -69,7 +69,6 @@ public class CustomerInformedFragment extends BaseFragment {
         manager = LoginManager.getInstance(mActivity);
         RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
         NetPostUtil.post(Constants.ZHIQIN_LIST, body, mGetZhiQinListCallback);
-        myAdapter = new MyAdapter();
     }
 
     @Override
@@ -154,7 +153,7 @@ public class CustomerInformedFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.custorm_info_page, container, false);
         ImageView backView = mView.findViewById(R.id.back);
         backView.setOnClickListener(mBackListener);
@@ -296,6 +295,7 @@ public class CustomerInformedFragment extends BaseFragment {
             Log.d("dengguotao", "id: " + view.getTag());
             if (qianMing == null) {
                 qianMing = new QianMing();
+                qianMing.mode = QianMing.MODE_ZHIQIN;
             }
             Bundle data = new Bundle();
             data.putInt("zhiqin_id", (Integer) view.getTag());

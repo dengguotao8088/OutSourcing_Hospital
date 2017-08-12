@@ -70,6 +70,8 @@ public class QianMing extends BaseFragment {
 
     private String mSaveDir;
 
+    public int mode;
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
