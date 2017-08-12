@@ -78,14 +78,18 @@ public class XiaoFeiFragment extends BaseFragment {
 
 
     private MyAdapter mGoumaiAdapter = new MyAdapter();
+    private MyAdapter2 mDangRiAdapter = new MyAdapter2();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         custorm_id = getArguments().getInt("custorm_id", -1);
-        if (tab_id == 0 && mPurchList.size() == 0) {
+        if (tab_id == 0 && mPurchList.size() == 0 && isFirstShow) {
             loadGouMaiList();
+        } else {
+
         }
+        isFirstShow = false;
         Log.d("dengguotao", "custorm_id:" + custorm_id);
     }
 
@@ -101,7 +105,7 @@ public class XiaoFeiFragment extends BaseFragment {
 
         mList = mView.findViewById(R.id.my_xiaofei_layout_list);
         initListView(mList, (TextView) mView.findViewById(R.id.empty));
-        mList.setAdapter(mGoumaiAdapter);
+        refreshAdapter();
         isViewCreate = true;
         return mView;
     }
@@ -115,14 +119,23 @@ public class XiaoFeiFragment extends BaseFragment {
             } else {
                 tab = 1;
             }
-            Log.d("dengguotao", "tab: " + tab);
             if (tab != tab_id) {
                 tab_id = tab;
                 refreshTitle();
+                refreshAdapter();
             }
 
         }
     };
+
+    private void refreshAdapter() {
+        if (tab_id == 0) {
+            mList.setAdapter(mGoumaiAdapter);
+        } else {
+            mList.setAdapter(mDangRiAdapter);
+        }
+        mList.onRefreshComplete();
+    }
 
     @Override
     public void refreshData() {
@@ -144,6 +157,8 @@ public class XiaoFeiFragment extends BaseFragment {
             refreshTitle();
             if (tab_id == 0) {
                 mGoumaiAdapter.notifyDataSetChanged();
+            } else {
+                mDangRiAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -233,18 +248,21 @@ public class XiaoFeiFragment extends BaseFragment {
 
     private class MyAdapter2 extends BaseAdapter {
 
-        private class ViewHolder2 {
+        private class ViewHolder {
             public TextView project_name;
             public TextView kehu_name;
-            public TextView baohan_cishu;
-            public TextView yiyong_cishu;
-            public Button status;
-            public Button add_xiaofei;
+            public TextView date_year;
+            public TextView date_hour;
+            public TextView fuwu_reyuan;
+            public Button wolaifuwu;
+            public Button do_work;
+            public Button push_msg;
+            public Button click_change;
         }
 
         @Override
         public int getCount() {
-            return mPurchList.size();
+            return 3;
         }
 
         @Override
@@ -259,7 +277,29 @@ public class XiaoFeiFragment extends BaseFragment {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            return null;
+            ViewHolder viewHolder;
+            if (view == null) {
+                viewHolder = new ViewHolder();
+                view = LayoutInflater.from(mActivity).inflate(R.layout.dangrixiaofei, viewGroup, false);
+                viewHolder.project_name = view.findViewById(R.id.dangriliaocheng);
+                viewHolder.kehu_name = view.findViewById(R.id.kehu_name);
+                viewHolder.date_year = view.findViewById(R.id.jinrixiaofei_year);
+                viewHolder.date_hour = view.findViewById(R.id.jinrixiaofei_time);
+                viewHolder.fuwu_reyuan = view.findViewById(R.id.fuwu_people);
+                viewHolder.do_work = view.findViewById(R.id.shishi_btn);
+                viewHolder.push_msg = view.findViewById(R.id.xiaoxituisong_btn);
+                viewHolder.click_change = view.findViewById(R.id.dianjixiugaibtn);
+                viewHolder.wolaifuwu = view.findViewById(R.id.fuwu_btn);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) view.getTag();
+            }
+            viewHolder.project_name.setText("针灸检测疗程");
+            viewHolder.kehu_name.setText("小李");
+            viewHolder.date_year.setText("2017-7-11");
+            viewHolder.date_hour.setText("15:55:22");
+            viewHolder.fuwu_reyuan.setText("小李");
+            return view;
         }
     }
 

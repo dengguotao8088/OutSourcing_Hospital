@@ -130,6 +130,9 @@ public class CustomerInformedFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         mCusId = getArguments().getInt("custorm_id");
         mCusName = getArguments().getString("custorm_name");
+        if (mCusZhiQinList.size() == 0 && isFirstShow) {
+            loadAllData();
+        }
     }
 
     @Override

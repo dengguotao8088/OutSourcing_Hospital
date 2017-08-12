@@ -87,13 +87,13 @@ public class MyCustormFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             mActivity.dissmissHUD();
             String result = response.body().string();
-            mCusDatas.clear();
             Log.d("dengguotao", result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code != 0) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
+            mCusDatas.clear();
             if (result.contains("[")) {
                 module = JsonUtil.parsoJsonWithGson(result, MyCustormJson1.class);
             } else {
@@ -144,14 +144,16 @@ public class MyCustormFragment extends BaseFragment {
         Bundle data = getArguments();
         if (data != null) {
             String search_text = data.getString("search_data");
+            Log.d("dengguotao","search_text: "+search_text);
             if (search_text != null && !search_text.equals("")) {
                 searchWithMobile(search_text);
             } else if (mCusDatas.size() == 0) {
                 loadAllData();
             }
-        } else if (mCusDatas.size() == 0) {
+        } else if (mCusDatas.size() == 0 && isFirstShow) {
             loadAllData();
         }
+        isFirstShow = false;
     }
 
     @Nullable

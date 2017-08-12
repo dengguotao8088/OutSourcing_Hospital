@@ -104,9 +104,10 @@ public class TuiFeiFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mdatas.size() == 0) {
+        if (mdatas.size() == 0 && isFirstShow) {
             loadTuiFeiList();
         }
+        isFirstShow = false;
     }
 
     @Nullable

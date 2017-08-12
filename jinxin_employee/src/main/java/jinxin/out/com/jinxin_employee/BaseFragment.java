@@ -32,6 +32,7 @@ public abstract class BaseFragment extends Fragment {
 
     public boolean isUserHint = false;
     public boolean isViewCreate = false;
+    public boolean isFirstShow = true;
 
     private TextView emptyView;
     private PullToRefreshListView mListView;

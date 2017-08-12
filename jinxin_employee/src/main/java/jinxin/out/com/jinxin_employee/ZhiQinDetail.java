@@ -28,7 +28,7 @@ import okhttp3.Response;
 
 public class ZhiQinDetail extends BaseFragment {
 
-    private int Id;
+    private int Id = -1;
     private String cusName;
 
     private View mView;
@@ -93,10 +93,6 @@ public class ZhiQinDetail extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         handler = new MyHandler(getActivity());
-        RequestBody body = new FormBody.Builder()
-                .add("token", LoginManager.getInstance(getActivity()).getToken())
-                .add("id", Id + "").build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?", body, mback);
     }
 
     private Callback mback = new Callback() {
@@ -126,6 +122,10 @@ public class ZhiQinDetail extends BaseFragment {
         super.onCreate(savedInstanceState);
         Id = getArguments().getInt("zhiqin_id");
         cusName = getArguments().getString("custorm_name");
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(getActivity()).getToken())
+                .add("id", Id + "").build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?", body, mback);
     }
 
     @Override
