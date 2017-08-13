@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="android-android-25">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/SDK/android-sdk_r24.4.1-windows/android-sdk-windows/platforms/android-25/android.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

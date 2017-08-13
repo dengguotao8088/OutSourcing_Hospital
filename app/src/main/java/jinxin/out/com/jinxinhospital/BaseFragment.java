@@ -20,7 +20,7 @@ public class BaseFragment extends Fragment {
     public View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-//            mActivity.showContent(mParentFragment);
+           mActivity.showContent(mParentFragment);
         }
     };
 

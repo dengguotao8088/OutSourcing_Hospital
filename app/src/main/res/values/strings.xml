@@ -35,9 +35,54 @@
 
     <string name="consumption_title">消费记录</string>
 
-        <item type="id" name="tag_first">
-        </item>
-        <item type="id" name="tag_second">
-        </item>
+    <item type="id" name="tag_first">
+    </item>
+    <item type="id" name="tag_second">
+    </item>
 
+    <string name="costomer_type">顾客类别：</string>
+    <string name="name">姓名：</string>
+    <string name="tel">联系电话：</string>
+    <string name="pwd">密码：</string>
+    <string name="sex">性别：</string>
+    <string name="addr">联系地址：</string>
+    <string name="IDCard">身份证号码：</string>
+    <string name="birthday">生日：</string>
+    <string name="allergy">有无过敏史：</string>
+    <string name="disease">有无疾病史：</string>
+    <string name="babyBirthday">分娩日期：</string>
+    <string name="delivery_situation">分娩情况：</string>
+    <string name="where_is_come">客户来源：</string>
+    <string name="OK">确定</string>
+
+    <string name="pwd_length">（至少6位）</string>
+
+    <string-array name="spinner_yesorno">
+        <item>无</item>
+        <item>有</item>
+    </string-array>
+    <string-array name="spinner_type">
+        <item>普通客户</item>
+        <item>VIP客户</item>
+    </string-array>
+    <string-array name="spinner_sex">
+        <item>女</item>
+        <item>男</item>
+    </string-array>
+    <string-array name="spinner_where">
+        <item>慕名而来</item>
+        <item>住院部</item>
+        <item>5楼VIP</item>
+        <item>6楼VIP</item>
+        <item>中医科</item>
+        <item>朋友推荐</item>
+        <item>网络推广</item>
+    </string-array>
+    <string-array name="spinner_delivery">
+        <item>无</item>
+        <item>单顺</item>
+        <item>单剖</item>
+        <item>多顺</item>
+        <item>多剖</item>
+    </string-array>
 </resources>

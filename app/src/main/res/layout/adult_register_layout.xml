@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_layout" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="40dp"
+                    android:gravity="end|center_vertical">
+                    <TextView
+                        android:textColor="@color/colorHomePageBlue"
+                        android:text="@string/costomer_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Spinner
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_type"
+                    android:layout_gravity="center_vertical"
+                    android:entries="@array/spinner_type"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="40dp"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/name"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/r_name"
+                    android:layout_width="200dp"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="40dp"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/tel"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/r_tel"
+                    android:inputType = "phone"
+                    android:ellipsize = "end"
+                    android:layout_width="200dp"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/pwd"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/r_pwd"
+                    android:inputType="textPassword"
+                    android:layout_width="200dp"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+                <TextView
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pwd_length"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/sex"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Spinner
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_sex"
+                    android:layout_gravity="center_vertical"
+                    android:entries="@array/spinner_sex"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/addr"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/r_addr"
+                    android:ellipsize = "end"
+                    android:layout_width="200dp"
+                    android:singleLine = "true"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/IDCard"
+                    android:inputType = "phone"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/r_idcard"
+                    android:layout_width="200dp"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/birthday"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/r_birthday"
+                    android:layout_width="200dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="40dp"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/allergy"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Spinner
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_allergy"
+                    android:layout_gravity="center_vertical"
+                    android:entries="@array/spinner_yesorno"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="40dp"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/disease"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Spinner
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_disease"
+                    android:layout_gravity="center_vertical"
+                    android:entries="@array/spinner_yesorno"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/babyBirthday"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/r_babyBirthday"
+                    android:layout_width="200dp"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/shape_corner_register"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="90dp"
+                    android:orientation="horizontal"
+                    android:layout_height="40dp"
+                    android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/delivery_situation"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Spinner
+                    android:layout_width="100dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_delivery_situation_1"
+                    android:entries="@array/spinner_delivery"
+                    />
+                <Spinner
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="90dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_delivery_situation_2"
+                    android:entries="@array/spinner_sex"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <LinearLayout
+                android:layout_width="90dp"
+                android:orientation="horizontal"
+                android:layout_height="40dp"
+                android:gravity="end|center_vertical">
+                <TextView
+                    android:text="@string/where_is_come"
+                    android:textColor="@color/colorHomePageBlue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                </LinearLayout>
+                <Spinner
+                    android:layout_width="200dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/r_where"
+                    android:entries="@array/spinner_where"
+                    />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/r_ok"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="@string/OK"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/shape_corner_consumption"/>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

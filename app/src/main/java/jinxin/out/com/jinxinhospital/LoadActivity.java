@@ -1,14 +1,18 @@
 package jinxin.out.com.jinxinhospital;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +35,7 @@ import retrofit.Retrofit;
  * Created by Administrator on 2017/7/12.
  */
 
-public class LoadActivity extends Activity {
+public class LoadActivity extends FragmentActivity {
 
     private Context mContext;
     private Button mLoginBt;
@@ -39,6 +43,7 @@ public class LoadActivity extends Activity {
     private TextView mRegistAdult;
     private TextView mLoginNo;
     private TextView mForgetPwd;
+    private LinearLayout mLinearLayout;
     private EditText mTel;
     private EditText mPwd;
     private static String token;
@@ -59,7 +64,29 @@ public class LoadActivity extends Activity {
         mForgetPwd = findViewById(R.id.forget_pwd);
         mTel = findViewById(R.id.tel);
         mPwd = findViewById(R.id.pwd);
+        mLinearLayout = findViewById(R.id.login_linear_layout);
+
+        mLoginNo.setOnClickListener(mOnClickListener);
+        mRegistAdult.setOnClickListener(mOnClickListener);
     }
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.regist_adult:
+                    mLinearLayout.setVisibility(View.GONE);
+                    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.login_content, new AdultRegisterFragment()).commitAllowingStateLoss();
+                    break;
+                case R.id.login_no:
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+            }
+        }
+    };
     public static String getToken(){
         return token;
     }
