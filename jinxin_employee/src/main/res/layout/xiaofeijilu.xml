@@ -2,85 +2,112 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#EAEAED" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:gravity="center_vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <View
-            android:layout_width="2dp"
-            android:layout_height="90dp"
-            android:layout_marginLeft="7dp"
-            android:background="#00cc00" />
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@color/tab_bar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/xiaofei_liaocheng"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/xiaofei_ok_btn"
+                    android:layout_width="45dp"
+                    android:layout_height="20dp"
+                    android:background="#FFCC00"
+                    android:focusable="false"
+                    android:text="完成"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/xiaofeijilu_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="服务人员：" />
+
+                    <TextView
+                        android:id="@+id/xiaofei_fuwunames"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/xiaofei_xiugai"
+                    android:layout_width="70dp"
+                    android:layout_height="23dp"
+                    android:background="@color/tab_bar"
+                    android:focusable="false"
+                    android:text="点击修改"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/liaocheng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:paddingTop="13dp"
-            android:text="射频治疗盆底肌修复 (疗程)"
-            android:textColor="#000000" />
-
-        <Button
-            android:id="@+id/Ok_btn"
-            android:layout_width="45dp"
-            android:layout_height="20dp"
-            android:layout_alignBottom="@id/liaocheng"
-            android:layout_alignParentRight="true"
-            android:background="#FFCC00"
-            android:text="完成"
-
-            />
-
-        <TextView
-            android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/liaocheng"
-            android:layout_below="@id/liaocheng"
-            android:layout_marginTop="10dp"
-            android:text="2017.6.6" />
-
-        <TextView
-            android:id="@+id/time_day"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/year"
-            android:layout_marginLeft="110dp"
-            android:text="14:10:33" />
-
-        <TextView
-            android:id="@+id/people"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/liaocheng"
-            android:layout_below="@id/year"
-            android:layout_marginTop="10dp"
-            android:text="服务人员：" />
-
-        <TextView
-            android:id="@+id/names"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/people"
-            android:layout_marginLeft="105dp"
-            android:text="王大爷" />
-
-        <Button
-            android:id="@+id/xiugai"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:layout_alignBottom="@id/people"
-            android:layout_alignParentRight="true"
-            android:background="@color/tab_bar"
-            android:text="点击修改" />
-    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:background="#EAEAED" />
 </LinearLayout>

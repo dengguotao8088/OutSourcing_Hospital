@@ -32,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private TabItem mTabs[];
 
     private BaseFragment mCurrentFragment;
+    private BaseFragment mTuiFeiQianMingFragment;
     private CaptureFragment mCaptureFragment;
     private MyCustormFragment myCustormFragment;
     private TuiFeiFragment mtuifeiFragment;
@@ -166,10 +167,15 @@ public class HomeActivity extends AppCompatActivity {
                 int mode = ((QianMing) fragment).mode;
                 if (mode == QianMing.MODE_ZHIQIN) {
                     mCurrentFragment = fragment;
+                } else {
+                    mTuiFeiQianMingFragment = fragment;
                 }
             } else {
                 mCurrentFragment = fragment;
+                mTuiFeiQianMingFragment = null;
             }
+        } else {
+            mTuiFeiQianMingFragment = null;
         }
 
         if (fragment instanceof MyCustormFragment) {
@@ -232,10 +238,15 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode != KeyEvent.KEYCODE_BACK || mCurrentFragment == null) {
+        boolean result;
+        if (keyCode != KeyEvent.KEYCODE_BACK || (mCurrentFragment == null && mTuiFeiQianMingFragment == null)) {
             return super.onKeyDown(keyCode, event);
         }
-        boolean result = mCurrentFragment.onKeyDown(keyCode, event);
+        if (mTuiFeiQianMingFragment != null) {
+            result = mTuiFeiQianMingFragment.onKeyDown(keyCode, event);
+        } else {
+            result = mCurrentFragment.onKeyDown(keyCode, event);
+        }
         if (!result) {
             return super.onKeyDown(keyCode, event);
         }

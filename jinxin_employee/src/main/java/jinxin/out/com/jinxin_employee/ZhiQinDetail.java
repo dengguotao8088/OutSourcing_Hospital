@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,27 +39,7 @@ public class ZhiQinDetail extends BaseFragment {
     private ImageView mqianming;
 
     private ZhiQinDetailModule module;
-
-    private MyHandler handler;
-
-    private class MyHandler extends Handler {
-        public MyHandler(Context context) {
-            super(context.getMainLooper());
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 111:
-                    mContent.setText("sdkfjlsdkljfkljsdjlfkskldjfjklsdjklf");
-                    mre.setText("我是" + cusName + module.relationShip);
-                    mdate.setText("日期:" + JsonUtil.getDate(module.updateTime));
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+    private ZhiQin zhiqin;
 
 //    url : http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?token=11111&id=11
 //    responseParam {
@@ -92,7 +73,6 @@ public class ZhiQinDetail extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        handler = new MyHandler(getActivity());
     }
 
     private Callback mback = new Callback() {
@@ -104,13 +84,72 @@ public class ZhiQinDetail extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
+            Log.d("dengguotao", result);
             MyResponse response1 = JsonUtil.parsoJsonWithGson(result, MyResponse.class);
             if (response1.code == 0) {
                 module = response1.data;
-                handler.sendEmptyMessage(111);
+                RequestBody body2 = new FormBody.Builder()
+                        .add("token", LoginManager.getInstance(getActivity()).getToken())
+                        .add("id", module.informedConsentTemplateId + "").build();
+                NetPostUtil.post("http://staff.mind-node.com/staff/api/informed_consent_template/get?", body2, mback2);
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+                }
             }
         }
     };
+    private Callback mback2 = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            ZhiQinItem item = JsonUtil.parsoJsonWithGson(result, ZhiQinItem.class);
+            if (item.code == 0) {
+                zhiqin = item.data;
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+                }
+            }
+        }
+    };
+
+    /**
+     * 1、根据Id获取知情同意书
+     * {
+     * url : http://staff.mind-node.com/staff/api/informed_consent_template/get?token=11111&id=1
+     * responseParam {
+     * {
+     * "code": 0,
+     * "action": "",
+     * "message": "获取知情同意书成功",
+     * "data": {
+     * "content": "知情同意书1",
+     * "createTime": 1501154554000,
+     * "id": 1,
+     * "status": 1,
+     * "title": "知情同意书1",
+     * "updateTime": 1501154554000
+     * }
+     * }
+     * }
+     * }
+     */
+    public class ZhiQin {
+        public int id;//
+        public String title;//标题
+        public String content;//内容
+        public int status;//状态，1：正常，2：停用
+        public String createTime;//创建时间
+        public String updateTime;//更新时间
+    }
+
+    public class ZhiQinItem extends BaseModule {
+        public ZhiQin data;
+    }
 
     @Override
     public void onResume() {
@@ -146,6 +185,7 @@ public class ZhiQinDetail extends BaseFragment {
         ImageView button = mView.findViewById(R.id.back);
         button.setOnClickListener(mBackListener);
         isViewCreate = true;
+        refreshUI();
         return mView;
     }
 
@@ -161,7 +201,11 @@ public class ZhiQinDetail extends BaseFragment {
 
     @Override
     public void refreshUI() {
-
+        if (isViewCreate && module != null && zhiqin != null) {
+            mContent.setText(zhiqin.content);
+            mre.setText("我是" + cusName + module.relationShip);
+            mdate.setText("日期:" + JsonUtil.getDate(module.updateTime));
+        }
     }
 
 }

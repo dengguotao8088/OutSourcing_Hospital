@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import org.w3c.dom.Text;
@@ -130,7 +131,7 @@ public class CustomerInformedFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         mCusId = getArguments().getInt("custorm_id");
         mCusName = getArguments().getString("custorm_name");
-        if (mCusZhiQinList.size() == 0 && isFirstShow) {
+        if (mCusZhiQinList.size() == 0) {
             loadAllData();
         }
     }
@@ -141,7 +142,6 @@ public class CustomerInformedFragment extends BaseFragment {
         mActivity = (HomeActivity) context;
         mCusId = getArguments().getInt("custorm_id");
         mCusName = getArguments().getString("custorm_name");
-        loadAllData();
     }
 
     private void loadAllData() {
@@ -178,6 +178,7 @@ public class CustomerInformedFragment extends BaseFragment {
         mList = mView.findViewById(R.id.my_custorm_info_layout_list);
         TextView empty = mView.findViewById(R.id.empty);
         initListView(mList, empty);
+        mList.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         mList.setAdapter(myAdapter);
         mList.setOnItemClickListener(mListClick);
         isViewCreate = true;

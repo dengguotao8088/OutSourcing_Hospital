@@ -33,4 +33,10 @@ public class JsonUtil {
         time = formatter.format(date);
         return time;
     }
+    public static String getDate2(String time) {
+        Date date = new Date(Long.parseLong(time));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd-HH:mm:ss", Locale.getDefault());
+        time = formatter.format(date);
+        return time;
+    }
 }

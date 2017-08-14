@@ -56,7 +56,7 @@ public class MyCustormFragment extends BaseFragment {
     private PullToRefreshListView mList;
     private List<CustormData> mCusDatas = new ArrayList<>();
 
-    private MyAdapter myAdapter= new MyAdapter();
+    private MyAdapter myAdapter = new MyAdapter();
 
     private CustomerInformedFragment mCustomerInformedFragment;
     private XiaoFeiFragment xiaoFeiFragment;
@@ -144,13 +144,13 @@ public class MyCustormFragment extends BaseFragment {
         Bundle data = getArguments();
         if (data != null) {
             String search_text = data.getString("search_data");
-            Log.d("dengguotao","search_text: "+search_text);
+            Log.d("dengguotao", "search_text: " + search_text);
             if (search_text != null && !search_text.equals("")) {
                 searchWithMobile(search_text);
             } else if (mCusDatas.size() == 0) {
                 loadAllData();
             }
-        } else if (mCusDatas.size() == 0 && isFirstShow) {
+        } else if (mCusDatas.size() == 0) {
             loadAllData();
         }
         isFirstShow = false;
