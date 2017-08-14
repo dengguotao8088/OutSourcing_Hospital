@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ public class QrCodeActivity extends UserAppCompatActivity {
 
     private static final String path = "/sdcard/qr.png";
     private String mName;
-    private String mNum;
     private String mTel;
     private TextView mNameView;
     private TextView mNumView;
@@ -38,19 +38,18 @@ public class QrCodeActivity extends UserAppCompatActivity {
         initActionBar();
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = getIntent().getExtras();
-        mName = bundle.getString("name", "");
-        mNum = bundle.getString("num", "");
-        mTel = bundle.getString("tel", "");
+        SharedPreferences sharedPreferences = this.getSharedPreferences("jinxin_clien_app", 0);
+        mName = sharedPreferences.getString("name", null);
+        mTel = sharedPreferences.getString("tel", null);
         //TODO: 二维码数据
-        mContent = LoadActivity.getTel();
+        mContent = mTel;
 
         mNameView = findViewById(R.id.user_qr_name);
         mNumView = findViewById(R.id.user_qr_num);
         mQrView = findViewById(R.id.user_qrcode);
 
-        mNameView.setText(LoadActivity.getName());
-        mNumView.setText(LoadActivity.getTel());
+        mNameView.setText(mName);
+        mNumView.setText(mTel);
     }
 
     @Override

@@ -35,11 +35,16 @@
             android:src="@drawable/new1" />
 
         <TextView
+            android:id="@+id/notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_margin="4dp"
-            android:text="lklkjkljlkjlkjlkjlkjlkjlkjlkjlkjlkjlkj"
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="xxxxxxxxxxxxxxxxxxxxxx"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
     </LinearLayout>

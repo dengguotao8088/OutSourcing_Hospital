@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +39,7 @@ import retrofit.Retrofit;
 
 public class LoadActivity extends FragmentActivity {
 
-    private Context mContext;
+    private static LoadActivity mContext;
     private Button mLoginBt;
     private TextView mRegistChild;
     private TextView mRegistAdult;
@@ -46,10 +48,10 @@ public class LoadActivity extends FragmentActivity {
     private LinearLayout mLinearLayout;
     private EditText mTel;
     private EditText mPwd;
-    private static String token;
-    private static int mCustomerId = -1;
-    private static String name= "";
-    private static String tel = "";
+    private  String token;
+    private  int mCustomerId = -1;
+    private  String name= "";
+    private  String tel = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,17 +69,30 @@ public class LoadActivity extends FragmentActivity {
         mLinearLayout = findViewById(R.id.login_linear_layout);
 
         mLoginNo.setOnClickListener(mOnClickListener);
+        mRegistChild.setOnClickListener(mOnClickListener);
         mRegistAdult.setOnClickListener(mOnClickListener);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app",0);
+        token = sharedPreferences.getString("token", null);
     }
 
+    private AdultRegisterFragment adultRegisterFragment = new AdultRegisterFragment();
+    private ChildRegisterFragment childRegisterFragment = new ChildRegisterFragment();
+    private int isShow = 0;
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.regist_adult:
+                    isShow = 1;
                     mLinearLayout.setVisibility(View.GONE);
                     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.login_content, new AdultRegisterFragment()).commitAllowingStateLoss();
+                    fragmentManager.beginTransaction().replace(R.id.login_content, adultRegisterFragment).commitAllowingStateLoss();
+                    break;
+                case R.id.regist_child:
+                    isShow = 2;
+                    mLinearLayout.setVisibility(View.GONE);
+                    android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.login_content, childRegisterFragment).commitAllowingStateLoss();
                     break;
                 case R.id.login_no:
                     Intent intent = new Intent(mContext, MainActivity.class);
@@ -87,21 +102,6 @@ public class LoadActivity extends FragmentActivity {
             }
         }
     };
-    public static String getToken(){
-        return token;
-    }
-
-    public static String getName() {
-        return name;
-    }
-
-    public static String getTel() {
-        return tel;
-    }
-
-    public static int getmCustomerId(){
-        return mCustomerId;
-    }
 
     private View.OnClickListener mLoginOnClickListener = new View.OnClickListener() {
         @Override
@@ -124,7 +124,7 @@ public class LoadActivity extends FragmentActivity {
     private Callback mLoginCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-
+            Log.d("xie", "mLoginCallback error");
         }
 
         @Override
@@ -142,6 +142,13 @@ public class LoadActivity extends FragmentActivity {
                 mCustomerId = loginResponseJson.data.customer.id;
                 name = loginResponseJson.data.customer.name;
                 tel = loginResponseJson.data.customer.mobile;
+                SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app",0);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token",token);
+                editor.putInt("customerId",mCustomerId);
+                editor.putString("tel",tel);
+                editor.putString("name",name);
+                editor.commit();
                 Log.d("xie", "....token = " + token);
                 Log.d("xie", "....customerId = " + mCustomerId);
                 LoginManager loginManager = LoginManager.getInstance(mContext, token, mCustomerId+"");
@@ -159,4 +166,30 @@ public class LoadActivity extends FragmentActivity {
             finish();
         }
     };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode != KeyEvent.KEYCODE_BACK || (adultRegisterFragment == null
+                && childRegisterFragment == null ) || (isShow == 0) ) {
+            return super.onKeyDown(keyCode, event);
+        }
+        showSelf();
+        return true;
+    }
+
+    public void showSelf(){
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        if (isShow == 1) {
+            transaction.remove(adultRegisterFragment).commit();
+        } else if (isShow == 2){
+            transaction.remove(childRegisterFragment).commit();
+        }
+        isShow = 0;
+        mLinearLayout.setVisibility(View.VISIBLE);
+    }
+
+    public static LoadActivity getObj(){
+        return mContext;
+    }
 }

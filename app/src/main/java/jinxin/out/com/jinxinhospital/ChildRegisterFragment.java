@@ -39,7 +39,7 @@ import okhttp3.Response;
  * Created by Administrator on 2017/8/13.
  */
 
-public class AdultRegisterFragment extends BaseFragment{
+public class ChildRegisterFragment extends BaseFragment{
 
     private View mView;
     private ImageView mBack;
@@ -58,6 +58,7 @@ public class AdultRegisterFragment extends BaseFragment{
     private Spinner mDelivery_1;
     private Spinner mDelivery_2;
     private Spinner mWhere;
+    private TextView mMomName;
     private TextView mBirthDay;
     private TextView mBabyBirthDay;
     private Date mBirthDayDate;
@@ -81,7 +82,7 @@ public class AdultRegisterFragment extends BaseFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.adult_register_layout, container, false);
+        mView = inflater.inflate(R.layout.child_register_layout, container, false);
 
         initView();
 
@@ -95,6 +96,7 @@ public class AdultRegisterFragment extends BaseFragment{
         mPwd = mView.findViewById(R.id.r_pwd);
         mAddr = mView.findViewById(R.id.r_addr);
         mIDCard = mView.findViewById(R.id.r_idcard);
+        mMomName = mView.findViewById(R.id.mother_name);
         mType = mView.findViewById(R.id.r_type);
         mSex = mView.findViewById(R.id.r_sex);
         mAllergy = mView.findViewById(R.id.r_allergy);
@@ -116,15 +118,15 @@ public class AdultRegisterFragment extends BaseFragment{
             public void onClick(View view) {
                 DatePickerDialog datePicker=new DatePickerDialog( mContext, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                 public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                       int dayOfMonth) {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
                         mBirthDayDate
                                 = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + "-");
                         mHandler.sendEmptyMessage(0x22);
 
                     }
-             }, 2017, 1, 1);
-             datePicker.show();
+                }, 2017, 1, 1);
+                datePicker.show();
             }
         });
         mBabyBirthDay = mView.findViewById(R.id.r_babyBirthday);
@@ -133,14 +135,14 @@ public class AdultRegisterFragment extends BaseFragment{
             public void onClick(View view) {
                 DatePickerDialog datePicker=new DatePickerDialog( mContext,
                         new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                          int dayOfMonth) {
-                        mBabyBirthDayDate
-                                = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + "-");
-                        mHandler.sendEmptyMessage(0x33);
-                    }
-                }, 2017, 1, 1);
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                                  int dayOfMonth) {
+                                mBabyBirthDayDate
+                                        = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + "-");
+                                mHandler.sendEmptyMessage(0x33);
+                            }
+                        }, 2017, 1, 1);
                 datePicker.show();
             }
         });
@@ -174,7 +176,7 @@ public class AdultRegisterFragment extends BaseFragment{
                     .add("disease", mDiseaseValue)
                     .add("childbirthTime", DateToStr(mBabyBirthDayDate))
                     .add("childbirthSituation", mDeliveryValue)
-                    .add("guardianName", "")
+                    .add("guardianName", mMomName.getText().toString())
                     .add("childbirthSex", mDeliverySexValue)
                     .add("customerSource", mWhereValue)
                     .build();

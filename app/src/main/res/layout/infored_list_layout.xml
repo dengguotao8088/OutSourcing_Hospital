@@ -3,21 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <include layout="@layout/user_toolbar" />
     <TextView
-        android:id="@+id/news_content_message"
+        android:id="@+id/infored_message"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#777777"
-        android:visibility="gone"
-        android:text="没有详情介绍"
-        android:textSize="18sp"
-        android:layout_gravity="center_horizontal"/>
-    <TextView
+        android:text="您还没有知情同意书"
+        android:visibility="gone"/>
+    <ListView
+        android:paddingTop="10dp"
+        android:id="@+id/infored_list"
+        android:paddingLeft="10dp"
+        android:paddingEnd="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/webView"
-        />
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

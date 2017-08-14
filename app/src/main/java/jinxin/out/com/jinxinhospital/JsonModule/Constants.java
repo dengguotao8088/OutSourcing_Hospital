@@ -7,6 +7,20 @@ import retrofit.http.PUT;
  */
 
 public class Constants {
+
+    public static final String URL_PREFIX = "http://client.mind-node.com/client/";
+
+    //获取VIP消息
+    public static final String GET_VIP_MESSAGE_LIST = URL_PREFIX + "api/vip/list_message?";
+
+    //根据Id获取详情
+    public static final String GET_VIP_MESSAGE_CONTENT = URL_PREFIX + "api/vip/get?";
+
+    //获取喇叭通知
+    public static final String GET_NOTICE = URL_PREFIX + "api/notice/list";
+
+    public static final String REQUEST_IMPEMENTATIONVOID = URL_PREFIX + "api/customer/implementationVoid/update?";
+
     //客户登录
     public static final String LOGIN_URL = "http://client.mind-node.com/client/api/customer/login?";
     //退出登录
@@ -35,9 +49,9 @@ public class Constants {
     public static final String GET_CONSUMPTIONRECORD_LIST_WITH_ID = "http://client.mind-node.com/client/api/consumption_record/list?";
 
     //根据Id获取客户知情同意书
-    public static final String GET_CONSENT_WITH_ID = "http://client.mind-node.com/staff/api/customer_informed_consent_record/get?";
+    public static final String GET_CONSENT_WITH_ID = "http://client.mind-node.com/client/api/customer_informed_consent_record/get?";
     //根据客户Id获取客户知情同意书列表
-    public static final String GET_CONSENT_LIST_WITH_ID = "http://client.mind-node.com/staff/api/customer_informed_consent_record/list?";
+    public static final String GET_CONSENT_LIST_WITH_ID = "http://client.mind-node.com/client/api/customer_informed_consent_record/list?";
 
     //根据客户Id获取购买记录
     public static final String GET_PURCHASE_WITH_ID = "http://client.mind-node.com/client/api/purchase_record/list?";

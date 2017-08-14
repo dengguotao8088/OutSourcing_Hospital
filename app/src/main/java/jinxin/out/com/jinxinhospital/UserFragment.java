@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,12 +53,13 @@ public class UserFragment extends BaseFragment {
         mView = inflater.inflate(R.layout.user_page, container, false);
 
         mContext = getContext();
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
         mNameText = mView.findViewById(R.id.user_name);
         mTelText = mView.findViewById(R.id.user_tel);
         mListView = mView.findViewById(R.id.user_listview);
 
-        mTelText.setText(LoadActivity.getTel());
-        mNameText.setText(LoadActivity.getName());
+        mTelText.setText(sharedPreferences.getString("tel", null));
+        mNameText.setText(sharedPreferences.getString("name", null));
         mAdapter = new SimpleAdapter(mContext, getData(), R.layout.user_item,
                 new String[]{"icon", "title", "cache", "arrow"}, new int[]{R.id.icon, R.id.title, R.id.cache, R.id.arrow});
 
@@ -136,15 +138,14 @@ public class UserFragment extends BaseFragment {
                 case 1:
                     //todo: 显示二维码
                     mIntent = new Intent("android.intent.action.QRCODEVIEW");
-                    bundle = new Bundle();
-                    bundle.putString("name", "Test");
-                    bundle.putString("num", "12345678");
-                    bundle.putString("tel", "12345678");
-                    mIntent.putExtras(bundle);
                     startActivity(mIntent);
                     break;
                 case 2:
                     //todo: 知情同意书
+                    mIntent = new Intent("android.intent.action.INFORMEDLIST");
+                    bundle = new Bundle();
+                    mIntent.putExtras(bundle);
+                    startActivity(mIntent);
                     break;
                 case 3:
                     mIntent = new Intent("android.intent.action.USERCONTACTME");

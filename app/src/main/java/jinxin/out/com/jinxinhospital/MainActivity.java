@@ -4,6 +4,7 @@ import android.*;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -47,7 +48,12 @@ public class MainActivity extends AppCompatActivity {
     private BaseFragment mCurrentFragment;
     private LinearLayout mTitleLayout;
 
+    private  String token = null;
+    private  int mCustomerId = -1;
+    private  String tel;
+    private  String name;
     private int mCurrentTab = 0;
+    private SharedPreferences sharedPreferences;
     private static final String[] PERMISSIONS_STORAGE = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.READ_EXTERNAL_STORAGE};
 
@@ -142,12 +148,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             int position = (int) tab.getTag();
-            if ((position != 0 )
-                    && (LoadActivity.getToken() == "" || LoadActivity.getmCustomerId() < 0)) {
-                Intent intent = new Intent(mContext, LoadActivity.class);
-                startActivity(intent);
+            if (sharedPreferences == null) {
+                sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+                token = sharedPreferences.getString("token", null);
+                mCustomerId = sharedPreferences.getInt("customerId", -1);
+                tel = sharedPreferences.getString("tel", null);
+                name = sharedPreferences.getString("name", null);
             }
-            mContentPager.setCurrentItem(position);
+            Log.d("xie", "token = " + token + ";  mCustomerId = " + mCustomerId + ";  position = " + position);
+            if (token == null || mCustomerId < 0) {
+                if (position != 0) {
+                    Intent intent = new Intent(mContext, LoadActivity.class);
+                    startActivity(intent);
+                }
+            } else {
+                mContentPager.setCurrentItem(position);
+            }
         }
 
         @Override
@@ -247,9 +263,11 @@ public class MainActivity extends AppCompatActivity {
             targetFragment.mActivity = this;
         }
         if (mCurrentFragment.getClass().equals(HomePageFragment.class)) {
+            mContentPager.setCurrentItem(0);
             mTabLayout.setVisibility(View.VISIBLE);
             mTitle.setVisibility(View.VISIBLE);
             mTitleLayout.setVisibility(View.VISIBLE);
+            return;
         } else {
             mTitle.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.GONE);

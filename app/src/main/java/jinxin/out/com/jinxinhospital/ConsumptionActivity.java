@@ -1,7 +1,10 @@
 package jinxin.out.com.jinxinhospital;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +64,8 @@ public class ConsumptionActivity extends UserAppCompatActivity{
     private List<ConsumptionRecord>  mConsumptionRecordList = new ArrayList<>();
     private ConsumptionResponseJson mConsumptionResponseJson = null;
     private String mMessage;
+    private String token;
+    private int customerId;
 
     private String mRemark;
 
@@ -74,6 +80,9 @@ public class ConsumptionActivity extends UserAppCompatActivity{
         mContext = this;
         setToolBarTitle("消费记录");
         Bundle bundle = getIntent().getExtras();
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+        token = sharedPreferences.getString("token", null);
+        customerId = sharedPreferences.getInt("customerId", -1);
         mProjectName = bundle.getString("projectName");
         mPurchaseRecordId = bundle.getString("purchaseRecordId");
         mRemark = bundle.getString("remark");
@@ -153,14 +162,29 @@ public class ConsumptionActivity extends UserAppCompatActivity{
             holder.daySymptom.setText(data.daySymptom);
             holder.status.setText(data.statusName);
             //TODO:
-            holder.comment.setOnClickListener(null);
-            holder.comment.setTag(null);
+            holder.comment.setOnClickListener(mCommentListener);
+            holder.comment.setTag(data);
 
-            holder.inVaild.setOnClickListener(null);
-            holder.inVaild.setTag(null);
+            holder.inVaild.setOnClickListener(mInVaildListener);
+            holder.inVaild.setTag(data);
             return view;
         }
     }
+
+    private View.OnClickListener mCommentListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ConsumptionRecord data = (ConsumptionRecord)view.getTag();
+            showConmentDialog(data);
+        }
+    };
+    private View.OnClickListener mInVaildListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ConsumptionRecord data = (ConsumptionRecord)view.getTag();
+            showInvaildDialog(data);
+        }
+    };
     private Callback mConsumptionListCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
@@ -174,19 +198,30 @@ public class ConsumptionActivity extends UserAppCompatActivity{
             mConsumptionRecordList.clear();
             Log.d("xie", "mConsumptionListCallback: result"+result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
-            if (module.code < 0) {
-                mMessage = module.message;
-                Log.d("xie", "health: mMessage = " + mMessage);
+            mMessage = module.message;
+            Log.d("xie", "mConsumptionListCallback: mMessage = " + mMessage);
+            if (module.code != 0) {
+                mMainHandler.sendEmptyMessage(DISPLAY_TEXT);
+                return;
+            }
+            if (mMessage.equals("")) {
+                mMessage = "该项目还没有消费";
                 mMainHandler.sendEmptyMessage(DISPLAY_TEXT);
                 return;
             }
 
-            mConsumptionResponseJson =
-                    JsonUtil.parsoJsonWithGson(result, ConsumptionResponseJson.class);
-            for(int i=0; i<mConsumptionResponseJson.data.datas.length; i++) {
-                mConsumptionRecordList.add(mConsumptionResponseJson.data.datas[i]);
+            try {
+                mConsumptionResponseJson =
+                        JsonUtil.parsoJsonWithGson(result, ConsumptionResponseJson.class);
+                mConsumptionRecordList.clear();
+                for(int i=0; i<mConsumptionResponseJson.data.datas.length; i++) {
+                    mConsumptionRecordList.add(mConsumptionResponseJson.data.datas[i]);
+                }
+                mMainHandler.sendEmptyMessage(ADAPTER_DATA_CHANGE);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+                mMainHandler.sendEmptyMessage(DISPLAY_TEXT);
             }
-            mMainHandler.sendEmptyMessage(ADAPTER_DATA_CHANGE);
         }
     };
 
@@ -202,26 +237,159 @@ public class ConsumptionActivity extends UserAppCompatActivity{
                     Log.d("xie", "health: MyHandler->ADAPTER_DATA_REFRESH");
                     mMessageTextView.setVisibility(View.GONE);
 //                    mSwipeLayout.setRefreshing(false);
+                    onRefreshData();
                     break;
                 case ADAPTER_DATA_CHANGE:
                     Log.d("xie", "health: MyHandler->ADAPTER_DATA_CHANGE");
                     mPullRefreshListView.onRefreshComplete();
+                    mTitleTextView.setVisibility(View.VISIBLE);
                     mMessageTextView.setVisibility(View.GONE);
                     myAdapter.notifyDataSetChanged();
                     break;
                 case DISPLAY_TEXT:
                     Log.d("xie", "health: MyHandler->DISPLAY_TEXT");
+                    mTitleTextView.setVisibility(View.GONE);
                     mMessageTextView.setVisibility(View.VISIBLE);
                     mMessageTextView.setText(mMessage);
+                    break;
+                case 0x22:
+                    Toast.makeText(mContext,mMessage , Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
             }
         }
     }
+
+    private void showConmentDialog(final ConsumptionRecord data) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("评论：");
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View alertLayout = inflater.inflate(R.layout.dialog_edittext, null);
+        final EditText dialogText = (EditText)alertLayout.findViewById(R.id.header_dialog_text);
+        builder.setView(alertLayout);
+        builder.setNegativeButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String dialogMessage = dialogText.getText().toString();
+                Log.d("xie", "dialogMessage = " + dialogMessage);
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("token", token)
+                        .add("id", data.id + "")
+                        .add("status", data + "")
+                        .add("remark", data.remarks)
+                        .add("commentLevel", "1")
+                        .add("commentContent", dialogMessage)
+                        .build();
+                NetPostUtil.post(Constants.UPDATE_CONSUMPTIONRECORD, requestBody, mCommentCallback);
+                return;
+//                SharedPreferences sharedPreferences = mContext.getSharedPreferences("battery_alert_pref",0);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("isSkipMessage2",checkBoxResult);
+//                editor.commit();
+//                mStandardModePreference.setChecked(true,false);
+//                mHighModePreference.setChecked(false);
+//                sendStandardSaverBroadcast(true);
+            }
+        });
+        builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
+            }
+        });
+        builder.show();
+    }
+
+    private Callback mCommentCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("xie", "mCommentsCallback onFailure.");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            } else {
+                mMessage = "网络连接异常";
+                mMainHandler.sendEmptyMessage(0x22);
+            }
+            BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 0) {
+                mMessage = "评论成功";
+                mMainHandler.sendEmptyMessage(0x22);
+            } else {
+                mMessage = baseModule.message;
+                mMainHandler.sendEmptyMessage(0x22);
+            }
+        }
+    };
+
+    private Callback mInvaildCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("xie", "mInvaildCallback onFailure.");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            } else {
+                mMessage = "网络连接异常";
+                mMainHandler.sendEmptyMessage(0x22);
+            }
+            BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 0) {
+                mMessage = "实施作废申请成功";
+                mMainHandler.sendEmptyMessage(0x22);
+            } else {
+                mMessage = baseModule.message;
+                mMainHandler.sendEmptyMessage(0x22);
+            }
+        }
+    };
+
+    private void showInvaildDialog(final ConsumptionRecord data) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("申请作废理由：");
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View alertLayout = inflater.inflate(R.layout.dialog_edittext, null);
+        final EditText dialogText = (EditText)alertLayout.findViewById(R.id.header_dialog_text);
+        builder.setView(alertLayout);
+        builder.setNegativeButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String dialogMessage = dialogText.getText().toString();
+                //: change to invaild request
+                Log.d("xie", "dialogMessage = " + dialogMessage);
+                Log.d("xie", Constants.REQUEST_IMPEMENTATIONVOID+"token="+token+"&consumption_record_id="+data.id + ""+"&content="+dialogMessage);
+                RequestBody requestBody = new FormBody.Builder()
+                        .add("token", token)
+                        .add("consumption_record_id", data.id + "")
+                        .add("content", dialogMessage)
+                        .build();
+                NetPostUtil.post(Constants.REQUEST_IMPEMENTATIONVOID, requestBody, mInvaildCallback);
+                return;
+            }
+        });
+        builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                return;
+            }
+        });
+        builder.show();
+    }
+
     private void onRefreshData() {
         RequestBody requestBody = new FormBody.Builder()
-                .add("token", LoadActivity.getToken())
+                    .add("token", token)
                 .add("purchaseRecordId", mPurchaseRecordId)
                 .add("projectName", mProjectName)
                 .add("remark", mRemark)  //xie

@@ -2,6 +2,7 @@ package jinxin.out.com.jinxinhospital;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -44,6 +45,7 @@ import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.News.News;
 import jinxin.out.com.jinxinhospital.News.NewsContentResponseJson;
 import jinxin.out.com.jinxinhospital.News.NewsResponseJson;
+import jinxin.out.com.jinxinhospital.Notice.NoticeResponseJson;
 import jinxin.out.com.jinxinhospital.view.UserListView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -75,6 +77,7 @@ public class HomePageFragment extends BaseFragment {
     private Button mYHBtn;
     private Button mNewsBtn;
     private int colorId;
+    private TextView mNoticeView;
 
     private NewsResponseJson mNewsResponseJson;
     private NewsContentResponseJson mNewsContentResponseJson;
@@ -85,6 +88,7 @@ public class HomePageFragment extends BaseFragment {
     private NewsMyAdapter mNewsMyAdapter;
     private MyHandler myHandler;
 
+    private String mNotice;
     private List<News> mNewsList = new ArrayList<>();
     private List<Employee> mEmployeeList = new ArrayList<>();
 
@@ -136,6 +140,7 @@ public class HomePageFragment extends BaseFragment {
         mYHBtn.setBackgroundColor(Color.WHITE);
         mYHBtn.setTextColor(getResources().getColor(R.color.colorHomePageBlue));
         mYHBtn.setOnClickListener(mYHOnclickListener);
+        mNoticeView = view.findViewById(R.id.notice);
         mNewsBtn = view.findViewById(R.id.home_page_news_btn);
         mNewsBtn.setOnClickListener(mNewsBtnOnclickListener);
         mListView = view.findViewById(R.id.home_page_list);
@@ -207,41 +212,11 @@ public class HomePageFragment extends BaseFragment {
                 .add("size", "10")
                 .build();
         NetPostUtil.post(Constants.GET_EMPLOYEE_LIST, requestBodyEmp, mEmployeesListCallback);
+
+        RequestBody requestBodyNotice = new FormBody.Builder().build();
+        NetPostUtil.post(Constants.GET_NOTICE, requestBodyNotice, mNoticeCallback);
     }
 
-//    private ArrayList<HashMap<String,Object>> getNewsListFromJson() {
-//        ArrayList<HashMap<String,Object>> mGroupView = new ArrayList<HashMap<String, Object>>();
-//        HashMap<String, Object> mMap;
-//
-//        if (mNewsResponseJson != null ) {
-//                for (int i = 0; i < mNewsResponseJson.data.length; i++) {
-//                    mMap = new HashMap<String, Object>();
-//                    //TODO:加载网络图片  news.data.coverPath
-//                    mMap.put("img", R.drawable.gr1);
-//                    mMap.put("title", mNewsResponseJson.data[i].title);
-//                    mMap.put("content", mNewsResponseJson.data[i].summary);
-//                    mGroupView.add(mMap);
-//                }
-//        }
-//        return mGroupView;
-//    }
-//
-//    private ArrayList<HashMap<String,Object>> getEmployeesListFromJson() {
-//        ArrayList<HashMap<String,Object>> mGroupView = new ArrayList<HashMap<String, Object>>();
-//        HashMap<String, Object> mMap;
-//
-//        if (mEmployeesResponseJson != null ) {
-//            for (int i = 0; i < mEmployeesResponseJson.data.length; i++) {
-//                mMap = new HashMap<String, Object>();
-//                //TODO:加载网络图片  news.data.coverPath
-//                mMap.put("img", R.drawable.gr1);
-//                mMap.put("title", mEmployeesResponseJson.data[i].name);
-//                mMap.put("content", mEmployeesResponseJson.data[i].summary);
-//                mGroupView.add(mMap);
-//            }
-//        }
-//        return mGroupView;
-//    }
     private Callback mNewsContentListCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
@@ -251,13 +226,44 @@ public class HomePageFragment extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
             mNewsResponseJson =
                     JsonUtil.parsoJsonWithGson(result, NewsResponseJson.class);
+            mNewsList.clear();
             for(int i=0; i<mNewsResponseJson.data.length; i++) {
                 mNewsList.add(mNewsResponseJson.data[i]);
             }
             mHandler.removeMessages(ADD_NEWS_TO_LIST);
             mHandler.sendEmptyMessage(ADD_NEWS_TO_LIST);
+        }
+    };
+
+    private Callback mNoticeCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e(TAG,"mNoticeCallback onFailure...");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
+            NoticeResponseJson noticeJson = JsonUtil.parsoJsonWithGson(result, NoticeResponseJson.class);
+            mNotice = noticeJson.data[0].content;
+            mHandler.sendEmptyMessage(0x33);
         }
     };
 
@@ -269,15 +275,18 @@ public class HomePageFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            Log.d("xie", "mEmployeesListCallback onResponse...");
             String result = response.body().string();
             Log.d("xie" , "result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
-            if (module.code < 0 ) {
+            if (module.code != 0 ) {
                 return;
             }
             mEmployeesResponseJson =
                     JsonUtil.parsoJsonWithGson(result, EmployeeResponseJson.class);
+            mEmployeeList.clear();
             for(int i=0; i<mEmployeesResponseJson.data.length; i++) {
                 mEmployeeList.add(mEmployeesResponseJson.data[i]);
             }
@@ -310,6 +319,8 @@ public class HomePageFragment extends BaseFragment {
                 case ADD_NEWS_TO_LIST:
                     addNewsToList();
                     break;
+                case 0x33:
+                    mNoticeView.setText(mNotice);
                 case SHOW_NEWS_CONTENT:
 //                    NewsContentFragment mNewsContentFragment = new NewsContentFragment();
 //                    Bundle data = new Bundle();
@@ -470,14 +481,15 @@ public class HomePageFragment extends BaseFragment {
             Boolean isNews = (Boolean) view.getTag(R.id.tag_first);
             int id = (int) view.getTag(R.id.tag_second);
             Bundle bundle = new Bundle();
-            bundle.putBoolean("isNews", isNews);
-            bundle.putInt("id", id);
-            if (newsContentFragment == null) {
-                newsContentFragment = new NewsContentFragment();
+            if (isNews) {
+                bundle.putString("type", "news");
+            } else  {
+                bundle.putString("type", "employee");
             }
-            newsContentFragment.setArguments(bundle);
-            newsContentFragment.mParentFragment = HomePageFragment.this;
-            mMainContext.showContent(newsContentFragment);
+            bundle.putInt("id", id);
+            Intent intent = new Intent("android.intent.action.SHOW_DETAIL_ACTION");
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     };
 }

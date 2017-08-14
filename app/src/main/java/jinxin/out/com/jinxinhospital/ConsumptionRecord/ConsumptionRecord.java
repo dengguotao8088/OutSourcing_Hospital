@@ -15,4 +15,7 @@ public class ConsumptionRecord {
     public String statusName;
     public String daySymptom;//当日症状
     public int status;//当前消费记录状态
+    public String commentLevel;//评论等级
+    public String commentContent;//评论内容
+    public String remarks;//备注
 }

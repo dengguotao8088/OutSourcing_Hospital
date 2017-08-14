@@ -1,6 +1,7 @@
 package jinxin.out.com.jinxinhospital;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +28,9 @@ import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
 import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.News.News;
 import jinxin.out.com.jinxinhospital.News.NewsContentResponseJson;
+import jinxin.out.com.jinxinhospital.VIP.VipData;
+import jinxin.out.com.jinxinhospital.VIP.VipResponseJson;
+import jinxin.out.com.jinxinhospital.view.UserAppCompatActivity;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -34,10 +38,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * Created by Administrator on 2017/8/8.
+ * Created by admin on 2017/8/15.
  */
 
-public class NewsContentFragment extends BaseFragment{
+public class DetailsActivity extends UserAppCompatActivity {
     private View mView;
     private TextView mWebView;
     private String mTitle;
@@ -48,45 +52,67 @@ public class NewsContentFragment extends BaseFragment{
     private String url = "";
     private MyHandler myHandler;
     private TextView mTextView;
-    private ImageView mBackView;
-    private TextView mHeaderTitle;
-    private MainActivity mContext;
+    private Context mContext;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mContext = (MainActivity)context;
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
         myHandler = new MyHandler(mContext);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.news_content_layout, container, false);
-
-        Log.d("xie", "onCreateView222222222222222222222222222222222");
-        myHandler = new MyHandler(mContext);
-        Bundle bundle = (Bundle)getArguments();
+        Bundle bundle = getIntent().getExtras();
         String id = bundle.getInt("id") + "";
-        if (bundle.getBoolean("isNews", false)) {
+        String type = bundle.getString("type", "");
+        Log.d("xie" , "type = " + type);
+        if ("news".equals(type)) {
             RequestBody requestBody = new FormBody.Builder()
                     .add("id",id )
                     .build();
             NetPostUtil.post(Constants.GET_NEWS_CONTENT_WITH_ID, requestBody,mNewContentCallback);
-        } else {
+        } else if ("employee".equals(type)) {
             RequestBody requestBody = new FormBody.Builder()
                     .add("id",id )
                     .build();
             NetPostUtil.post(Constants.GET_EMPLOYEE_WITH_ID, requestBody,mEmployeeContentCallback);
+        } else if ("vip".equals(type)) {
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("token", sharedPreferences.getString("token", null))
+                    .add("customerId", sharedPreferences.getInt("customerId", -1) + "")
+                    .add("id", id + "")
+                    .build();
+            NetPostUtil.post(Constants.GET_VIP_MESSAGE_CONTENT, requestBody, mVipContentCallback);
         }
-        mTextView = mView.findViewById(R.id.news_content_message);
-        mWebView = mView.findViewById(R.id.webView);
-        mBackView = mView.findViewById(R.id.back);
-        mBackView.setOnClickListener(mBackListener);
-        mHeaderTitle = mView.findViewById(R.id.header_title);
-        mHeaderTitle.setText("详请介绍");
-        return mView;
+        mTextView = findViewById(R.id.news_content_message);
+        mWebView = findViewById(R.id.webView);
+        setToolBarTitle("详请介绍");
     }
+
+    private Callback mVipContentCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e("xie", "mNewContentCallback onFailure");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie", "mConsumptionListCallback: result"+result);
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code < 0) {
+                url = module.message;
+                Log.d("xie", "health: mMessage = " + mMessage);
+                myHandler.sendEmptyMessage(1);
+                return;
+            }
+            VipResponseJson vipResponseJson = JsonUtil.parsoJsonWithGson(result,
+                    VipResponseJson.class);
+            if (vipResponseJson != null) {
+                VipData vipData = vipResponseJson.data[0];
+                url = vipData.content;
+            }
+            myHandler.sendEmptyMessage(1);
+        }
+    };
 
     private Callback mEmployeeContentCallback = new Callback() {
         @Override
@@ -153,5 +179,15 @@ public class NewsContentFragment extends BaseFragment{
             mWebView.setText(Html.fromHtml(url));
             mWebView.setMovementMethod(LinkMovementMethod.getInstance());
         }
+    }
+
+    @Override
+    protected boolean isShowBacking() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.news_content_layout;
     }
 }

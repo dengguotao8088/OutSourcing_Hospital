@@ -12,6 +12,7 @@
         android:id="@+id/consumption_title"
         android:layout_width="wrap_content"
         android:textSize="18sp"
+        android:visibility="gone"
         android:layout_gravity="center_vertical"
         android:textStyle="bold"
         android:layout_marginLeft="10dp"

@@ -3,6 +3,7 @@ package jinxin.out.com.jinxinhospital;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,9 +59,8 @@ public class HealthManageFragment extends BaseFragment{
     private MyHandler mMainHandler;
     private TextView mTextview;
     private String mMessage = "";
-    String token;
-    int customerId;
-    private RequestBody requestBody;
+    private String token;
+    private int customerId;
 
     private List<PurchaseResponseData> mPurchaseContentRecord = new ArrayList<>();
     private PurchaseRecordResponseJson mPurchaseRecordResponseJson;
@@ -71,10 +71,17 @@ public class HealthManageFragment extends BaseFragment{
         mTextview= mView.findViewById(R.id.health_message);
         mPullRefreshListView = mView.findViewById(R.id.my_custorm_layout_list);
         initPTRListView();
-
+        mMainHandler = new MyHandler(mContext);
         myAdapter = new MyAdapter();
         mPullRefreshListView.setAdapter(myAdapter);
-        mMainHandler = new MyHandler(mContext);
+        new Thread() {
+            @Override
+            public void run() {
+                Log.d("xie", "token = " + token);
+                Log.d("xie", "customerId = " + customerId);
+                onRefreshData();
+            }
+        }.start();
         return mView;
     }
 
@@ -82,21 +89,12 @@ public class HealthManageFragment extends BaseFragment{
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = (MainActivity) context;
-        token = LoadActivity.getToken();
-        customerId = LoadActivity.getmCustomerId();
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+        token = sharedPreferences.getString("token", null);
+        customerId = sharedPreferences.getInt("customerId", -1);
         if (token == "" || customerId <0){
             return;
         }
-        new Thread() {
-            @Override
-            public void run() {
-                String token = LoadActivity.getToken();
-                int customerId = LoadActivity.getmCustomerId();
-                Log.d("xie", "token = " + token);
-                Log.d("xie", "customerId = " + customerId);
-                onRefreshData();
-            }
-        }.start();
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -233,8 +231,9 @@ public class HealthManageFragment extends BaseFragment{
     }
     private void onRefreshData() {
         Log.d("xie", "PURCHASE: onRefreshData()");
-        requestBody = new FormBody.Builder()
-                .add("token", LoadActivity.getToken())
+        Log.d("xie", "token = " + token);
+        RequestBody requestBody = new FormBody.Builder()
+                .add("token", token)
                 .add("customerId", customerId+"")
                 .build();
         NetPostUtil.post(Constants.GET_PURCHASE_WITH_ID, requestBody, mHealthManagerCallback);

@@ -1,6 +1,7 @@
 package jinxin.out.com.jinxinhospital;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
     private MyHandler mMainHandler;
     private TextView mTextview;
     private String mMessage = "";
+    private String token;
+    private int customerId;
 
     private List<Message> mMessageList = new ArrayList<>();
     private MessageResponseJson mMessageResponseJson;
@@ -55,6 +58,9 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
         mContext = this;
         setToolBarTitle(getApplicationContext().getString(R.string.user_message_center_title));
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+        token = sharedPreferences.getString("token", null);
+        customerId = sharedPreferences.getInt("customerId", -1);
         mMainHandler = new MyHandler();
         mPullRefreshListView = findViewById(R.id.message_custorm_layout_list);
         mTextview = findViewById(R.id.message_message);
@@ -70,8 +76,8 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
 
     private void onRefreshData() {
         RequestBody requestBody = new FormBody.Builder()
-                .add("token", LoadActivity.getToken())
-                .add("customerId", LoadActivity.getmCustomerId()+"")
+                .add("token", token)
+                .add("customerId", customerId +"")
                 .add("page", 1 + "")
                 .add("size", 10 + "")
                 .build();
