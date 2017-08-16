@@ -24,7 +24,7 @@
         android:padding="5dp">
 
         <LinearLayout
-            android:id="@+id/zhongyiyangsheng"
+            android:id="@+id/vip_reservation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -48,7 +48,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/chanhoukangfu"
+            android:id="@+id/vip_power"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">

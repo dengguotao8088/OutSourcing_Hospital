@@ -45,6 +45,8 @@ import okhttp3.Response;
 public class VipFragment extends BaseFragment {
     private int mIndex;
     private ListView mVipListView;
+    private LinearLayout mReservationLayout;
+    private LinearLayout mPowerLayout;
     private MainActivity mContext;
     private List<VipData> mVipMsgList = new ArrayList<>();
     private MyAdapter mAdapter;
@@ -77,10 +79,34 @@ public class VipFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.vip_page, container, false);
         mAdapter = new MyAdapter();
         mVipListView= view.findViewById(R.id.vip_list);
+        mReservationLayout = view.findViewById(R.id.vip_reservation);
+        mPowerLayout = view.findViewById(R.id.vip_power);
+        mReservationLayout.setOnClickListener(mOnClickListener);
+        mPowerLayout.setOnClickListener(mOnClickListener);
         getData();
         mVipListView.setAdapter(mAdapter);
         return view;
     }
+
+    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.vip_reservation:
+                    startActivity(new Intent("android.intent.action.VIP_RESERVATION_ACTION"));
+                    break;
+                case R.id.vip_power:
+                    Bundle bundle = new Bundle();
+                    bundle.putString("type", "vip_power");
+                    Intent intent = new Intent("android.intent.action.SHOW_DETAIL_ACTION");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     private void getData(){
         RequestBody requestBody = new FormBody.Builder()

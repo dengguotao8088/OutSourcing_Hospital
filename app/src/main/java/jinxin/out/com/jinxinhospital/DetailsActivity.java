@@ -29,6 +29,7 @@ import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.News.News;
 import jinxin.out.com.jinxinhospital.News.NewsContentResponseJson;
 import jinxin.out.com.jinxinhospital.VIP.VipData;
+import jinxin.out.com.jinxinhospital.VIP.VipPowerResponseJson;
 import jinxin.out.com.jinxinhospital.VIP.VipResponseJson;
 import jinxin.out.com.jinxinhospital.view.UserAppCompatActivity;
 import okhttp3.Call;
@@ -53,6 +54,7 @@ public class DetailsActivity extends UserAppCompatActivity {
     private MyHandler myHandler;
     private TextView mTextView;
     private Context mContext;
+    private String mTitleMsg = "详请介绍";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +83,17 @@ public class DetailsActivity extends UserAppCompatActivity {
                     .add("id", id + "")
                     .build();
             NetPostUtil.post(Constants.GET_VIP_MESSAGE_CONTENT, requestBody, mVipContentCallback);
+        } else if ("vip_power".equals(type)) {
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("token", sharedPreferences.getString("token", null))
+                    .add("customerId", sharedPreferences.getInt("customerId", -1) + "")
+                    .build();
+            NetPostUtil.post(Constants.GET_VIP_PRIVILEGE, requestBody, mVipPowerContentCallback);
         }
         mTextView = findViewById(R.id.news_content_message);
         mWebView = findViewById(R.id.webView);
-        setToolBarTitle("详请介绍");
+        setToolBarTitle(mTitleMsg);
     }
 
     private Callback mVipContentCallback = new Callback() {
@@ -109,6 +118,35 @@ public class DetailsActivity extends UserAppCompatActivity {
             if (vipResponseJson != null) {
                 VipData vipData = vipResponseJson.data[0];
                 url = vipData.content;
+                mTitleMsg = vipData.title;
+            }
+            myHandler.sendEmptyMessage(1);
+        }
+    };
+
+    private Callback mVipPowerContentCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e("xie", "mNewContentCallback onFailure");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie", "mConsumptionListCallback: result"+result);
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code < 0) {
+                url = module.message;
+                Log.d("xie", "health: mMessage = " + mMessage);
+                myHandler.sendEmptyMessage(1);
+                return;
+            }
+            VipPowerResponseJson vipResponseJson = JsonUtil.parsoJsonWithGson(result,
+                    VipPowerResponseJson.class);
+            if (vipResponseJson != null) {
+                VipData vipData = vipResponseJson.data;
+                url = vipData.content;
+                mTitleMsg = vipData.title;
             }
             myHandler.sendEmptyMessage(1);
         }
@@ -136,6 +174,7 @@ public class DetailsActivity extends UserAppCompatActivity {
             if (employeeContentResponseJson != null) {
                 mEmployee = employeeContentResponseJson.data;
                 url = mEmployee.introduction;
+                mTitleMsg = mEmployee.name;
             }
             myHandler.sendEmptyMessage(1);
         }
@@ -163,6 +202,7 @@ public class DetailsActivity extends UserAppCompatActivity {
             if (newsContentResponseJson != null) {
                 mNews = newsContentResponseJson.data;
                 url = mNews.content;
+                mTitleMsg = mNews.title;
             }
             myHandler.sendEmptyMessage(1);
         }
@@ -176,6 +216,7 @@ public class DetailsActivity extends UserAppCompatActivity {
         public void handleMessage(Message msg) {
             Log.d("xie", "url = " + url.toString());
             mTextView.setVisibility(View.GONE);
+            setToolBarTitle(mTitleMsg);
             mWebView.setText(Html.fromHtml(url));
             mWebView.setMovementMethod(LinkMovementMethod.getInstance());
         }

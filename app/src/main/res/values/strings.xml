@@ -86,6 +86,14 @@
         <item>多顺</item>
         <item>多剖</item>
     </string-array>
-
     <string name="cancel">取消</string>
+    
+    <!-- VIP -->
+    <string name="vip_title">VIP预约</string>
+    <string name="vip_select_time">预约时间</string>
+    <string name="vip_select_dep">选择部门</string>
+    <string name="vip_make_sure">请确认您的订单信息</string>
+    <string name="vip_submit">提交订单</string>
+    <string name="vip_list_title">显示最近的5条信息</string>
+
 </resources>

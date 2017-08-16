@@ -1,8 +1,5 @@
 package jinxin.out.com.jinxinhospital;
 
-import android.app.Activity;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,7 +28,6 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import retrofit.Retrofit;
 
 /**
  * Created by Administrator on 2017/7/12.

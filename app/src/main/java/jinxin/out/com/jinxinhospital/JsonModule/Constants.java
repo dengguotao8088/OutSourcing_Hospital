@@ -10,6 +10,15 @@ public class Constants {
 
     public static final String URL_PREFIX = "http://client.mind-node.com/client/";
 
+    //获取部门列表
+    public static final String GET_DEPARTMENT_LIST = URL_PREFIX + "api/department/list?";
+
+    //根据客户Id获取本次检查(当日消费)
+    public static final String GET_CONSUMPTION_REAL_LIST = URL_PREFIX + "api/consumption_record/real_list?";
+
+    //'VIP特权
+    public static final String GET_VIP_PRIVILEGE = URL_PREFIX + "api/vip/get_privilege?";
+
     //获取VIP消息
     public static final String GET_VIP_MESSAGE_LIST = URL_PREFIX + "api/vip/list_message?";
 
