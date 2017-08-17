@@ -158,6 +158,7 @@ public class XiaoFeiFragment extends BaseFragment {
             Bundle data = new Bundle();
             data.putInt("purch_id", record.id);
             data.putString("p_name", record.projectName);
+            data.putString("remark",record.remark);
             mKehuXiaoFeiFragment.setArguments(data);
             mKehuXiaoFeiFragment.mParentFragment = XiaoFeiFragment.this;
             mActivity.showContent(mKehuXiaoFeiFragment);
@@ -309,7 +310,9 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.kehu_name.setText(record.customerName);
             viewHolder.baohan_cishu.setText(record.projectFrequency + "");
             viewHolder.yiyong_cishu.setText(record.useFrequency + "");
-            viewHolder.status.setText(status[record.status - 1]);
+            viewHolder.status.setText(record.statusName);
+            viewHolder.add_xiaofei.setClickable(
+                    (record.projectFrequency - record.useFrequency) > 0);
             return view;
         }
     }
@@ -364,6 +367,7 @@ public class XiaoFeiFragment extends BaseFragment {
             }
             ConsumptionRecord record = mConsumptionList.get(i);
             viewHolder.project_name.setText(record.projectName);
+            viewHolder.do_work.setText(record.statusName);
             viewHolder.kehu_name.setText(record.customerName);
             String date = JsonUtil.getDate2(record.createTime);
             viewHolder.date_year.setText(date.substring(0, date.indexOf("-")));
@@ -389,11 +393,11 @@ public class XiaoFeiFragment extends BaseFragment {
         public String customerName;//客户姓名
         public int projectId;//项目Id
         public String projectName;//项目名称
-        public int number;//购买数量
         public int projectFrequency;//一次包含项目次数
         public int useFrequency;//使用次数
         public Double totalPrice;//总价
         public int status;//购买项目的状态，1：可用，2：完成，3：过期，4：退费，5：作废
+        public String statusName;
         public int empId;//员工Id
         public String remark;//备注
         public String expirationDate;//到期时间

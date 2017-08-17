@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (requestCode) {
             case 0:
                 for (int i = 0; i < grantResults.length; i++) {
-                    if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         finish();
                     }
                 }

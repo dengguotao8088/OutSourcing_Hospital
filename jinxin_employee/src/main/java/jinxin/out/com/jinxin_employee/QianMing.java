@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,17 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Random;
+
 import jinxin.out.com.jinxin_employee.view.LinePathView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2017/8/7.
@@ -58,6 +69,7 @@ import jinxin.out.com.jinxin_employee.view.LinePathView;
 public class QianMing extends BaseFragment {
     public static final int MODE_ZHIQIN = 1;
     public static final int MODE_TUIFEI = 2;
+    private String url = "http://medical.mind-node.com/files/upload";
 
     private HomeActivity activity;
 
@@ -121,8 +133,34 @@ public class QianMing extends BaseFragment {
     private View.OnClickListener muploadListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            uploadQianming();
         }
     };
+
+    private void uploadQianming(){
+        Bitmap bitmap = qianmingban.getBitMap();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, bos);
+        byte[] buffer = bos.toByteArray();
+        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), buffer);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("image", "test_"+ new Random().nextDouble()+".jpg", fileBody)
+                .build();
+        NetPostUtil.post(url, fileBody, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("dengguotao","upload error");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.d("dengguotao","result: "+response.code()+"  "+response.message());
+                Log.d("dengguotao","result: "+result);
+            }
+        });
+    }
 
     @Override
     public void refreshData() {

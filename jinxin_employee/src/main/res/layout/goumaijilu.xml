@@ -54,6 +54,7 @@
                     android:layout_width="45dp"
                     android:layout_height="20dp"
                     android:background="#FFCC00"
+                    android:clickable="false"
                     android:focusable="false"
                     android:textColor="@color/white"
                     android:textSize="16sp" />

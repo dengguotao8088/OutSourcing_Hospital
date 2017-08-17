@@ -66,10 +66,14 @@ public class CustomerInformedFragment extends BaseFragment {
     private Dialog mChooseInfoDialog;
     private ZhiQinModule mChooseModule;
 
+    private Dialog mChooseRelationDialog;
+
     public CustomerInformedFragment() {
         manager = LoginManager.getInstance(mActivity);
-        RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
-        NetPostUtil.post(Constants.ZHIQIN_LIST, body, mGetZhiQinListCallback);
+        if (mZhiQinList.size() == 0) {
+            RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
+            NetPostUtil.post(Constants.ZHIQIN_LIST, body, mGetZhiQinListCallback);
+        }
     }
 
     @Override
@@ -111,10 +115,9 @@ public class CustomerInformedFragment extends BaseFragment {
             Log.d("dengguotao", result);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
+                MyResponseModule baseModule2 = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);
                 mCusZhiQinList.clear();
-                MyResponseModule myResponseModule = JsonUtil.parsoJsonWithGson(result,
-                        MyResponseModule.class);
-                mCusZhiQinList.addAll(myResponseModule.data);
+                mCusZhiQinList.addAll(baseModule2.data);
                 mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             } else {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
@@ -226,10 +229,22 @@ public class CustomerInformedFragment extends BaseFragment {
         }
     };
 
+    private String[] relations = {"本人", "监护人", "委托人"};
     private View.OnClickListener mAddReListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            mAddreText.setText("签字人与客户关系：" + "本人");
+            if (mChooseRelationDialog == null) {
+                mChooseRelationDialog = new AlertDialog.Builder(mActivity)
+                        .setTitle("选择知情同意书")
+                        .setItems(relations, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                mAddreText.setText("签字人与客户关系：" + relations[i]);
+                            }
+                        })
+                        .create();
+            }
+            mChooseRelationDialog.show();
         }
     };
 
@@ -322,7 +337,6 @@ public class CustomerInformedFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         if (isViewCreate) {
-            Log.d("dengguotao", "refreshUI");
             myAdapter.notifyDataSetChanged();
         }
     }

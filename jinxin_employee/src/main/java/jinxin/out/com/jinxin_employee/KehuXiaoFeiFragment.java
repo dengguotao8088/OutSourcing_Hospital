@@ -64,6 +64,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         purchId = getArguments().getInt("purch_id");
         p_name = getArguments().getString("p_name");
+        remark = getArguments().getString("remark");
         if (mXiaofeiList.size() == 0) {
             loadList();
         }
@@ -76,7 +77,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
                 LoginManager.getInstance(mActivity).getToken())
                 .add("purchaseRecordId", purchId + "")
                 .add("projectName", p_name)
-                .add("remark", "").build();
+                .add("remark", remark).build();
         NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/list?",
                 body, mGetListCallback);
     }
@@ -175,10 +176,10 @@ public class KehuXiaoFeiFragment extends BaseFragment {
                 viewHolder = (ViewHolder) view.getTag();
             }
             XiaofeiRecord record = mXiaofeiList.get(i);
-            viewHolder.statue.setText(status[record.status - 1]);
+            viewHolder.statue.setText(record.statusName);
             viewHolder.proName.setText(p_name);
-            //viewHolder.fuwu_Pe.setText(record.);
-            String date = JsonUtil.getDate2(record.updateTime);
+            viewHolder.fuwu_Pe.setText(record.empName);
+            String date = JsonUtil.getDate2(record.createTime);
             viewHolder.date.setText(date.substring(0, date.indexOf("-")) + "    " +
                     date.substring(date.indexOf("-") + 1));
             return view;
@@ -197,18 +198,10 @@ public class KehuXiaoFeiFragment extends BaseFragment {
 
     public class XiaofeiRecord {
         public int id;//
-        public int purchaseRecordId;//购买记录Id
+        public String empName;//购买记录Id
         public int empId;//员工Id
-        public String empSignaturePath;//员工签名路径
-        public String customerSignaturePath;//客户签名路径
-        public String daySymptom;//当日症状
-        public int status;//当前消费记录状态
-        public String partnerName;//合作人姓名
-        public String commentLevel;//评论等级
-        public String commentContent;//评论内容
-        public String remarks;//备注
-        public String endTime;//结束时间
+        public String statusName;//当前消费记录状态
+        public int status;
         public String createTime;//创建时间
-        public String updateTime;//更新时间
     }
 }

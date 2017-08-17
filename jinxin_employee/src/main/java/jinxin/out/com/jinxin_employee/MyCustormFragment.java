@@ -93,27 +93,15 @@ public class MyCustormFragment extends BaseFragment {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
+            MyCustormJson module2 = JsonUtil.parsoJsonWithGson(result, MyCustormJson.class);
             mCusDatas.clear();
-            if (result.contains("[")) {
-                module = JsonUtil.parsoJsonWithGson(result, MyCustormJson1.class);
-            } else {
-                module = JsonUtil.parsoJsonWithGson(result, MyCustormJson2.class);
-            }
-            if (module instanceof MyCustormJson1) {
-                mCusDatas.addAll(((MyCustormJson1) module).data);
-            } else {
-                mCusDatas.add(((MyCustormJson2) module).data);
-            }
+            mCusDatas.addAll(module2.data);
             mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
         }
     };
 
-    public class MyCustormJson1 extends BaseModule {
+    public class MyCustormJson extends BaseModule {
         public List<CustormData> data;
-    }
-
-    public class MyCustormJson2 extends BaseModule {
-        public CustormData data;
     }
 
     @Override

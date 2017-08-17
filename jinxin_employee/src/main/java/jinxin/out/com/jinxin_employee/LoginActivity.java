@@ -112,6 +112,12 @@ public class LoginActivity extends Activity {
         }
     };
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //mHUD.dismiss();
+    }
+
     private LoginManager.GetEmployeeDoneCallBack mGetEmployeeDoneCallBack =
             new LoginManager.GetEmployeeDoneCallBack() {
                 @Override

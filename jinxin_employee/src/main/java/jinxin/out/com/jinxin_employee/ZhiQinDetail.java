@@ -65,6 +65,9 @@ public class ZhiQinDetail extends BaseFragment {
     public class ZhiQinDetailModule {
         public String customerSignaturePath;
         public int id;
+        public String informedConsentContent;
+        public String content;
+        public int customerId;
         public int informedConsentTemplateId;
         public String relationShip;
         public String updateTime;
@@ -88,10 +91,10 @@ public class ZhiQinDetail extends BaseFragment {
             MyResponse response1 = JsonUtil.parsoJsonWithGson(result, MyResponse.class);
             if (response1.code == 0) {
                 module = response1.data;
-                RequestBody body2 = new FormBody.Builder()
-                        .add("token", LoginManager.getInstance(getActivity()).getToken())
-                        .add("id", module.informedConsentTemplateId + "").build();
-                NetPostUtil.post("http://staff.mind-node.com/staff/api/informed_consent_template/get?", body2, mback2);
+                //RequestBody body2 = new FormBody.Builder()
+                //        .add("token", LoginManager.getInstance(getActivity()).getToken())
+                //        .add("id", module.informedConsentTemplateId + "").build();
+                //NetPostUtil.post("http://staff.mind-node.com/staff/api/informed_consent_template/get?", body2, mback2);
                 if (mMainHandler != null) {
                     mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 }
@@ -201,9 +204,9 @@ public class ZhiQinDetail extends BaseFragment {
 
     @Override
     public void refreshUI() {
-        if (isViewCreate && module != null && zhiqin != null) {
-            mContent.setText(zhiqin.content);
-            mre.setText("我是" + cusName + module.relationShip);
+        if (isViewCreate && module != null) {
+            mContent.setText(module.informedConsentContent);
+            mre.setText(module.content);
             mdate.setText("日期:" + JsonUtil.getDate(module.updateTime));
         }
     }
