@@ -44,7 +44,6 @@
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:text="xxxxxxxxxxxxxxxxxxxxxx"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
     </LinearLayout>

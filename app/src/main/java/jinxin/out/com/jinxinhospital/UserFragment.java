@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,7 +29,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
+import jinxin.out.com.jinxinhospital.JsonModule.Constants;
+import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
+import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.view.UserListView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2017/7/11.
@@ -46,6 +57,9 @@ public class UserFragment extends BaseFragment {
     private SimpleAdapter mAdapter;
     private Intent mIntent;
     private Bundle bundle;
+    private String token;
+    private String tel;
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -53,7 +67,9 @@ public class UserFragment extends BaseFragment {
         mView = inflater.inflate(R.layout.user_page, container, false);
 
         mContext = getContext();
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+        sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+        token = sharedPreferences.getString("token", "");
+        tel = sharedPreferences.getString("tel", "");
         mNameText = mView.findViewById(R.id.user_name);
         mTelText = mView.findViewById(R.id.user_tel);
         mListView = mView.findViewById(R.id.user_listview);
@@ -156,14 +172,51 @@ public class UserFragment extends BaseFragment {
 
                 case 4:
                     break;
+                case 5:
+                    loginOut();
+                    break;
 
                 default:
-                    mIntent = new Intent(mContext, LoadActivity.class);
-                    startActivity(mIntent);
+
                     break;
             }
         }
     }
+
+    private void loginOut() {
+        RequestBody requestBody = new FormBody.Builder()
+                .add("token", token)
+                .add("mobile", tel)
+                .build();
+        NetPostUtil.post(Constants.LOGIN_OUT_URL, requestBody, mLoginOutCallback);
+    }
+    Callback mLoginOutCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "mLoginOutCallback result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("token", "");
+            editor.putInt("customerId", -1);
+            editor.putString("tel", "");
+            editor.putString("name", "");
+            editor.commit();
+            mIntent = new Intent(mContext, LoadActivity.class);
+            startActivity(mIntent);
+        }
+    };
 
     @Override
     public void onPageChange(int newPage) {
