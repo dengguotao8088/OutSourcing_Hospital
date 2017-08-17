@@ -139,10 +139,11 @@ public class QianMing extends BaseFragment {
 
     private void uploadQianming(){
         Bitmap bitmap = qianmingban.getBitMap();
+        if(bitmap == null) return;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 70, bos);
         byte[] buffer = bos.toByteArray();
-        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), buffer);
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"), buffer);
         RequestBody requestBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("image", "test_"+ new Random().nextDouble()+".jpg", fileBody)

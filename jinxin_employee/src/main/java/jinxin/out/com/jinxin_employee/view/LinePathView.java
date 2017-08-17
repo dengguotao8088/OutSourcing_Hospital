@@ -228,7 +228,7 @@ public class LinePathView extends View {
         buildDrawingCache(true);
         Bitmap bitmap = getDrawingCache();
         if (bitmap != null) {
-            result = Bitmap.createBitmap(bitmap);
+            result = clearBlank(bitmap, 0);
             bitmap.recycle();
         }
         setDrawingCacheEnabled(false);
@@ -317,6 +317,9 @@ public class LinePathView extends View {
         top = top - blank > 0 ? top - blank : 0;
         right = right + blank > WIDTH - 1 ? WIDTH - 1 : right + blank;
         bottom = bottom + blank > HEIGHT - 1 ? HEIGHT - 1 : bottom + blank;
+        if(right - left == 0 || bottom - top == 0){
+            return null;
+        }
         return Bitmap.createBitmap(bp, left, top, right - left, bottom - top);
     }
 
