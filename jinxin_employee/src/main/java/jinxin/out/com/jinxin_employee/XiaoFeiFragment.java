@@ -1,7 +1,10 @@
 package jinxin.out.com.jinxin_employee;
 
+import android.support.v7.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +12,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.necer.ndialog.NDialog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -102,7 +108,8 @@ public class XiaoFeiFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.xiaofei_main, container, false);
         mGoumai_btn = mView.findViewById(R.id.xiaofei_title_goumaijilu);
         mDangri_btn = mView.findViewById(R.id.xiaofei_title_dangri_xiaofei);
@@ -144,26 +151,27 @@ public class XiaoFeiFragment extends BaseFragment {
     };
 
     private KehuXiaoFeiFragment mKehuXiaoFeiFragment;
-    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Log.d("dengguotao", "click: " + l);
-            if (tab_id != 0) {
-                return;
-            }
-            PurchaseRecord record = mPurchList.get((int) l);
-            if (mKehuXiaoFeiFragment == null) {
-                mKehuXiaoFeiFragment = new KehuXiaoFeiFragment();
-            }
-            Bundle data = new Bundle();
-            data.putInt("purch_id", record.id);
-            data.putString("p_name", record.projectName);
-            data.putString("remark",record.remark);
-            mKehuXiaoFeiFragment.setArguments(data);
-            mKehuXiaoFeiFragment.mParentFragment = XiaoFeiFragment.this;
-            mActivity.showContent(mKehuXiaoFeiFragment);
-        }
-    };
+    private AdapterView.OnItemClickListener onItemClickListener =
+            new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.d("dengguotao", "click: " + l);
+                    if (tab_id != 0) {
+                        return;
+                    }
+                    PurchaseRecord record = mPurchList.get((int) l);
+                    if (mKehuXiaoFeiFragment == null) {
+                        mKehuXiaoFeiFragment = new KehuXiaoFeiFragment();
+                    }
+                    Bundle data = new Bundle();
+                    data.putInt("purch_id", record.id);
+                    data.putString("p_name", record.projectName);
+                    data.putString("remark", record.remark);
+                    mKehuXiaoFeiFragment.setArguments(data);
+                    mKehuXiaoFeiFragment.mParentFragment = XiaoFeiFragment.this;
+                    mActivity.showContent(mKehuXiaoFeiFragment);
+                }
+            };
 
     private void refreshAdapter() {
         if (tab_id == 0) {
@@ -200,18 +208,22 @@ public class XiaoFeiFragment extends BaseFragment {
     }
 
     private void loadGouMaiList() {
-        RequestBody body = new FormBody.Builder().add("token", LoginManager.getInstance(mActivity).getToken())
+        RequestBody body = new FormBody.Builder().add("token",
+                LoginManager.getInstance(mActivity).getToken())
                 .add("customerId", custorm_id + "")
                 .build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/purchase_record/list?", body, goumaiListCallback);
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/purchase_record/list?", body,
+                goumaiListCallback);
     }
 
 
     private void loadDangRiList() {
-        RequestBody body = new FormBody.Builder().add("token", LoginManager.getInstance(mActivity).getToken())
+        RequestBody body = new FormBody.Builder().add("token",
+                LoginManager.getInstance(mActivity).getToken())
                 .add("customerId", custorm_id + "")
                 .build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/real_list?", body, dangRiListCallback);
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/real_list?", body,
+                dangRiListCallback);
     }
 
     private Callback goumaiListCallback = new Callback() {
@@ -227,7 +239,8 @@ public class XiaoFeiFragment extends BaseFragment {
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mPurchList.clear();
-                PurchaseRecordModule purchaseRecordModule = JsonUtil.parsoJsonWithGson(result, PurchaseRecordModule.class);
+                PurchaseRecordModule purchaseRecordModule = JsonUtil.parsoJsonWithGson(result,
+                        PurchaseRecordModule.class);
                 mPurchList.addAll(purchaseRecordModule.data);
                 mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             } else {
@@ -252,7 +265,8 @@ public class XiaoFeiFragment extends BaseFragment {
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mConsumptionList.clear();
-                ConsumptionRecordModule purchaseRecordModule = JsonUtil.parsoJsonWithGson(result, ConsumptionRecordModule.class);
+                ConsumptionRecordModule purchaseRecordModule = JsonUtil.parsoJsonWithGson(result,
+                        ConsumptionRecordModule.class);
                 mConsumptionList.addAll(purchaseRecordModule.data);
                 mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             } else {
@@ -262,8 +276,6 @@ public class XiaoFeiFragment extends BaseFragment {
     };
 
     private class MyAdapter extends BaseAdapter {
-
-        private String[] status = {"可用", "完成", "过期", "退费", "作废"};
 
         private class ViewHolder {
             public TextView project_name;
@@ -294,7 +306,8 @@ public class XiaoFeiFragment extends BaseFragment {
             ViewHolder viewHolder;
             if (view == null) {
                 viewHolder = new ViewHolder();
-                view = LayoutInflater.from(mActivity).inflate(R.layout.goumaijilu, viewGroup, false);
+                view = LayoutInflater.from(mActivity).inflate(R.layout.goumaijilu, viewGroup,
+                        false);
                 viewHolder.project_name = view.findViewById(R.id.goumailiaocheng);
                 viewHolder.status = view.findViewById(R.id.goumai_status);
                 viewHolder.kehu_name = view.findViewById(R.id.guomai_cusname);
@@ -313,9 +326,76 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.status.setText(record.statusName);
             viewHolder.add_xiaofei.setClickable(
                     (record.projectFrequency - record.useFrequency) > 0);
+            viewHolder.add_xiaofei.setTag(record.id);
+            viewHolder.add_xiaofei.setOnClickListener(mAdd_xiaofeiClick);
             return view;
         }
     }
+
+    private EditText add_remark_et;
+    private AlertDialog add_dialog;
+    private int add_click_id = -1;
+    private View.OnClickListener mAdd_xiaofeiClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            add_click_id = (int) view.getTag();
+            if (add_dialog == null) {
+                add_dialog = new NDialog(mActivity).setTitle("请输入消费备注")
+                        .setInputText("")
+                        .setInputTextSize(14)
+                        .setInputType(InputType.TYPE_CLASS_TEXT)
+                        .setInputLineColor(Color.parseColor("#00ff00"))
+                        .setPositiveButtonText("添加")
+                        .setNegativeButtonText("取消")
+                        .setNegativeTextColor(Color.parseColor("#c1c1c1"))
+                        .setOnInputListener(new NDialog.OnInputListener() {
+                            @Override
+                            public void onClick(String inputText, int which) {
+                                //which,0代表NegativeButton，1代表PositiveButton
+                                if (which == 1) {
+                                    add_xiaofei(add_click_id, inputText);
+                                }
+                            }
+                        }).create(NDialog.INPUT);
+            }
+            add_dialog.show();
+        }
+    };
+
+    // http://staff.mind-node.com/staff/api/consumption_record/save?token=11111111
+    // &purchaseRecordId=11&remarks=消费记录备注
+    private void add_xiaofei(int p_id, String remark) {
+        if (add_click_id == -1 || remark == null) return;
+        mActivity.showHUD("添加中");
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("purchaseRecordId", p_id + "")
+                .add("remarks", remark)
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/save?", body,
+                mAddBack);
+    }
+
+    private Callback mAddBack = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            mActivity.dissmissHUD();
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            mActivity.dissmissHUD();
+            if (response.code() == 200) {
+                String result = response.body().string();
+                Log.d("dengguotao", result);
+                BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                if (module.code == 0) {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "添加成功"));
+                    loadGouMaiList();
+                }
+            }
+        }
+    };
 
     private class MyAdapter2 extends BaseAdapter {
 
@@ -351,7 +431,8 @@ public class XiaoFeiFragment extends BaseFragment {
             ViewHolder viewHolder;
             if (view == null) {
                 viewHolder = new ViewHolder();
-                view = LayoutInflater.from(mActivity).inflate(R.layout.dangrixiaofei, viewGroup, false);
+                view = LayoutInflater.from(mActivity).inflate(R.layout.dangrixiaofei, viewGroup,
+                        false);
                 viewHolder.project_name = view.findViewById(R.id.dangriliaocheng);
                 viewHolder.kehu_name = view.findViewById(R.id.kehu_name);
                 viewHolder.date_year = view.findViewById(R.id.jinrixiaofei_year);
@@ -368,6 +449,7 @@ public class XiaoFeiFragment extends BaseFragment {
             ConsumptionRecord record = mConsumptionList.get(i);
             viewHolder.project_name.setText(record.projectName);
             viewHolder.do_work.setText(record.statusName);
+            viewHolder.do_work.setClickable(false);
             viewHolder.kehu_name.setText(record.customerName);
             String date = JsonUtil.getDate2(record.createTime);
             viewHolder.date_year.setText(date.substring(0, date.indexOf("-")));
@@ -379,9 +461,26 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.wolaifuwu.setClickable(record.myService);
             viewHolder.wolaifuwu.setBackgroundColor(record.myService ?
                     colorEnable : colorDisable);
+            viewHolder.click_change.setTag(record.id);
+            viewHolder.click_change.setOnClickListener(do_change_click);
             return view;
         }
     }
+
+    private XiaoFeiDetailFragment mXiaoFeiDetailFragment;
+    private View.OnClickListener do_change_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mXiaoFeiDetailFragment == null) {
+                mXiaoFeiDetailFragment = new XiaoFeiDetailFragment();
+                mXiaoFeiDetailFragment.mParentFragment = XiaoFeiFragment.this;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putInt("prcu_id", (Integer) view.getTag());
+            mXiaoFeiDetailFragment.setArguments(bundle);
+            mActivity.showContent(mXiaoFeiDetailFragment);
+        }
+    };
 
     public class PurchaseRecordModule extends BaseModule {
         public List<PurchaseRecord> data;

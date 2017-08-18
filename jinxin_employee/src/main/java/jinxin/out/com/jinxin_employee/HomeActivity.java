@@ -33,7 +33,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private BaseFragment mCurrentFragment;
     private BaseFragment mTuiFeiQianMingFragment;
-    private CaptureFragment mCaptureFragment;
+    private SaoyiSao mCaptureFragment;
     private MyCustormFragment myCustormFragment;
     private TuiFeiFragment mtuifeiFragment;
 
@@ -69,7 +69,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
         switch (requestCode) {
             case 0:
                 for (int i = 0; i < grantResults.length; i++) {
@@ -130,9 +131,12 @@ public class HomeActivity extends AppCompatActivity {
         public void onClick(View view) {
             refreshTab(1);
             if (mCaptureFragment == null) {
-                mCaptureFragment = new CaptureFragment();
+                mCaptureFragment = new SaoyiSao();
                 CodeUtils.setFragmentArgs(mCaptureFragment, R.layout.saoyisao_layout);
                 mCaptureFragment.setAnalyzeCallback(analyzeCallback);
+                mCaptureFragment.getView();
+                mCaptureFragment.mActivity = HomeActivity.this;
+                mCaptureFragment.mParentFragment = myCustormFragment;
             }
             showSaoYiSao(mCaptureFragment);
         }
@@ -202,15 +206,22 @@ public class HomeActivity extends AppCompatActivity {
     private KProgressHUD mHUD;
 
     public void showHUD(String text) {
-        if (mHUD == null) {
-            mHUD = KProgressHUD.create(this)
-                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                    .setCancellable(true)
-                    .setAnimationSpeed(2)
-                    .setDimAmount(0.5f);
-        }
+        mHUD = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f);
         mHUD.setLabel(text);
         mHUD.show();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mHUD != null) {
+            mHUD.dismiss();
+        }
+
     }
 
     public void dissmissHUD() {
@@ -222,7 +233,6 @@ public class HomeActivity extends AppCompatActivity {
     CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-            Log.d("dengguotao", "result: " + result);
             Bundle data = new Bundle();
             data.putString("search_data", result);
             myCustormFragment.setArguments(data);
@@ -239,11 +249,16 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean result;
-        if (keyCode != KeyEvent.KEYCODE_BACK || (mCurrentFragment == null && mTuiFeiQianMingFragment == null)) {
+        if (keyCode != KeyEvent.KEYCODE_BACK || (mCurrentFragment == null
+                && mTuiFeiQianMingFragment == null)) {
             return super.onKeyDown(keyCode, event);
         }
         if (mTuiFeiQianMingFragment != null) {
             result = mTuiFeiQianMingFragment.onKeyDown(keyCode, event);
+        } else if (mtuifeiFragment != null && mtuifeiFragment.isViewCreate) {
+            result = mtuifeiFragment.onKeyDown(keyCode, event);
+        } else if (mCaptureFragment != null && mCaptureFragment.isViewCreate) {
+            result = mCaptureFragment.onKeyDown(keyCode, event);
         } else {
             result = mCurrentFragment.onKeyDown(keyCode, event);
         }

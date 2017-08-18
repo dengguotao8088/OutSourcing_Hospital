@@ -87,7 +87,6 @@ public class MyCustormFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             mActivity.dissmissHUD();
             String result = response.body().string();
-            Log.d("dengguotao", result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code != 0) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);

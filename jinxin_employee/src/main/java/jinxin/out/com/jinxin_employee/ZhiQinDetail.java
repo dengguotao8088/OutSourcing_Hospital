@@ -39,7 +39,6 @@ public class ZhiQinDetail extends BaseFragment {
     private ImageView mqianming;
 
     private ZhiQinDetailModule module;
-    private ZhiQin zhiqin;
 
 //    url : http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?token=11111&id=11
 //    responseParam {
@@ -101,24 +100,6 @@ public class ZhiQinDetail extends BaseFragment {
             }
         }
     };
-    private Callback mback2 = new Callback() {
-        @Override
-        public void onFailure(Call call, IOException e) {
-
-        }
-
-        @Override
-        public void onResponse(Call call, Response response) throws IOException {
-            String result = response.body().string();
-            ZhiQinItem item = JsonUtil.parsoJsonWithGson(result, ZhiQinItem.class);
-            if (item.code == 0) {
-                zhiqin = item.data;
-                if (mMainHandler != null) {
-                    mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
-                }
-            }
-        }
-    };
 
     /**
      * 1、根据Id获取知情同意书
@@ -141,18 +122,6 @@ public class ZhiQinDetail extends BaseFragment {
      * }
      * }
      */
-    public class ZhiQin {
-        public int id;//
-        public String title;//标题
-        public String content;//内容
-        public int status;//状态，1：正常，2：停用
-        public String createTime;//创建时间
-        public String updateTime;//更新时间
-    }
-
-    public class ZhiQinItem extends BaseModule {
-        public ZhiQin data;
-    }
 
     @Override
     public void onResume() {

@@ -12,15 +12,7 @@ public class LoginResponseJson {
 
     public class Data {
         public String token;
-        public EmpDO empDO;
+        public Employee empDO;
     }
 
-    public static class EmpDO {
-        public String avatarPath;
-        public int id;
-        public String jobNumber;
-        public String mobile;
-        public String name;
-        public int sex;
-    }
 }

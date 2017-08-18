@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -26,6 +27,7 @@ public abstract class BaseFragment extends Fragment {
     public static final int LOAD_DATA_DONE = 0x100;
     public static final int LOAD_DATA_ERROR = 0x101;
     public static final int LOAD_DATA_IIMEOUT = 0x102;
+    public static final int SHOW_TOAST = 0x103;
 
     public BaseFragment mParentFragment;
     public HomeActivity mActivity;
@@ -64,6 +66,10 @@ public abstract class BaseFragment extends Fragment {
                     if (mListView != null) {
                         mListView.onRefreshComplete();
                     }
+                    break;
+                case SHOW_TOAST:
+                    String text = (String) msg.obj;
+                    Toast.makeText(mActivity,text,Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;

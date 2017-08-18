@@ -185,8 +185,8 @@ public class LinePathView extends View {
      *
      * @param path 保存到路径
      */
-    public void save(String path) throws IOException {
-        save(path, false, 0);
+    public boolean save(String path) throws IOException {
+        return save(path, false, 0);
     }
 
     /**
@@ -196,15 +196,20 @@ public class LinePathView extends View {
      * @param clearBlank 是否清除边缘空白区域
      * @param blank      要保留的边缘空白距离
      */
-    public void save(String path, boolean clearBlank, int blank) throws IOException {
+    public boolean save(String path, boolean clearBlank, int blank) throws IOException {
+
+        boolean result = false;
 
         Bitmap bitmap = cachebBitmap;
         //BitmapUtil.createScaledBitmapByHeight(srcBitmap, 300);//  压缩图片
         if (clearBlank) {
             bitmap = clearBlank(bitmap, blank);
         }
+        if(bitmap == null){
+            return false;
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 70, bos);
         byte[] buffer = bos.toByteArray();
         if (buffer != null) {
             File file = new File(path);
@@ -214,7 +219,9 @@ public class LinePathView extends View {
             OutputStream outputStream = new FileOutputStream(file);
             outputStream.write(buffer);
             outputStream.close();
+            result = true;
         }
+        return result;
     }
 
     /**

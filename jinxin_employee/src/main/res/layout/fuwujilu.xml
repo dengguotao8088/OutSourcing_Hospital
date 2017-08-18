@@ -1,168 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/tab_bar"
-        android:orientation="horizontal"
-        >
-    <ImageView
-        android:id="@+id/back"
-        android:layout_width="35dp"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/back"
-        />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/fuwujilu_back"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back"/>
 
         <TextView
-            android:id="@+id/header_title"
+            android:id="@+id/fuwujilu_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="20dp"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:text="客户服务记录"/>
-     <Button
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="保存"
-         android:background="@color/tab_bar"
-         android:textColor="@color/white"
-         android:textSize="20dp"
-         android:layout_marginLeft="260dp"/>
+            android:text="服务记录"
+            android:textColor="@color/white"
+            android:textSize="20sp"/>
+        <Button
+            android:id="@+id/fuwujilu_save"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@color/tab_bar"
+            android:text="保存"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
     </RelativeLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="客户姓名:"
-        android:textSize="17dp"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/kuhuxingming"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="6dp"
+        android:orientation="vertical">
         <TextView
+            android:id="@+id/fuwujilu_kuhuxingming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="易立伟"
-            android:layout_alignBottom="@id/kuhuxingming"
-            android:layout_marginLeft="100dp"
-            android:textSize="17dp"
-            android:textColor="@color/colorPrimary"
-            android:id="@+id/t_kuhuxingming"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/neirong"
-            android:layout_below="@id/kuhuxingming"
-            android:text="诊断内容:"
-            android:layout_marginTop="20dp"
-            android:layout_alignLeft="@id/kuhuxingming"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:id="@+id/qianzi_btn"
-            android:text="使用模板"
-            android:background="@color/tab_bar"
-            android:textColor="#FFFFFF"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/neirong"/>
+            android:text="客户姓名:"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"/>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="诊断内容:"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp"/>
+            <Button
+                android:id="@+id/fuwujilu_zhengduanneirong_btn"
+                android:layout_width="70dp"
+                android:layout_height="23dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/tab_bar"
+                android:text="使用模板"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </RelativeLayout>
         <EditText
+            android:id="@+id/fuwujilu_ed_neirong"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:gravity="top"
-            android:layout_alignLeft="@id/kuhuxingming"
-            android:layout_below="@id/neirong"
-            android:layout_marginTop="10dp"
-            android:id="@+id/ed_neirong"
-            android:background="@drawable/edittext"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/xiaofeibeizhu"
-            android:layout_below="@id/ed_neirong"
-            android:text="消费备注:"
-            android:layout_marginTop="20dp"
-            android:layout_alignLeft="@id/kuhuxingming"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_alignLeft="@id/kuhuxingming"
-            android:layout_below="@id/xiaofeibeizhu"
-            android:layout_marginTop="10dp"
-            android:id="@+id/ed_beizhu"
+            android:layout_height="60dp"
+            android:layout_marginTop="6dp"
             android:background="@drawable/edittext"
-            android:gravity="top"/>
+            android:gravity="top"
+            android:textCursorDrawable="@null"
+            android:textSize="13sp"/>
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="疼痛评估:"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp"/>
+            <Button
+                android:id="@+id/fuwujilu_tengtong_btn"
+                android:layout_width="70dp"
+                android:layout_height="23dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/tab_bar"
+                android:text="使用模板"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+        <EditText
+            android:id="@+id/fuwujilu_ed_tengtong_neirong"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/edittext"
+            android:gravity="top"
+            android:textCursorDrawable="@null"
+            android:textSize="13sp"/>
         <TextView
+            android:id="@+id/fuwujilu_xiaofeibeizhu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="消费备注:"
+            android:textColor="@color/tab_bar_bac"
+            android:textSize="13sp"/>
+        <EditText
+            android:id="@+id/fuwujilu_ed_beizhu"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/edittext"
+            android:gravity="top"
+            android:textCursorDrawable="@null"
+            android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/fuwujilu_gm_beizhu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="购买备注:"
-            android:layout_below="@id/ed_beizhu"
-            android:layout_alignLeft="@id/kuhuxingming"
-            android:layout_marginTop="30dp"
-            android:id="@+id/tv_beizhu"/>
+            android:textColor="@color/tab_bar_bac"
+            android:textSize="13sp"/>
         <TextView
+            android:id="@+id/fuwujilu_tv_hehuoren"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:text="合伙人:"
-            android:layout_below="@id/tv_beizhu"
-            android:layout_alignLeft="@id/kuhuxingming"
-            android:layout_marginTop="30dp"
-            android:id="@+id/tv_hehuoren"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/goumaibeizhu"
-            android:layout_alignBottom="@id/tv_beizhu"
-            android:layout_marginLeft="90dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/hehuor"
-            android:layout_alignBottom="@id/tv_hehuoren"
-            android:layout_marginLeft="90dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="客户签名:"
-            android:layout_below="@id/tv_hehuoren"
-            android:layout_alignLeft="@id/kuhuxingming"
-            android:layout_marginTop="30dp"
-            android:id="@+id/kehuqianming"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="技师签名:"
-            android:layout_below="@id/kehuqianming"
-            android:layout_alignLeft="@id/kuhuxingming"
-            android:layout_marginTop="30dp"
-            android:id="@+id/jishuqianming"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:id="@+id/kehuqianming_btn"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/kehuqianming"
-            android:text="客户签名"
-            android:background="@color/tab_bar"
-            android:textColor="#FFFFFF"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:id="@+id/jishuqianming_btn"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/jishuqianming"
-            android:text="技师签名"
-            android:background="@color/tab_bar"
-            android:textColor="#FFFFFF"/>
-    </RelativeLayout>
+            android:textColor="@color/tab_bar_bac"
+            android:textSize="13sp"/>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="客户签名:"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp"/>
+            <Button
+                android:id="@+id/fuwujilu_kehuqianming_btn"
+                android:layout_width="70dp"
+                android:layout_height="23dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/tab_bar"
+                android:text="客户签名"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+
+        <RelativeLayout android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="技师签名:"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp"/>
+            <Button
+                android:id="@+id/fuwujilu_jishiqianming_btn"
+                android:layout_width="70dp"
+                android:layout_height="23dp"
+                android:layout_alignParentRight="true"
+                android:background="@color/tab_bar"
+                android:text="技师签名"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

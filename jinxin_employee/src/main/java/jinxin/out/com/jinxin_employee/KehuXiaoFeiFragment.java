@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -56,6 +57,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         if (isViewCreate) {
             mRemark.setText("购买备注: " + remark);
             myAdapter.notifyDataSetChanged();
+            mList.getRefreshableView().setSelection(0);
         }
     }
 
@@ -65,9 +67,8 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         purchId = getArguments().getInt("purch_id");
         p_name = getArguments().getString("p_name");
         remark = getArguments().getString("remark");
-        if (mXiaofeiList.size() == 0) {
-            loadList();
-        }
+        mXiaofeiList.clear();
+        loadList();
     }
 
     //http://staff.mind-node.com/staff/api/consumption_record/list?token=11111
@@ -93,10 +94,10 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
-            Log.d("dengguotao", result);
             JsonModule module = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
             if (module.code == 0) {
                 remark = module.data.remark;
+                p_name = module.data.projectName;
                 mXiaofeiList.clear();
                 mXiaofeiList.addAll(module.data.datas);
                 if (mMainHandler != null) {
@@ -112,7 +113,8 @@ public class KehuXiaoFeiFragment extends BaseFragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.kehuxiaofei_main, container, false);
         mList = mView.findViewById(R.id.xiaofeijilu_layout_list);
         ImageView back = mView.findViewById(R.id.back);
@@ -121,7 +123,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         title.setText("客户消费记录");
 
         mRemark = mView.findViewById(R.id.xiaofeijilu_remark);
-        mRemark.setText("购买备注: " + remark);
+        mRemark.setText("购买备注: ");
 
         TextView empty = mView.findViewById(R.id.empty);
         initListView(mList, empty);
@@ -135,7 +137,6 @@ public class KehuXiaoFeiFragment extends BaseFragment {
     private XiaoFeiAdapter myAdapter = new XiaoFeiAdapter();
 
     public class XiaoFeiAdapter extends BaseAdapter {
-        private String[] status = {"可用", "完成", "过期", "退费", "作废"};
 
         private class ViewHolder {
             public TextView proName;
@@ -165,7 +166,8 @@ public class KehuXiaoFeiFragment extends BaseFragment {
             ViewHolder viewHolder;
             if (view == null) {
                 viewHolder = new ViewHolder();
-                view = LayoutInflater.from(mActivity).inflate(R.layout.xiaofeijilu, viewGroup, false);
+                view = LayoutInflater.from(mActivity).inflate(R.layout.xiaofeijilu, viewGroup,
+                        false);
                 viewHolder.proName = view.findViewById(R.id.xiaofei_liaocheng);
                 viewHolder.statue = view.findViewById(R.id.xiaofei_ok_btn);
                 viewHolder.date = view.findViewById(R.id.xiaofeijilu_date);
@@ -182,9 +184,26 @@ public class KehuXiaoFeiFragment extends BaseFragment {
             String date = JsonUtil.getDate2(record.createTime);
             viewHolder.date.setText(date.substring(0, date.indexOf("-")) + "    " +
                     date.substring(date.indexOf("-") + 1));
+            viewHolder.do_change.setTag(record.id);
+            viewHolder.do_change.setOnClickListener(do_change_click);
             return view;
         }
     }
+
+    private XiaoFeiDetailFragment mXiaoFeiDetailFragment;
+    private View.OnClickListener do_change_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mXiaoFeiDetailFragment == null) {
+                mXiaoFeiDetailFragment = new XiaoFeiDetailFragment();
+                mXiaoFeiDetailFragment.mParentFragment = KehuXiaoFeiFragment.this;
+            }
+            Bundle bundle = new Bundle();
+            bundle.putInt("prcu_id", (Integer) view.getTag());
+            mXiaoFeiDetailFragment.setArguments(bundle);
+            mActivity.showContent(mXiaoFeiDetailFragment);
+        }
+    };
 
     public class JsonModule extends BaseModule {
         public Data data;

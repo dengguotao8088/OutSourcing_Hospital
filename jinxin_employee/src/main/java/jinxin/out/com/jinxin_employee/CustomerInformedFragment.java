@@ -92,7 +92,6 @@ public class CustomerInformedFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
-            Log.d("dengguotao", result);
             if (baseModule.code == 0) {
                 ZhiQinList list = JsonUtil.parsoJsonWithGson(result, ZhiQinList.class);
                 if (list.data.size() > 0) {
@@ -112,7 +111,6 @@ public class CustomerInformedFragment extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
-            Log.d("dengguotao", result);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 MyResponseModule baseModule2 = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);

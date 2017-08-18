@@ -31,7 +31,8 @@ import okhttp3.Response;
 /**
  * 1、点击签名（退费申请）
  * {
- * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/update?token=111&id=11&customerId=12&customerSignaturePath=客户退费申请签字图片地址
+ * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/update?token=111&id=11
+ * &customerId=12&customerSignaturePath=客户退费申请签字图片地址
  * responseParam {
  * {
  * "code": 0,
@@ -55,7 +56,8 @@ import okhttp3.Response;
  * "customerId": 5,
  * "customerName": 张三,
  * "purchaseRecordId": 1
- * "customerSignaturePath": "http://img002.21cnimg.com/photos/album/20150702/m600/2D79154370E073A2BA3CD4D07868861D.jpeg",
+ * "customerSignaturePath": "http://img002.21cnimg
+ * .com/photos/album/20150702/m600/2D79154370E073A2BA3CD4D07868861D.jpeg",
  * "refundType": VIP
  * "status": 1
  * "remarks": 退费200
@@ -68,7 +70,8 @@ import okhttp3.Response;
  * <p>
  * 3、获取退费申请记录列表
  * {
- * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/list?token=111&page=1&size10
+ * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/list?token=111&page=1
+ * &size10
  * responseParam {
  * {
  * "code": 0,
@@ -104,15 +107,17 @@ public class TuiFeiFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (mdatas.size() == 0) {
-            loadTuiFeiList();
-        }
+        //if (mdatas.size() == 0) {
+        mdatas.clear();
+        loadTuiFeiList();
+        //}
         isFirstShow = false;
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tuifei_layout, container, false);
 
         TextView textView = mView.findViewById(R.id.header_title);
@@ -146,10 +151,12 @@ public class TuiFeiFragment extends BaseFragment {
     }
 
     private void loadTuiFeiList() {
-        RequestBody body = new FormBody.Builder().add("token", LoginManager.getInstance(mActivity).getToken())
+        RequestBody body = new FormBody.Builder().add("token",
+                LoginManager.getInstance(mActivity).getToken())
                 .add("page", "1")
                 .add("size", "10").build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_refund_apply_record/list?", body, mGetTuiFeiListCallBack);
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_refund_apply_record/list?",
+                body, mGetTuiFeiListCallBack);
     }
 
     private Callback mGetTuiFeiListCallBack = new Callback() {
@@ -166,7 +173,8 @@ public class TuiFeiFragment extends BaseFragment {
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mdatas.clear();
-                TuiFeiListModule tuiFeiList = JsonUtil.parsoJsonWithGson(result, TuiFeiListModule.class);
+                TuiFeiListModule tuiFeiList = JsonUtil.parsoJsonWithGson(result,
+                        TuiFeiListModule.class);
                 mdatas.addAll(tuiFeiList.data);
                 mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             } else {
@@ -230,6 +238,10 @@ public class TuiFeiFragment extends BaseFragment {
                 mQianMing.mode = QianMing.MODE_TUIFEI;
                 mQianMing.mParentFragment = TuiFeiFragment.this;
             }
+            Bundle bundle = new Bundle();
+            bundle.putInt("tuifei_id", module.id);
+            bundle.putInt("cus_id", module.customerId);
+            mQianMing.setArguments(bundle);
             mActivity.showContent(mQianMing);
         }
     };

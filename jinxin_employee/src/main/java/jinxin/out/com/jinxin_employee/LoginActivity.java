@@ -40,9 +40,17 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity);
 
         mContext = this;
+
+        if (LoginManager.getInstance(this).getToken() != null) {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        setContentView(R.layout.login_activity);
+
         initView(this);
     }
 
@@ -101,13 +109,19 @@ public class LoginActivity extends Activity {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
+            mHUD.dismiss();
             String result = response.body().string();
             LoginResponseJson loginResponseJson =
                     JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
             if (loginResponseJson.code == 0) {
                 LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
-                LoginManager.getInstance(mContext).getEmployee(loginResponseJson.data.empDO.id,
-                        mGetEmployeeDoneCallBack);
+                LoginManager.getInstance(mContext).setEmployee(loginResponseJson.data.empDO);
+                if (mRemCheckbox.isChecked()) {
+                    LoginManager.getInstance(mContext).saveEmp();
+                }
+                Intent intent = new Intent(mContext, HomeActivity.class);
+                startActivity(intent);
+                finish();
             }
         }
     };
@@ -115,17 +129,9 @@ public class LoginActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        //mHUD.dismiss();
+        if(mHUD != null) {
+            mHUD.dismiss();
+        }
     }
 
-    private LoginManager.GetEmployeeDoneCallBack mGetEmployeeDoneCallBack =
-            new LoginManager.GetEmployeeDoneCallBack() {
-                @Override
-                public void getEmployeeDone() {
-                    mHUD.dismiss();
-                    Intent intent = new Intent(mContext, HomeActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            };
 }
