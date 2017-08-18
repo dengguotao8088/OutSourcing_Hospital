@@ -1,5 +1,7 @@
 package jinxin.out.com.jinxinhospital.JsonModule;
 
+import java.net.URL;
+
 import retrofit.http.PUT;
 
 /**
@@ -9,6 +11,21 @@ import retrofit.http.PUT;
 public class Constants {
 
     public static final String URL_PREFIX = "http://client.mind-node.com/client/";
+
+    //根据客户Id获取本次检查(当日消费)
+    public static final String GET_CURRENT_PAGE = URL_PREFIX + "api/consumption_record/real_list?";
+
+    //根据客户Id获取现场排号情况
+    public static final String GET_FEILD_QUEUE_LIST = URL_PREFIX + "api/customer/field_queue/list?";
+
+    //获取理疗类型列表
+    public static final String GET_PHYSIOTHERPY_TYPE_LISY = URL_PREFIX + "api/physiotherapy_type/list?";
+
+    //获取理疗内容
+    public static final String GET_PHYSIOTHERPY_CONTENT = URL_PREFIX + "api/physiotherapy/get?";
+
+    //获取理疗列表
+    public static final String GET_PHYSIOTHERPY_LIST = URL_PREFIX + "api/physiotherapy/list?";
 
     //获取部门列表
     public static final String GET_DEPARTMENT_LIST = URL_PREFIX + "api/department/list?";

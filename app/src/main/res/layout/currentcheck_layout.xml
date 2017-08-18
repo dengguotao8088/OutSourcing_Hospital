@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    ><LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_num"/>
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:id="@+id/current_num"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_shoufa"/>
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:textSize="18sp"
+            android:text="@string/current_no"
+            android:id="@+id/current_shoufa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_yiqi"/>
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:id="@+id/current_yiqi"
+            android:textSize="18sp"
+            android:text="@string/current_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:textColor="@color/colorHomePageBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="@string/current_yujia"/>
+        <TextView
+            android:id="@+id/current_yujia"
+            android:textSize="18sp"
+            android:text="@string/current_no"
+            android:textColor="@color/colorHomePageBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/current_xiangmu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:clickable="false"
+            android:enabled="false"
+            android:background="@drawable/textview_shape"
+            android:textColor="@color/colorHomePageBlue"
+            android:text="@string/current_xiangmu"
+
+            />
+        <Button android:id="@+id/current_zhenduan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:enabled="false"
+            android:textColor="@color/colorHomePageBlue"
+            android:textSize="18sp"
+            android:background="@drawable/textview_shape"
+            android:text="@string/current_zhenduan"
+            />
+        <Button android:id="@+id/current_xiaofei"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:clickable="false"
+            android:enabled="false"
+            android:background="@drawable/textview_shape"
+            android:textColor="@color/colorHomePageBlue"
+            android:text="@string/current_xiaofei"
+            />
+        <Button android:id="@+id/current_renyuan"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:clickable="false"
+            android:enabled="false"
+            android:background="@drawable/textview_shape"
+            android:textColor="@color/colorHomePageBlue"
+            android:text="@string/current_renyuan"
+            />
+    </LinearLayout>
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/curren_empty"
+        android:text="@string/current_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TableLayout
+        android:id="@+id/current_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:shrinkColumns="*">
+    </TableLayout>
+
+</LinearLayout>
+</ScrollView>

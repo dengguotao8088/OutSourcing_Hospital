@@ -94,10 +94,22 @@
     <string name="vip_select_dep">选择部门</string>
     <string name="vip_make_sure">请确认您的订单信息</string>
     <string name="vip_submit">提交订单</string>
-    <string name="vip_list_title">显示最近的5条信息</string>
+    <string name="vip_list_title">显示最近的5条信息：</string>
     <string name="vip_item_request_time">申请时间：</string>
     <string name="vip_item_reservation_time">预约时间:</string>
     <string name="vip_item_dep">部门:</string>
     <string name="vip_item_status">状态:</string>
+
+    <!-- Current Check  -->
+    <string name="current_num">客户编号：</string>
+    <string name="current_shoufa">手法排队：</string>
+    <string name="current_yiqi">仪器排队：</string>
+    <string name="current_yujia">瑜伽排队：</string>
+    <string name="current_no">今日该类暂无排队信息</string>
+    <string name="current_xiangmu">服务项目</string>
+    <string name="current_zhenduan">诊断内容</string>
+    <string name="current_xiaofei">消费状态</string>
+    <string name="current_renyuan">服务人员</string>
+    <string name="current_empty">今日暂无消费项目</string>
 
 </resources>

@@ -174,9 +174,10 @@ public class VipReservationActivity extends UserAppCompatActivity {
                 case 0x44:
                     if (mReservationList.isEmpty()) {
                         mEmptyMsg.setVisibility(View.VISIBLE);
-                    } else {
-                        myAdapter.notifyDataSetChanged();
+                    } else{
+                        mEmptyMsg.setVisibility(View.GONE);
                     }
+                    myAdapter.notifyDataSetChanged();
             }
         }
     }

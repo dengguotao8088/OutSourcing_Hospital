@@ -26,8 +26,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,6 +52,8 @@ import jinxin.out.com.jinxinhospital.News.News;
 import jinxin.out.com.jinxinhospital.News.NewsContentResponseJson;
 import jinxin.out.com.jinxinhospital.News.NewsResponseJson;
 import jinxin.out.com.jinxinhospital.Notice.NoticeResponseJson;
+import jinxin.out.com.jinxinhospital.Physiotherapy.PhysiotherapyType;
+import jinxin.out.com.jinxinhospital.Physiotherapy.PhysiotherapyTypeResoponseJson;
 import jinxin.out.com.jinxinhospital.view.UserListView;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -64,6 +72,7 @@ public class HomePageFragment extends BaseFragment {
     private static final int ADD_NEWS_TO_LIST = 0x113;
     private static final int SHOW_NEWS_CONTENT = 0x114;
     private static final int SHOW_EMPLOYEE_CONTENT = 0x114;
+    private static final int SHOW_PHYTYPE_CONTENT = 0x115;
     private static final String TAG = "HomePageFragment";
 
     private int mIndex;
@@ -79,6 +88,17 @@ public class HomePageFragment extends BaseFragment {
     private int colorId;
     private TextView mNoticeView;
 
+    private ImageView mLinearImg1;
+    private TextView mLinearText1;
+    private ImageView mLinearImg2;
+    private TextView mLinearText2;
+    private ImageView mLinearImg3;
+    private TextView mLinearText3;
+    private ImageView mLinearImg4;
+    private TextView mLinearText4;
+    private ImageView mLinearImg5;
+    private TextView mLinearText5;
+
     private NewsResponseJson mNewsResponseJson;
     private NewsContentResponseJson mNewsContentResponseJson;
     private EmployeeResponseJson mEmployeesResponseJson;
@@ -91,6 +111,7 @@ public class HomePageFragment extends BaseFragment {
     private String mNotice;
     private List<News> mNewsList = new ArrayList<>();
     private List<Employee> mEmployeeList = new ArrayList<>();
+    private List<PhysiotherapyType> mPhysiotherapyTypeList = new ArrayList<>();
 
     private int[] mHomePageShow = new int[]{
             R.drawable.banner1,
@@ -99,6 +120,12 @@ public class HomePageFragment extends BaseFragment {
             R.drawable.banner4,
             R.drawable.banner5
     };
+
+    private LinearLayout LinearOne;
+    private LinearLayout LinearTwo;
+    private LinearLayout LinearThree;
+    private LinearLayout LinearFour;
+    private LinearLayout LinearFive;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -134,6 +161,28 @@ public class HomePageFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mContext = getContext();
         View view = inflater.inflate(R.layout.home_page, container, false);
+        LinearOne = view.findViewById(R.id.zhongyiyangsheng);
+        LinearTwo = view.findViewById(R.id.chanhoukangfu);
+        LinearThree = view.findViewById(R.id.pifumeirong);
+        LinearFour = view.findViewById(R.id.yujiaxiuyang);
+        LinearFive = view.findViewById(R.id.xiaoertuina);
+        mLinearImg1 = view.findViewById(R.id.linear1_img);
+        mLinearText1 = view.findViewById(R.id.linear1_title);
+        mLinearImg2 = view.findViewById(R.id.linear2_img);
+        mLinearText2 = view.findViewById(R.id.linear2_title);
+        mLinearImg3 = view.findViewById(R.id.linear3_img);
+        mLinearText3 = view.findViewById(R.id.linear3_title);
+        mLinearImg4 = view.findViewById(R.id.linear4_img);
+        mLinearText4 = view.findViewById(R.id.linear4_title);
+        mLinearImg5 = view.findViewById(R.id.linear5_img);
+        mLinearText5 = view.findViewById(R.id.linear5_title);
+
+        LinearOne.setOnClickListener(mLinearOnclickListener);
+        LinearTwo.setOnClickListener(mLinearOnclickListener);
+        LinearThree.setOnClickListener(mLinearOnclickListener);
+        LinearFour.setOnClickListener(mLinearOnclickListener);
+        LinearFive.setOnClickListener(mLinearOnclickListener);
+
         mShowImageView = view.findViewById(R.id.home_page_show_img);
         mShowImageView.setImageResource(mHomePageShow[0]);
         mYHBtn = view.findViewById(R.id.home_page_yihurenyuan_btn);
@@ -149,6 +198,25 @@ public class HomePageFragment extends BaseFragment {
         getEmpDataFromHttp();
         return view;
     }
+
+    private View.OnClickListener mLinearOnclickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Object obj = view.getTag();
+            if (obj == null) {
+                Toast toast = Toast.makeText(mMainContext, "该类型没有数据", Toast.LENGTH_SHORT);
+                toast.show();
+                return;
+            }
+            int id = (int)obj;
+            Bundle bundle = new Bundle();
+            bundle.putInt("id", id);
+            bundle.putString("title", getTitleFormPhyType(id));
+            Intent intent = new Intent("android.intent.action.HOME_PHYSIOTHERAPY_ACTION");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+    };
 
     private View.OnClickListener mYHOnclickListener = new View.OnClickListener() {
         @Override
@@ -215,6 +283,16 @@ public class HomePageFragment extends BaseFragment {
 
         RequestBody requestBodyNotice = new FormBody.Builder().build();
         NetPostUtil.post(Constants.GET_NOTICE, requestBodyNotice, mNoticeCallback);
+        NetPostUtil.post(Constants.GET_PHYSIOTHERPY_TYPE_LISY, requestBodyNotice, mPhyTypeCallback);
+    }
+
+    public String getTitleFormPhyType(int id) {
+        for (int i = 0; i < mPhysiotherapyTypeList.size(); i++) {
+            if (mPhysiotherapyTypeList.get(i).id == id) {
+                return mPhysiotherapyTypeList.get(i).name;
+            }
+        }
+        return null;
     }
 
     private Callback mNewsContentListCallback = new Callback() {
@@ -241,6 +319,38 @@ public class HomePageFragment extends BaseFragment {
             }
             mHandler.removeMessages(ADD_NEWS_TO_LIST);
             mHandler.sendEmptyMessage(ADD_NEWS_TO_LIST);
+        }
+    };
+
+    private Callback mPhyTypeCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e(TAG,"mPhyTypeCallback onFailure...");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
+            PhysiotherapyTypeResoponseJson phyTypeResoponseJson
+                    = JsonUtil.parsoJsonWithGson(result, PhysiotherapyTypeResoponseJson.class);
+            mPhysiotherapyTypeList.clear();
+            int length = phyTypeResoponseJson.data.length <=5
+                    ? phyTypeResoponseJson.data.length
+                    : 5;
+            for(int i=0; i<phyTypeResoponseJson.data.length; i++) {
+                mPhysiotherapyTypeList.add(phyTypeResoponseJson.data[i]);
+            }
+            mHandler.removeMessages(SHOW_PHYTYPE_CONTENT);
+            mHandler.sendEmptyMessage(SHOW_PHYTYPE_CONTENT);
+
         }
     };
 
@@ -321,6 +431,44 @@ public class HomePageFragment extends BaseFragment {
                     break;
                 case 0x33:
                     mNoticeView.setText(mNotice);
+                    break;
+                case SHOW_PHYTYPE_CONTENT:
+                    Log.d("xie", "................size = " + mPhysiotherapyTypeList.size());
+                    if (mPhysiotherapyTypeList.size() < 5) {
+                        break;
+                    }
+                    Glide.with(HomePageFragment.this)
+                            .load(mPhysiotherapyTypeList.get(0).coverPath)
+                            .error(R.drawable.lm1)
+                            .into(mLinearImg1);
+                    mLinearText1.setText(mPhysiotherapyTypeList.get(0).name);
+                    LinearOne.setTag(mPhysiotherapyTypeList.get(0).id);
+                    Glide.with(HomePageFragment.this)
+                            .load(mPhysiotherapyTypeList.get(1).coverPath)
+                            .error(R.drawable.lm2)
+                            .into(mLinearImg2);
+                    mLinearText2.setText(mPhysiotherapyTypeList.get(1).name);
+                    LinearTwo.setTag(mPhysiotherapyTypeList.get(1).id);
+                    Glide.with(HomePageFragment.this)
+                            .load(mPhysiotherapyTypeList.get(2).coverPath)
+                            .error(R.drawable.lm3)
+                            .into(mLinearImg3);
+                    mLinearText3.setText(mPhysiotherapyTypeList.get(2).name);
+                    LinearThree.setTag(mPhysiotherapyTypeList.get(2).id);
+                    Glide.with(HomePageFragment.this)
+                            .load(mPhysiotherapyTypeList.get(3).coverPath)
+                            .error(R.drawable.lm4)
+                            .into(mLinearImg4);
+                    mLinearText4.setText(mPhysiotherapyTypeList.get(3).name);
+                    LinearFour.setTag(mPhysiotherapyTypeList.get(3).id);
+                    Glide.with(HomePageFragment.this)
+                            .load(mPhysiotherapyTypeList.get(4).coverPath)
+                            .error(R.drawable.lm5)
+                            .into(mLinearImg5);
+                    mLinearText5.setText(mPhysiotherapyTypeList.get(4).name);
+                    LinearFive.setTag(mPhysiotherapyTypeList.get(4).id);
+                    break;
+
                 case SHOW_NEWS_CONTENT:
 //                    NewsContentFragment mNewsContentFragment = new NewsContentFragment();
 //                    Bundle data = new Bundle();
@@ -368,6 +516,21 @@ public class HomePageFragment extends BaseFragment {
             return i;
         }
 
+        //设置错误监听
+        RequestListener<String,GlideDrawable> errorListener=new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {
+                Log.e("xie",e.toString()+"  model:"+model+" isFirstResource: "+isFirstResource);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                Log.e("xie","isFromMemoryCache:"+isFromMemoryCache+"  model:"+model+" isFirstResource: "+isFirstResource);
+                return false;
+            }
+        };
+
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             final ViewHolder holder;
@@ -385,24 +548,16 @@ public class HomePageFragment extends BaseFragment {
             final Employee data = mEmployeeList.get(i);
             holder.name.setText(data.name);
             holder.summary.setText(data.summary);
-            holder.mImageView.setImageResource(R.drawable.user);
+            //"http://sc.jb51.net/uploads/allimg/150709/14-150FZ94211O4.jpg"
+            Glide.with(HomePageFragment.this).load(data.avatarPath)
+                    .override(80,80)
+                    .error(R.drawable.load_fail)
+                    .placeholder(R.drawable.loading)
+                    .listener(errorListener)
+                    .into(holder.mImageView);
             holder.mItem.setTag(R.id.tag_first, false);
             holder.mItem.setTag(R.id.tag_second, data.id);
             holder.mItem.setOnClickListener(onItemClickListener);
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        URL url= new URL(data.avatarPath);
-//                        Bitmap pngBM = BitmapFactory.decodeStream(url.openStream());
-//                        holder.mImageView.setImageBitmap(pngBM);
-//                    } catch (MalformedURLException e) {
-//
-//                    } catch (IOException e) {
-//
-//                    }
-//                }
-//            }).start();
             //TODO:
             return view;
         }
@@ -431,6 +586,20 @@ public class HomePageFragment extends BaseFragment {
         public long getItemId(int i) {
             return i;
         }
+        //设置错误监听
+        RequestListener<String,GlideDrawable> errorListener=new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFirstResource) {
+                Log.e("xie",e.toString()+"  model:"+model+" isFirstResource: "+isFirstResource);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, com.bumptech.glide.request.target.Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                Log.e("xie","isFromMemoryCache:"+isFromMemoryCache+"  model:"+model+" isFirstResource: "+isFirstResource);
+                return false;
+            }
+        };
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
@@ -447,22 +616,12 @@ public class HomePageFragment extends BaseFragment {
                 holder = (ViewHolder) view.getTag();
             }
             final News data = mNewsList.get(i);
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        URL url= new URL(data.coverPath);
-//                        Bitmap pngBM = BitmapFactory.decodeStream(url.openStream());
-//                        holder.mImageView.setImageBitmap(pngBM);
-//                    } catch (MalformedURLException e) {
-//
-//                    } catch (IOException e) {
-//
-//                    }
-//                }
-//            }).start();
-
-            holder.mImageView.setImageResource(R.drawable.user);
+            Glide.with(HomePageFragment.this).load(data.coverPath)
+                    .override(80,80)
+                    .error(R.drawable.load_fail)
+                    .placeholder(R.drawable.loading)
+                    .listener(errorListener)
+                    .into(holder.mImageView);
             holder.name.setText(data.title);
             holder.summary.setText(data.summary);
             holder.mItem.setTag(R.id.tag_first, true);
@@ -477,7 +636,6 @@ public class HomePageFragment extends BaseFragment {
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d("xie", "222222222222222222222222222222");
             Boolean isNews = (Boolean) view.getTag(R.id.tag_first);
             int id = (int) view.getTag(R.id.tag_second);
             Bundle bundle = new Bundle();

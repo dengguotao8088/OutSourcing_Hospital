@@ -28,6 +28,9 @@ import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
 import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.News.News;
 import jinxin.out.com.jinxinhospital.News.NewsContentResponseJson;
+import jinxin.out.com.jinxinhospital.Physiotherapy.PhyContentResponseJson;
+import jinxin.out.com.jinxinhospital.Physiotherapy.Physiotherapy;
+import jinxin.out.com.jinxinhospital.Physiotherapy.PhysiotherapyResponseJson;
 import jinxin.out.com.jinxinhospital.VIP.VipData;
 import jinxin.out.com.jinxinhospital.VIP.VipPowerResponseJson;
 import jinxin.out.com.jinxinhospital.VIP.VipResponseJson;
@@ -90,11 +93,46 @@ public class DetailsActivity extends UserAppCompatActivity {
                     .add("customerId", sharedPreferences.getInt("customerId", -1) + "")
                     .build();
             NetPostUtil.post(Constants.GET_VIP_PRIVILEGE, requestBody, mVipPowerContentCallback);
+        } else if ("physiotherapy".equals(type)) {
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("id", id)
+                    .build();
+            NetPostUtil.post(Constants.GET_PHYSIOTHERPY_CONTENT, requestBody, mPhyContentCallback);
+        } else {
+
         }
         mTextView = findViewById(R.id.news_content_message);
         mWebView = findViewById(R.id.webView);
         setToolBarTitle(mTitleMsg);
     }
+
+    private Callback mPhyContentCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e("xie", "mPhyContentCallback onFailure");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie", "mPhyContentCallback: result"+result);
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code < 0) {
+                url = module.message;
+                Log.d("xie", "mMessage = " + mMessage);
+                myHandler.sendEmptyMessage(1);
+                return;
+            }
+            PhyContentResponseJson physiotherapyResponseJson = JsonUtil.parsoJsonWithGson(result,
+                    PhyContentResponseJson.class);
+            if (physiotherapyResponseJson != null) {
+                Physiotherapy phyData = physiotherapyResponseJson.data;
+                url = phyData.content;
+                mTitleMsg = phyData.title;
+            }
+            myHandler.sendEmptyMessage(1);
+        }
+    };
 
     private Callback mVipContentCallback = new Callback() {
         @Override

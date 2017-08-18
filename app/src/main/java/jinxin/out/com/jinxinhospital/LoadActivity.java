@@ -127,6 +127,7 @@ public class LoadActivity extends FragmentActivity {
         public void onResponse(Call call, Response response) throws IOException {
             Log.d("xie", "mLoginCallback onResponse");
             String result = response.body().string();
+            Log.d("xie", "result = "  + result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code != 0) {
                 return;

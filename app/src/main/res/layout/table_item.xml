@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:paddingTop="2dp"
+    android:background="#eeeff0"
+    android:orientation="horizontal">
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/current_tab_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:paddingLeft="2dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:textColor="#565656"
+            />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent" />
+        <TextView android:id="@+id/current_tab_2"
+            android:paddingLeft="2dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:textColor="#565656"
+            android:textSize="16sp"
+            />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent" />
+        <TextView android:id="@+id/current_tab_3"
+            android:layout_width="0dp"
+            android:paddingLeft="2dp"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:textColor="#565656"
+            />
+        <TextView
+            android:layout_width="2dp"
+            android:layout_height="match_parent" />
+        <TextView android:id="@+id/current_tab_4"
+            android:layout_width="0dp"
+            android:paddingLeft="2dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:paddingRight="2dp"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:textColor="#565656"
+            />
+
+</LinearLayout>

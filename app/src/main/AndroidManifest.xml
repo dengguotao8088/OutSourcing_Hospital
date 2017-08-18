@@ -100,6 +100,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".PhysiotherapyListActivity"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.HOME_PHYSIOTHERAPY_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
 
     </application>
 </manifest>
