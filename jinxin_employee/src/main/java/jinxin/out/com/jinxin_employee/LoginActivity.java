@@ -80,7 +80,6 @@ public class LoginActivity extends Activity {
                 Toast.makeText(mContext, "没有网络", Toast.LENGTH_SHORT).show();
             } else {
                 if (mRemCheckbox.isChecked()) {
-                    Log.d("xie", "remenber.....");
                     remenber(name, password);
                 }
                 RequestBody body = new FormBody.Builder().add("jobNumber", name)
@@ -110,6 +109,7 @@ public class LoginActivity extends Activity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             mHUD.dismiss();
+            if(response.code() !=200) return;
             String result = response.body().string();
             LoginResponseJson loginResponseJson =
                     JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);

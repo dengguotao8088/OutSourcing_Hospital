@@ -167,9 +167,11 @@ public class TuiFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            Log.d("dengguotao", "code: " + response.code());
+            if(response.code() !=200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
-            Log.d("dengguotao", "result: " + result);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mdatas.clear();

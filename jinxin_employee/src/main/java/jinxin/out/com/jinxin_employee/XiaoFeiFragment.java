@@ -234,8 +234,11 @@ public class XiaoFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
+            if(response.code() !=200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
-            Log.d("dengguotao", "result: " + result);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mPurchList.clear();
@@ -260,8 +263,11 @@ public class XiaoFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
+            if(response.code() !=200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
-            Log.d("dengguotao", "result: " + result);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
                 mConsumptionList.clear();
@@ -387,7 +393,6 @@ public class XiaoFeiFragment extends BaseFragment {
             mActivity.dissmissHUD();
             if (response.code() == 200) {
                 String result = response.body().string();
-                Log.d("dengguotao", result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                 if (module.code == 0) {
                     mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "添加成功"));

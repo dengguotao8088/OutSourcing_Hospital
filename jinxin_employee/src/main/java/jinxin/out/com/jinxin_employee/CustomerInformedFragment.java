@@ -90,6 +90,10 @@ public class CustomerInformedFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() != 200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (baseModule.code == 0) {
@@ -132,9 +136,11 @@ public class CustomerInformedFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         mCusId = getArguments().getInt("custorm_id");
         mCusName = getArguments().getString("custorm_name");
-        if (mCusZhiQinList.size() == 0) {
-            loadAllData();
-        }
+        mChooseModule = null;
+        mChooseRelation = null;
+        //if (mCusZhiQinList.size() == 0) {
+        loadAllData();
+        //}
     }
 
     @Override
@@ -228,6 +234,7 @@ public class CustomerInformedFragment extends BaseFragment {
     };
 
     private String[] relations = {"本人", "监护人", "委托人"};
+    private String mChooseRelation;
     private View.OnClickListener mAddReListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -237,6 +244,7 @@ public class CustomerInformedFragment extends BaseFragment {
                         .setItems(relations, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                mChooseRelation = relations[i];
                                 mAddreText.setText("签字人与客户关系：" + relations[i]);
                             }
                         })
@@ -249,6 +257,23 @@ public class CustomerInformedFragment extends BaseFragment {
     private View.OnClickListener mAddListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (mChooseModule == null || mChooseRelation == null) {
+                mMainHandler.sendMessage(
+                        mMainHandler.obtainMessage(SHOW_TOAST, "请选择模板及关系"));
+                return;
+            }
+            if (qianMing == null) {
+                qianMing = new QianMing();
+                qianMing.mode = QianMing.MODE_ZHIQIN;
+                qianMing.mParentFragment = CustomerInformedFragment.this;
+            }
+            Bundle data = new Bundle();
+            data.putInt("zhiqin_module", 1);
+            data.putInt("zhiqin_cus_id", mCusId);
+            data.putInt("zhiqin_info_id", mChooseModule.id);
+            data.putString("zhiqin_relation", mChooseRelation);
+            qianMing.setArguments(data);
+            mActivity.showContent(qianMing);
         }
     };
 
@@ -309,15 +334,15 @@ public class CustomerInformedFragment extends BaseFragment {
     private View.OnClickListener mQianMing = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d("dengguotao", "id: " + view.getTag());
             if (qianMing == null) {
                 qianMing = new QianMing();
                 qianMing.mode = QianMing.MODE_ZHIQIN;
+                qianMing.mParentFragment = CustomerInformedFragment.this;
             }
             Bundle data = new Bundle();
+            data.putInt("zhiqin_module", 2);
             data.putInt("zhiqin_id", (Integer) view.getTag());
             qianMing.setArguments(data);
-            qianMing.mParentFragment = CustomerInformedFragment.this;
             mActivity.showContent(qianMing);
         }
     };

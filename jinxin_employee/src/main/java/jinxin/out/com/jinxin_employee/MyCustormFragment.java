@@ -86,6 +86,10 @@ public class MyCustormFragment extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             mActivity.dissmissHUD();
+            if(response.code() !=200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code != 0) {
@@ -167,7 +171,6 @@ public class MyCustormFragment extends BaseFragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Log.d("dengguotao", i + "" + "  " + l);
                     if (xiaoFeiFragment == null) {
                         xiaoFeiFragment = new XiaoFeiFragment();
                         xiaoFeiFragment.mParentFragment = MyCustormFragment.this;

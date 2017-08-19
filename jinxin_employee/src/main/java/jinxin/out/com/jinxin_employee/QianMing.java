@@ -51,8 +51,8 @@ import okhttp3.Response;
  * }
  * }
  * }
- *
- *
+ * <p>
+ * <p>
  * 2、添加客户知情同意书
  * {
  * url : http://staff.mind-node.com/staff/api/customer_informed_consent_record/save?
@@ -96,6 +96,14 @@ public class QianMing extends BaseFragment {
     private int tuifei_id;
     private int custom_id;
 
+    private int zhiqin_mode;
+
+    private int zhiqin_id;
+
+    private int zhiqin_cus_id;
+    private int zhiqin_info_id;
+    private String zhiqin_relation;
+
     private String path;
 
     @Override
@@ -107,9 +115,23 @@ public class QianMing extends BaseFragment {
         }
         tuifei_id = -1;
         custom_id = -1;
+        zhiqin_mode = -1;
+        zhiqin_id = -1;
+        zhiqin_cus_id = -1;
+        zhiqin_info_id = -1;
+        zhiqin_relation = null;
         if (mode == MODE_TUIFEI) {
             tuifei_id = getArguments().getInt("tuifei_id");
             custom_id = getArguments().getInt("cus_id");
+        } else if (mode == MODE_ZHIQIN) {
+            zhiqin_mode = getArguments().getInt("zhiqin_module");
+            if (zhiqin_mode == 1) {
+                zhiqin_cus_id = getArguments().getInt("zhiqin_cus_id");
+                zhiqin_info_id = getArguments().getInt("zhiqin_info_id");
+                zhiqin_relation = getArguments().getString("zhiqin_relation");
+            } else if (zhiqin_mode == 2) {
+                zhiqin_id = getArguments().getInt("zhiqin_id");
+            }
         }
     }
 
@@ -121,7 +143,7 @@ public class QianMing extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         mView = LayoutInflater.from(getActivity()).inflate(R.layout.qianming, container, false);
         save = mView.findViewById(R.id.qianming_save);
         save.setOnClickListener(msaveListener);
@@ -168,8 +190,6 @@ public class QianMing extends BaseFragment {
         public void onClick(View view) {
             mActivity.showHUD("上传中");
             upload.setClickable(false);
-            //uploadTask.cancel(true);
-            //uploadTask.execute("");
             uploadQianming();
         }
     };
@@ -209,7 +229,6 @@ public class QianMing extends BaseFragment {
                 public void onFailure(Call call, IOException e) {
                     mActivity.dissmissHUD();
                     upload.setClickable(true);
-                    Log.d("dengguotao", "upload error");
                 }
 
                 @Override
@@ -223,9 +242,14 @@ public class QianMing extends BaseFragment {
                             JsonModule jsonModule = JsonUtil.parsoJsonWithGson(result,
                                     JsonModule.class);
                             path = jsonModule.data.path;
-                            Log.d("dengguotao", path);
                             if (mode == MODE_TUIFEI) {
                                 do_tuifei(path);
+                            } else if (mode == MODE_ZHIQIN) {
+                                if (zhiqin_mode == 1) {
+                                    do_addZhiqin(path);
+                                } else {
+                                    do_updateZhiqin(path);
+                                }
                             }
                         }
                     }
@@ -235,6 +259,34 @@ public class QianMing extends BaseFragment {
             mActivity.dissmissHUD();
             upload.setClickable(true);
         }
+    }
+
+    private void do_addZhiqin(String path) {
+        if (zhiqin_cus_id == -1 || zhiqin_info_id == -1) {
+            return;
+        }
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("customerId", zhiqin_cus_id + "")
+                .add("informedConsentTemplateId", zhiqin_info_id + "")
+                .add("relationShip", zhiqin_relation)
+                .add("customerSignaturePath", path)
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/save?"
+                , body, tuifei_back);
+    }
+
+    private void do_updateZhiqin(String path) {
+        if (zhiqin_id == -1) {
+            return;
+        }
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("id", zhiqin_id + "")
+                .add("customerSignaturePath", path)
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/update"
+                , body, tuifei_back);
     }
 
     //http://staff.mind-node.com/staff/api/customer_refund_apply_record/update?
@@ -266,7 +318,10 @@ public class QianMing extends BaseFragment {
                 BaseModule module = JsonUtil.parsoJsonWithGson(result,
                         BaseModule.class);
                 if (module.code == 0) {
-                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "退费成功!"));
+                    String msg = mode == MODE_ZHIQIN ?
+                            (zhiqin_mode == 1 ? "添加知情同意书成功!" : "更新知情同意书成功!")
+                            : "退费成功!";
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, msg));
                     mActivity.showContent(mParentFragment);
                 }
             }

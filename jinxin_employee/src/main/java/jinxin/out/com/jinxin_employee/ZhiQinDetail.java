@@ -1,6 +1,8 @@
 package jinxin.out.com.jinxin_employee;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +16,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import jinxin.out.com.jinxin_employee.JsonModule.BaseModule;
 import okhttp3.Call;
@@ -39,23 +44,6 @@ public class ZhiQinDetail extends BaseFragment {
     private ImageView mqianming;
 
     private ZhiQinDetailModule module;
-
-//    url : http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?token=11111&id=11
-//    responseParam {
-//        {
-//            "code": 0,
-//                "action": "",
-//                "message": "获取客户知情同意书成功",
-//                "data": {
-//            "customerId": 5,
-//                    "customerSignaturePath": "http://img002.21cnimg.com/photos/album/20150702/m600/2D79154370E073A2BA3CD4D07868861D.jpeg",
-//                    "id": 1,
-//                    "informedConsentTemplateId": 1,
-//                    "relationShip": "本人",
-//                    "updateTime": 1501506529000
-//        }
-//        }
-//    }
 
     public class MyResponse extends BaseModule {
         public ZhiQinDetailModule data;
@@ -85,43 +73,22 @@ public class ZhiQinDetail extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() != 200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
-            Log.d("dengguotao", result);
             MyResponse response1 = JsonUtil.parsoJsonWithGson(result, MyResponse.class);
             if (response1.code == 0) {
                 module = response1.data;
-                //RequestBody body2 = new FormBody.Builder()
-                //        .add("token", LoginManager.getInstance(getActivity()).getToken())
-                //        .add("id", module.informedConsentTemplateId + "").build();
-                //NetPostUtil.post("http://staff.mind-node.com/staff/api/informed_consent_template/get?", body2, mback2);
                 if (mMainHandler != null) {
                     mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 }
+                load_qianming_png();
             }
         }
     };
 
-    /**
-     * 1、根据Id获取知情同意书
-     * {
-     * url : http://staff.mind-node.com/staff/api/informed_consent_template/get?token=11111&id=1
-     * responseParam {
-     * {
-     * "code": 0,
-     * "action": "",
-     * "message": "获取知情同意书成功",
-     * "data": {
-     * "content": "知情同意书1",
-     * "createTime": 1501154554000,
-     * "id": 1,
-     * "status": 1,
-     * "title": "知情同意书1",
-     * "updateTime": 1501154554000
-     * }
-     * }
-     * }
-     * }
-     */
 
     @Override
     public void onResume() {
@@ -133,6 +100,13 @@ public class ZhiQinDetail extends BaseFragment {
         super.onCreate(savedInstanceState);
         Id = getArguments().getInt("zhiqin_id");
         cusName = getArguments().getString("custorm_name");
+        if (saveDir == null) {
+            saveDir = mActivity.getExternalCacheDir().getAbsolutePath();
+            File mqianming_file = new File(saveDir, "tmp_qianming.png");
+            if (mqianming_file.exists()) {
+                mqianming_file.delete();
+            }
+        }
         RequestBody body = new FormBody.Builder()
                 .add("token", LoginManager.getInstance(getActivity()).getToken())
                 .add("id", Id + "").build();
@@ -177,7 +151,63 @@ public class ZhiQinDetail extends BaseFragment {
             mContent.setText(module.informedConsentContent);
             mre.setText(module.content);
             mdate.setText("日期:" + JsonUtil.getDate(module.updateTime));
+            File mqianming_file = new File(saveDir, "tmp_qianming.png");
+            mqianming.setImageURI(null);
+            if (mqianming_file.exists()) {
+                mqianming.setImageURI(Uri.fromFile(mqianming_file));
+            }
         }
     }
 
+    private String saveDir;
+    private Callback load_qianming_back = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() != 200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
+            Log.d("dengguotao","load qianming png");
+            InputStream is = null;
+            byte[] buf = new byte[2048];
+            int len = 0;
+            FileOutputStream fos = null;
+            try {
+                is = response.body().byteStream();
+                long total = response.body().contentLength();
+                File mqianming_file = new File(saveDir, "tmp_qianming.png");
+                if (mqianming_file.exists()) {
+                    mqianming_file.delete();
+                }
+                fos = new FileOutputStream(mqianming_file);
+                while ((len = is.read(buf)) != -1) {
+                    fos.write(buf, 0, len);
+                }
+                fos.flush();
+            } catch (Exception e) {
+            } finally {
+                try {
+                    if (is != null)
+                        is.close();
+                } catch (IOException e) {
+                }
+                try {
+                    if (fos != null)
+                        fos.close();
+                } catch (IOException e) {
+                }
+                mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+            }
+        }
+    };
+
+    private void load_qianming_png() {
+        Log.d("dengguotao","load: "+module.customerSignaturePath);
+        NetPostUtil.post(module.customerSignaturePath, null, load_qianming_back);
+    }
 }

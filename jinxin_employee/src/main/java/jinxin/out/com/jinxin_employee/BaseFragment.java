@@ -40,6 +40,8 @@ public abstract class BaseFragment extends Fragment {
     private PullToRefreshListView mListView;
     public MainHandler mMainHandler;
 
+    private Toast mToast;
+
     public class MainHandler extends Handler {
         public MainHandler(Context context) {
             super(context.getMainLooper());
@@ -69,7 +71,12 @@ public abstract class BaseFragment extends Fragment {
                     break;
                 case SHOW_TOAST:
                     String text = (String) msg.obj;
-                    Toast.makeText(mActivity,text,Toast.LENGTH_SHORT).show();
+                    if (mToast == null) {
+                        mToast = Toast.makeText(mActivity, text, Toast.LENGTH_SHORT);
+                    } else {
+                        mToast.setText(text);
+                    }
+                    mToast.show();
                     break;
                 default:
                     break;

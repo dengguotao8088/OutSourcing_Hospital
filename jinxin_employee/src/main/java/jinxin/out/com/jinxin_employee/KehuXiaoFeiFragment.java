@@ -93,6 +93,10 @@ public class KehuXiaoFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
+            if(response.code() !=200) {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                return;
+            }
             String result = response.body().string();
             JsonModule module = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
             if (module.code == 0) {

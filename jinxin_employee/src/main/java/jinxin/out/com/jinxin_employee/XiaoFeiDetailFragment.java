@@ -77,7 +77,6 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         xiaofei_ID = getArguments().getInt("prcu_id");
-        Log.d("dengguotao", "id: " + xiaofei_ID);
         mCurrentPurRecord = new CurrentPurRecord();
         loadDetail();
     }
@@ -118,20 +117,21 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     private Callback mCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-
+            mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
         }
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() == 200) {
                 String result = response.body().string();
-                Log.d("dengguotao", "result: " + result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                 if (module.code == 0) {
                     JsonModule jsonModule = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
                     mCurrentPurRecord = jsonModule.data;
                     mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 }
+            } else{
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
             }
         }
     };

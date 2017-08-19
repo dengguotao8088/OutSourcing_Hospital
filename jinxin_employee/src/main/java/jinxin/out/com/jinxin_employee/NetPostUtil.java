@@ -18,13 +18,22 @@ import okhttp3.RequestBody;
 
 public class NetPostUtil {
 
-    public static void post(String url, RequestBody body, Callback callback) {
+    public static boolean post(String url, RequestBody body, Callback callback) {
+        if(!LoginManager.getInstance(null).isNetworkConnected()){
+            return false;
+        }
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .writeTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(20, TimeUnit.SECONDS);
         OkHttpClient client = builder.build();
-        Request request = new Request.Builder().url(url).post(body).build();
+        Request request = null;
+        if(body != null) {
+            request = new Request.Builder().url(url).post(body).build();
+        } else {
+            request = new Request.Builder().url(url).build();
+        }
         client.newCall(request).enqueue(callback);
+        return true;
     }
 }
