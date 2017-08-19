@@ -45,7 +45,7 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/user"
+            android:src="@drawable/vipbb"
             android:layout_gravity="top"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"

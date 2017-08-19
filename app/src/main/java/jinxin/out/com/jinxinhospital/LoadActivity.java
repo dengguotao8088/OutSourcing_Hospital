@@ -48,6 +48,7 @@ public class LoadActivity extends FragmentActivity {
     private  int mCustomerId = -1;
     private  String name= "";
     private  String tel = "";
+    private boolean vip = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,15 +140,19 @@ public class LoadActivity extends FragmentActivity {
                 mCustomerId = loginResponseJson.data.customer.id;
                 name = loginResponseJson.data.customer.name;
                 tel = loginResponseJson.data.customer.mobile;
+                vip = loginResponseJson.data.customer.vip;
                 SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app",0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token",token);
                 editor.putInt("customerId",mCustomerId);
                 editor.putString("tel",tel);
                 editor.putString("name",name);
+                editor.putBoolean("vip", vip);
                 editor.commit();
+                Log.d("xie", "Login: Customer = " + loginResponseJson.data.customer.toString());
                 Log.d("xie", "....token = " + token);
                 Log.d("xie", "....customerId = " + mCustomerId);
+                Log.d("xie", "....vip = " + vip);
                 LoginManager loginManager = LoginManager.getInstance(mContext, token, mCustomerId+"");
                 loginManager.getCustomer(customerDoneCallBack);
             }

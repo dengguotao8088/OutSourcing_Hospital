@@ -97,7 +97,7 @@
     <string name="vip_list_title">显示最近的5条信息：</string>
     <string name="vip_item_request_time">申请时间：</string>
     <string name="vip_item_reservation_time">预约时间:</string>
-    <string name="vip_item_dep">部门:</string>
+    <string name="vip_item_dep">部门 ：</string>
     <string name="vip_item_status">状态:</string>
 
     <!-- Current Check  -->

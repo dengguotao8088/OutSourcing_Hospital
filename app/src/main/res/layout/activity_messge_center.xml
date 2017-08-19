@@ -15,7 +15,7 @@
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:id="@+id/message_custorm_layout_list"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#e6e3e3"
         android:dividerHeight="10dp"

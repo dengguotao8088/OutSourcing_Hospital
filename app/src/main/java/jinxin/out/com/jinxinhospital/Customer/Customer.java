@@ -21,6 +21,7 @@ public class Customer implements Serializable {
     public int consumptionTypeId;//消费类型Id
     public int archivesStatus;//档案状态，3：待审，1：正常，2：停用
     public String createTime;//创建时间
+    public boolean vip;
 
     public int getId() {
         return id;

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
 import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 import jinxin.out.com.jinxinhospital.PurchaseRecord.PurchaseRecordResponseJson;
 import jinxin.out.com.jinxinhospital.PurchaseRecord.PurchaseResponseData;
+import jinxin.out.com.jinxinhospital.PurchaseRecord.PurchaseVIPResponseJson;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -61,6 +63,10 @@ public class HealthManageFragment extends BaseFragment{
     private String mMessage = "";
     private String token;
     private int customerId;
+    private double  mBalance;
+    private TextView mBalanceText;
+    private LinearLayout mBalanceLayout;
+    private boolean isVip = false;
 
     private List<PurchaseResponseData> mPurchaseContentRecord = new ArrayList<>();
     private PurchaseRecordResponseJson mPurchaseRecordResponseJson;
@@ -68,11 +74,17 @@ public class HealthManageFragment extends BaseFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.healthmanager_layout, container, false);
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
+        token = sharedPreferences.getString("token", null);
+        customerId = sharedPreferences.getInt("customerId", -1);
+        isVip = sharedPreferences.getBoolean("vip",false);
         mTextview= mView.findViewById(R.id.health_message);
         mPullRefreshListView = mView.findViewById(R.id.my_custorm_layout_list);
         initPTRListView();
         mMainHandler = new MyHandler(mContext);
         myAdapter = new MyAdapter();
+        mBalanceText = mView.findViewById(R.id.health_balance);
+        mBalanceLayout = mView.findViewById(R.id.balanceLayout);
         mPullRefreshListView.setAdapter(myAdapter);
         new Thread() {
             @Override
@@ -92,6 +104,7 @@ public class HealthManageFragment extends BaseFragment{
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
         token = sharedPreferences.getString("token", null);
         customerId = sharedPreferences.getInt("customerId", -1);
+        isVip = sharedPreferences.getBoolean("vip",false);
         if (token == "" || customerId <0){
             return;
         }
@@ -107,6 +120,7 @@ public class HealthManageFragment extends BaseFragment{
             public TextView total;
             public TextView actual;
             public Button check;
+            public TextView actulMsg;
         }
 
         @Override
@@ -137,6 +151,7 @@ public class HealthManageFragment extends BaseFragment{
                 holder.actual = view.findViewById(R.id.actulEdit);
                 holder.check = view.findViewById(R.id.health_check);
                 holder.status = view.findViewById(R.id.health_status);
+                holder.actulMsg = view.findViewById(R.id.actulMsg);
                 view.setTag(holder);
             } else {
                 holder = (ViewHolder) view.getTag();
@@ -145,6 +160,10 @@ public class HealthManageFragment extends BaseFragment{
             holder.name.setText(data.projectName);
             holder.time.setText(JsonUtil.getDate(data.createTime));
             holder.used.setText(data.useFrequency + "");
+            if (!isVip) {
+                holder.actual.setVisibility(View.GONE);
+                holder.actulMsg.setVisibility(View.GONE);
+            }
             holder.actual.setText(data.totalPrice + "");
             holder.total.setText(data.projectFrequency + "");
             holder.status.setText(data.statusName);
@@ -191,10 +210,19 @@ public class HealthManageFragment extends BaseFragment{
                 mMainHandler.sendEmptyMessage(DISPLAY_TEXT);
                 return;
             }
-            mPurchaseRecordResponseJson =
-                    JsonUtil.parsoJsonWithGson(result, PurchaseRecordResponseJson.class);
-            for(int i=0; i<mPurchaseRecordResponseJson.data.length; i++) {
-                mPurchaseContentRecord.add(mPurchaseRecordResponseJson.data[i]);
+            if (isVip) {
+                PurchaseVIPResponseJson purchaseVIPResponseJson=
+                        JsonUtil.parsoJsonWithGson(result, PurchaseVIPResponseJson.class);
+                mBalance = purchaseVIPResponseJson.data.balance;
+                for (int i = 0; i < purchaseVIPResponseJson.data.purchaseRecordList.length; i++) {
+                    mPurchaseContentRecord.add(purchaseVIPResponseJson.data.purchaseRecordList[i]);
+                }
+            } else {
+                PurchaseRecordResponseJson purchaseRecordResponseJson=
+                        JsonUtil.parsoJsonWithGson(result, PurchaseRecordResponseJson.class);
+                for (int i = 0; i < purchaseRecordResponseJson.data.purchaseRecordList.length; i++) {
+                    mPurchaseContentRecord.add(purchaseRecordResponseJson.data.purchaseRecordList[i]);
+                }
             }
             mMainHandler.sendEmptyMessage(ADAPTER_DATA_CHANGE);
         }
@@ -209,18 +237,18 @@ public class HealthManageFragment extends BaseFragment{
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case ADAPTER_DATA_REFRESH:
-                    Log.d("xie", "health: MyHandler->ADAPTER_DATA_REFRESH");
                     mTextview.setVisibility(View.GONE);
-//                    mSwipeLayout.setRefreshing(false);
                     break;
                 case ADAPTER_DATA_CHANGE:
-                    Log.d("xie", "health: MyHandler->ADAPTER_DATA_CHANGE");
+                    if (isVip) {
+                        mBalanceLayout.setVisibility(View.VISIBLE);
+                        mBalanceText.setText(String.valueOf(mBalance) + "元");
+                    }
                     mPullRefreshListView.onRefreshComplete();
                     mTextview.setVisibility(View.GONE);
                     myAdapter.notifyDataSetChanged();
                     break;
                 case DISPLAY_TEXT:
-                    Log.d("xie", "health: MyHandler->DISPLAY_TEXT");
                     mTextview.setVisibility(View.VISIBLE);
                     mTextview.setText(mMessage);
                     break;

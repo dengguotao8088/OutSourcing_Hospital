@@ -151,10 +151,10 @@ public class DetailsActivity extends UserAppCompatActivity {
                 myHandler.sendEmptyMessage(1);
                 return;
             }
-            VipResponseJson vipResponseJson = JsonUtil.parsoJsonWithGson(result,
-                    VipResponseJson.class);
+            VipPowerResponseJson vipResponseJson = JsonUtil.parsoJsonWithGson(result,
+                    VipPowerResponseJson.class);
             if (vipResponseJson != null) {
-                VipData vipData = vipResponseJson.data[0];
+                VipData vipData = vipResponseJson.data;
                 url = vipData.content;
                 mTitleMsg = vipData.title;
             }

@@ -23,5 +23,6 @@ public class LoginResponseJson {
         public String name;//客户姓名
         public int sex;//性别，1：男，2：女，默认1
         public String mobile;//电话
+        public boolean vip;
     }
 }

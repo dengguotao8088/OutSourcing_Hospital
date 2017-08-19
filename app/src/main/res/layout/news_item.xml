@@ -17,11 +17,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_weight="1"
+        android:paddingRight="10dp"
         android:layout_marginTop="10dp"
         >
         <TextView
             android:id="@+id/news_title"
             android:textSize="17sp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorHomePageBlue"
@@ -30,6 +33,9 @@
             android:id="@+id/news_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textSize="15sp"
             />
     </LinearLayout>
 

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -122,6 +124,7 @@ public class ConsumptionActivity extends UserAppCompatActivity{
             public TextView daySymptom;
             public Button comment;
             public Button inVaild;
+            private ImageView img;
         }
 
         @Override
@@ -145,6 +148,7 @@ public class ConsumptionActivity extends UserAppCompatActivity{
             if (view == null) {
                 view = LayoutInflater.from(mContext).inflate(R.layout.consumption_list_item, viewGroup, false);
                 holder = new ViewHolder();
+                holder.img = view.findViewById(R.id.cnsumption_img);
                 holder.empName = view.findViewById(R.id.consumption_waiter);
                 holder.time = view.findViewById(R.id.consumption_time);
                 holder.daySymptom = view.findViewById(R.id.consumption_daySymptom);
@@ -161,12 +165,27 @@ public class ConsumptionActivity extends UserAppCompatActivity{
             holder.time.setText(JsonUtil.getDate(data.createTime));
             holder.daySymptom.setText(data.daySymptom);
             holder.status.setText(data.statusName);
-            //TODO:
+            if ("作废".equals(data.statusName)){
+                holder.img.setImageResource(R.drawable.status_fei);
+            } else if ("完成".equals(data.statusName)) {
+                holder.img.setImageResource(R.drawable.status_done);
+            } else {
+                holder.img.setImageResource(R.drawable.status_others);
+            }
+            if (data.myComment) {
+                holder.comment.setTag(data);
+            } else {
+                holder.comment.setTag(null);
+            }
             holder.comment.setOnClickListener(mCommentListener);
-            holder.comment.setTag(data);
 
+            if (data.myApplyVoid) {
+                holder.inVaild.setTag(data);
+            }else {
+                holder.inVaild.setTag(null);
+            }
             holder.inVaild.setOnClickListener(mInVaildListener);
-            holder.inVaild.setTag(data);
+
             return view;
         }
     }
@@ -174,15 +193,25 @@ public class ConsumptionActivity extends UserAppCompatActivity{
     private View.OnClickListener mCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            ConsumptionRecord data = (ConsumptionRecord)view.getTag();
-            showConmentDialog(data);
+            Object object = view.getTag();
+            if (object == null) {
+                Toast.makeText(mContext, "此单据已超过48小时，不能评论。", Toast.LENGTH_SHORT).show();
+            } else {
+                ConsumptionRecord data = (ConsumptionRecord) object;
+                showConmentDialog(data);
+            }
         }
     };
     private View.OnClickListener mInVaildListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            ConsumptionRecord data = (ConsumptionRecord)view.getTag();
-            showInvaildDialog(data);
+            Object object = view.getTag();
+            if (object == null) {
+                Toast.makeText(mContext, "此单据已超过48小时，不能作废。", Toast.LENGTH_SHORT).show();
+            } else {
+                ConsumptionRecord data = (ConsumptionRecord) view.getTag();
+                showInvaildDialog(data);
+            }
         }
     };
     private Callback mConsumptionListCallback = new Callback() {
@@ -283,13 +312,6 @@ public class ConsumptionActivity extends UserAppCompatActivity{
                         .build();
                 NetPostUtil.post(Constants.UPDATE_CONSUMPTIONRECORD, requestBody, mCommentCallback);
                 return;
-//                SharedPreferences sharedPreferences = mContext.getSharedPreferences("battery_alert_pref",0);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("isSkipMessage2",checkBoxResult);
-//                editor.commit();
-//                mStandardModePreference.setChecked(true,false);
-//                mHighModePreference.setChecked(false);
-//                sendStandardSaverBroadcast(true);
             }
         });
         builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {

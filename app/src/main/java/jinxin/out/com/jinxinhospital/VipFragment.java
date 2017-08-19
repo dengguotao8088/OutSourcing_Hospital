@@ -190,22 +190,19 @@ public class VipFragment extends BaseFragment {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             final ViewHolder holder;
-            if (view == null) {
-                view = LayoutInflater.from(mContext).inflate(R.layout.news_item, viewGroup, false);
-                holder = new ViewHolder();
-                holder.mImageView = view.findViewById(R.id.news_img);
-                holder.name = view.findViewById(R.id.news_title);
-                holder.summary = view.findViewById(R.id.news_content);
-                holder.mItem = view.findViewById(R.id.news_item);
-                view.setTag(holder);
-            } else {
-                holder = (ViewHolder) view.getTag();
-            }
+            view = LayoutInflater.from(mContext).inflate(R.layout.news_item, viewGroup, false);
+            holder = new ViewHolder();
+            holder.mImageView = view.findViewById(R.id.news_img);
+            holder.name = view.findViewById(R.id.news_title);
+            holder.summary = view.findViewById(R.id.news_content);
+            holder.mItem = view.findViewById(R.id.news_item);
+            view.setTag(holder);
+
             final VipData data = mVipMsgList.get(i);
-            holder.mImageView.setImageResource(R.drawable.user);
+            holder.mImageView.setImageResource(R.drawable.vipyy);
             holder.name.setText(data.title);
             holder.summary.setText(data.summary);
-            holder.mItem.setTag(R.id.tag_second, data.id);
+            holder.mItem.setTag(data.id);
             holder.mItem.setOnClickListener(onClickListener);
             //TODO:
             return view;

@@ -1,25 +1,22 @@
 package jinxin.out.com.jinxinhospital;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,10 +27,10 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import jinxin.out.com.jinxinhospital.Department.Department;
 import jinxin.out.com.jinxinhospital.Department.DepartmentResponseJson;
 import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
 import jinxin.out.com.jinxinhospital.JsonModule.Constants;
@@ -56,7 +53,7 @@ import okhttp3.Response;
 public class VipReservationActivity extends UserAppCompatActivity {
 
     private String token;
-    private TextView mTimeView;
+    private NumberPicker mDayView, mHourView, mMinView;
     private Spinner mDepSpinner;
     private Button mSubmitButton;
     private UserListView mListView;
@@ -72,16 +69,39 @@ public class VipReservationActivity extends UserAppCompatActivity {
     private int departmentId= -1;
     private String mTempString;
     private MyAdapter myAdapter;
+    private Calendar mDate;
+    private String mDayString;
+    private int mDayIndex = 0;
+    private int mHourString;
+    private int mMinString;
+    private String[] mDayArray = {"0", "0", "0"};
     private List<Reservation> mReservationList = new ArrayList<>();
 
     @Override
+    protected int getLayoutId() {
+        return R.layout.vip_reservation_layout;
+    }
+
+    @Override
+    protected boolean isShowBacking() {
+        return true;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        setToolBarTitle(getApplicationContext().getString(R.string.vip_title));
         super.onCreate(savedInstanceState);
-        setToolBarTitle(getResources().getString(R.string.vip_title));
         mContext = this;
         myAdapter = new MyAdapter();
         myHandler = new MyHandler(mContext);
-        mTimeView = findViewById(R.id.vip_time);
+        mHourView = findViewById(R.id.vip_hour);
+        mMinView = findViewById(R.id.vip_min);
+        mDayView = findViewById(R.id.vip_day);
+
+        mDayView.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        mHourView.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        mMinView.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
         mDepSpinner = findViewById(R.id.vip_dep);
         mEmptyMsg = findViewById(R.id.vip_list_msg);
         mSubmitButton = findViewById(R.id.vip_submit);
@@ -89,13 +109,20 @@ public class VipReservationActivity extends UserAppCompatActivity {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
         token = sharedPreferences.getString("token", null);
         customerId = sharedPreferences.getInt("customerId", -1);
+        mDate = Calendar.getInstance();
         mDepAdpater = new ArrayAdapter<String>(mContext, R.layout.base_item, R.id.vip_dep_item, mDepList);
         mDepSpinner.setAdapter(mDepAdpater);
         mListView.setAdapter(myAdapter);
-        mTimeView.setOnClickListener(mOnClickListener);
         mSubmitButton.setOnClickListener(mOnClickListener);
-        getDepList();
-        getReservationList();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                getDepList();
+                getReservationList();
+            }
+        }).start();
+
+        setTimeLimit();
 
         mDepSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -110,35 +137,84 @@ public class VipReservationActivity extends UserAppCompatActivity {
         });
     }
 
+    private int mMinute;
+    private int mHour;
+    private void setTimeLimit(){
+        Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH) + 1;
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        int mWay = c.get(Calendar.DAY_OF_WEEK);
+        mHour = c.get(Calendar.HOUR_OF_DAY);
+        mMinute = c.get(Calendar.MINUTE);
+        if ( mHour < 15) {
+            mHourView.setMaxValue(17);
+            mHourView.setMinValue((mHour + 2) > 9 ? (mHour+2) : 9);
+            mDayView.setMinValue(0);
+            mDayView.setMaxValue(2);
+            mDayString = mYear +"-" +mMonth +"-"+ mDay;
+            mHourString = mHour + 2;
+            mMinString = mMinute;
+            mDayArray [0] = mYear +"-" +mMonth +"-"+ (mDay++);
+            mDayArray [1] = mYear +"-" +mMonth +"-"+ (mDay++);
+            mDayArray [2] = mYear +"-" +mMonth +"-"+ mDay;
+            mMinView.setMinValue(mMinute);
+            mMinView.setMaxValue(59);
+        } else {
+            mHourView.setMaxValue(17);
+            mHourView.setMinValue(9);
+            mDayView.setMinValue(0);
+            mDayView.setMaxValue(1);
+            mDayString = mYear +"-" +mMonth +"-"+ mDay;
+            mHourString = 9;
+            mMinString = 0;
+            mMinView.setMinValue(0);
+            mMinView.setMaxValue(59);
+            mDayArray [0] = mYear +"-" +mMonth +"-"+ (++mDay);
+            mDayArray [1] = mYear +"-" +mMonth +"-"+ (++mDay);
+        }
+        mDayView.setDisplayedValues(mDayArray);
+
+        mHourView.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                mHourString = mHourView.getValue();
+                if (mHourString !=  mHour) {
+                    mMinView.setMinValue(0);
+                    mMinView.setMaxValue(59);
+                } else if (mHourString == mHour && mDayArray.length == 3 && mDayIndex == 0){
+                    mMinView.setMinValue(mMinute);
+                    mMinView.setMaxValue(59);
+                }
+            }
+        });
+        mMinView.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                mMinString = mMinView.getValue();
+            }
+        });
+        mDayView.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                mDayIndex = mDayView.getValue();
+                mDayString = mDayArray[mDayIndex];
+            }
+        });
+    }
+
+    private void onTimeDataChange() {
+        String tmp = mDayString + " " +  mHourString + ":" +  mMinString + ":00";
+        dateString = DateToStr(StrToDate(tmp));
+        Log.d("xie", "dateString = " +  dateString.toString());
+    }
+
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.vip_time:
-                    dateString = null;
-                    timeString = null;
-                    TimePickerDialog timePickerDialog = new TimePickerDialog(mContext, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                            timeString = " " + timePicker.getHour() + ":" + timePicker.getMinute() + ":" + "00";
-                            dateString += timeString;
-                            Log.d("xie", "dateString = " + dateString);
-                            myHandler.sendEmptyMessage(0x11);
-                        }
-                    }, 9, 0, true);
-                    timePickerDialog.show();
-
-                    DatePickerDialog datePicker=new DatePickerDialog( mContext, new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                              int dayOfMonth) {
-                            dateString  = year + "-" + monthOfYear + "-" + dayOfMonth + " ";
-
-                        }
-                    }, 2017, 1, 1);
-                    datePicker.show();
-                    break;
                 case R.id.vip_submit:
+                    onTimeDataChange();
                     RequestBody requestBody = new FormBody.Builder()
                             .add("token", token)
                             .add("customerId", customerId + "")
@@ -163,12 +239,14 @@ public class VipReservationActivity extends UserAppCompatActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0x11:
-                    mTimeView.setText(DateToStr(StrToDate(dateString)));
+//                    mTimeView.setText(DateToStr(StrToDate(dateString)));
                     break;
                 case 0x22:
                     mDepAdpater.notifyDataSetChanged();
                     break;
                 case 0x33:
+                    getReservationList();
+                    mDepAdpater.notifyDataSetChanged();
                     Toast.makeText(mContext, mTempString, Toast.LENGTH_LONG).show();
                     break;
                 case 0x44:
@@ -286,7 +364,6 @@ public class VipReservationActivity extends UserAppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Log.d("xie", "StrToDate: date=" +date);
         return date;
     }
 
@@ -346,10 +423,5 @@ public class VipReservationActivity extends UserAppCompatActivity {
             holder.status.setText(data.statusName);
             return view;
         }
-    }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.vip_reservation_layout;
     }
 }

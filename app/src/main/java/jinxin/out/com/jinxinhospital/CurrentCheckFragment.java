@@ -66,6 +66,7 @@ public class CurrentCheckFragment extends BaseFragment {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
         token = sharedPreferences.getString("token", null);
         customerId = sharedPreferences.getInt("customerId", -1);
+        Log.d("xie", "HEALTH:          token = " +token);
         if (token == null) {
             Intent intent = new Intent(mContext, LoadActivity.class);
             startActivity(intent);
@@ -89,7 +90,6 @@ public class CurrentCheckFragment extends BaseFragment {
                 .add("customerId", customerId + "")
                 .build();
         NetPostUtil.post(Constants.GET_FEILD_QUEUE_LIST, requestBody, mQueueCallback);
-
         NetPostUtil.post(Constants.GET_CURRENT_PAGE, requestBody, mQueueListCallback);
     }
 

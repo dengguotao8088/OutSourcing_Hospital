@@ -21,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private  int mCustomerId = -1;
     private  String tel;
     private  String name;
+    private boolean vip;
     private int mCurrentTab = 0;
+    private int mOlderTab = 0;
     private SharedPreferences sharedPreferences;
     private static final String[] PERMISSIONS_STORAGE = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
             android.Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -64,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
         mContext = this;
 
         //Init JPush
-        //android.util.Log.d("xie", "IPush  Init");
-        //JPushInterface.setDebugMode(true);
-        //JPushInterface.init(this);
+        android.util.Log.d("xie", "IPush  Init");
+//        JPushInterface.setDebugMode(true);
+//        JPushInterface.init(this);
 
         verifyStoragePermissions(this);
         initView();
@@ -148,12 +151,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
             int position = (int) tab.getTag();
+            Log.d("xie", "onTabSelected = " + position);
             if (sharedPreferences == null) {
                 sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
                 token = sharedPreferences.getString("token", null);
                 mCustomerId = sharedPreferences.getInt("customerId", -1);
                 tel = sharedPreferences.getString("tel", null);
                 name = sharedPreferences.getString("name", null);
+                vip = sharedPreferences.getBoolean("vip", false);
+
+            }
+            if (!vip && position == 2) {
+                Toast.makeText(mContext, "您还不是VIP客户", Toast.LENGTH_LONG).show();
+                mContentPager.setCurrentItem(mOlderTab);
+                return;
             }
             Log.d("xie", "token = " + token + ";  mCustomerId = " + mCustomerId + ";  position = " + position);
             if (token == null || mCustomerId < 0) {
@@ -163,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 mContentPager.setCurrentItem(position);
+                mOlderTab = position;
             }
         }
 
@@ -240,7 +252,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-            Log.d("xie", "position: " + position);
             mCurrentTab = position;
             mTabLayout.getTabAt(mCurrentTab).select();
             mTitle.setText(mTabLayout.getTabAt(mCurrentTab).getText());

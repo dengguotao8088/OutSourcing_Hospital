@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/header_layout"/>
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
-            <include layout="@layout/user_toolbar" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -16,19 +23,39 @@
                 android:paddingRight="15dp"
                 android:paddingLeft="15dp"
                 android:padding="15dp">
-                <TextView
-                    android:textSize="18dp"
-                    android:textColor="@color/colorHomePageBlue"
-                    android:text="@string/vip_select_time"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:id="@+id/vip_time"
-                    android:paddingTop="8dp"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/shape_corner_health"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textSize="18dp"
+                        android:textColor="@color/colorHomePageBlue"
+                        android:text="@string/vip_select_time"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+                    <NumberPicker
+                        android:id="@+id/vip_day"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+                    <NumberPicker
+                        android:id="@+id/vip_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+                    <NumberPicker
+                        android:id="@+id/vip_min"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
                 <TextView
                     android:textSize="18dp"
@@ -94,3 +121,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+</LinearLayout>

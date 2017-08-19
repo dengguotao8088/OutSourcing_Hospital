@@ -18,4 +18,6 @@ public class ConsumptionRecord {
     public String commentLevel;//评论等级
     public String commentContent;//评论内容
     public String remarks;//备注
+    public boolean myComment;//评论
+    public boolean myApplyVoid;//申请作废
 }

@@ -1,19 +1,17 @@
 package jinxin.out.com.jinxinhospital.PurchaseRecord;
 
-import java.util.Date;
-import java.util.List;
-
 /**
- * Created by Administrator on 2017/8/7.
+ * Created by Administrator on 2017/8/19.
  */
 
-public class PurchaseRecordResponseJson {
+public class PurchaseVIPResponseJson {
     public int code;
     public String action;
     public String message;
     public  purchaseRecordList data;
 
     public class purchaseRecordList{
+        public double balance;
         public PurchaseResponseData[] purchaseRecordList;
     }
 }
