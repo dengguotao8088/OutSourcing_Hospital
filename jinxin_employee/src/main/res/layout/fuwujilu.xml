@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -15,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/back"/>
+            android:src="@drawable/back" />
 
         <TextView
             android:id="@+id/fuwujilu_title"
@@ -26,7 +28,8 @@
             android:layout_centerVertical="true"
             android:text="服务记录"
             android:textColor="@color/white"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
+
         <Button
             android:id="@+id/fuwujilu_save"
             android:layout_width="35dp"
@@ -37,155 +40,227 @@
             android:background="@color/tab_bar"
             android:text="保存"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
     </RelativeLayout>
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="6dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/fuwujilu_kuhuxingming"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="客户姓名:"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"/>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="诊断内容:"
-                android:textColor="@color/tab_bar_bac"
-                android:textSize="13sp"/>
-            <Button
-                android:id="@+id/fuwujilu_zhengduanneirong_btn"
-                android:layout_width="70dp"
-                android:layout_height="23dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/tab_bar"
-                android:text="使用模板"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-        </RelativeLayout>
-        <EditText
-            android:id="@+id/fuwujilu_ed_neirong"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/edittext"
-            android:gravity="top"
-            android:textCursorDrawable="@null"
-            android:textSize="13sp"/>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="疼痛评估:"
-                android:textColor="@color/tab_bar_bac"
-                android:textSize="13sp"/>
-            <Button
-                android:id="@+id/fuwujilu_tengtong_btn"
-                android:layout_width="70dp"
-                android:layout_height="23dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/tab_bar"
-                android:text="使用模板"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-        </RelativeLayout>
-        <EditText
-            android:id="@+id/fuwujilu_ed_tengtong_neirong"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/edittext"
-            android:gravity="top"
-            android:textCursorDrawable="@null"
-            android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/fuwujilu_xiaofeibeizhu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="消费备注:"
-            android:textColor="@color/tab_bar_bac"
-            android:textSize="13sp"/>
-        <EditText
-            android:id="@+id/fuwujilu_ed_beizhu"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/edittext"
-            android:gravity="top"
-            android:textCursorDrawable="@null"
-            android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/fuwujilu_gm_beizhu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="购买备注:"
-            android:textColor="@color/tab_bar_bac"
-            android:textSize="13sp"/>
-        <TextView
-            android:id="@+id/fuwujilu_tv_hehuoren"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="合伙人:"
-            android:textColor="@color/tab_bar_bac"
-            android:textSize="13sp"/>
+        android:layout_height="wrap_content">
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical">
+
             <TextView
+                android:id="@+id/fuwujilu_kuhuxingming"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="客户签名:"
-                android:textColor="@color/tab_bar_bac"
-                android:textSize="13sp"/>
-            <Button
-                android:id="@+id/fuwujilu_kehuqianming_btn"
-                android:layout_width="70dp"
-                android:layout_height="23dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/tab_bar"
-                android:text="客户签名"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-        </RelativeLayout>
+                android:text="客户姓名:"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="诊断内容:"
+                    android:textColor="@color/tab_bar_bac"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/fuwujilu_zhengduanneirong_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/tab_bar"
+                    android:text="使用模板"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/fuwujilu_ed_neirong"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext"
+                android:gravity="top"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="疼痛评估:"
+                    android:textColor="@color/tab_bar_bac"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/fuwujilu_tengtong_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="23dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/tab_bar"
+                    android:text="使用模板"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/fuwujilu_ed_tengtong_neirong"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext"
+                android:gravity="top"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp" />
+
             <TextView
+                android:id="@+id/fuwujilu_xiaofeibeizhu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="技师签名:"
+                android:layout_marginTop="6dp"
+                android:text="消费备注:"
                 android:textColor="@color/tab_bar_bac"
-                android:textSize="13sp"/>
-            <Button
-                android:id="@+id/fuwujilu_jishiqianming_btn"
-                android:layout_width="70dp"
-                android:layout_height="23dp"
-                android:layout_alignParentRight="true"
-                android:background="@color/tab_bar"
-                android:text="技师签名"
-                android:textColor="@color/white"
-                android:textSize="16sp"/>
-        </RelativeLayout>
-    </LinearLayout>
+                android:textSize="13sp" />
 
+            <EditText
+                android:id="@+id/fuwujilu_ed_beizhu"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext"
+                android:gravity="top"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/fuwujilu_gm_beizhu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="购买备注:"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/fuwujilu_tv_hehuoren"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="合伙人:"
+                android:textColor="@color/tab_bar_bac"
+                android:textSize="13sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/fuwujilu_kehuqianming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="客户签名:"
+                    android:textColor="@color/tab_bar_bac"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/fuwujilu_kehuqianming_img"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true" />
+
+                <Button
+                    android:id="@+id/fuwujilu_kehuqianming_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/tab_bar"
+                    android:text="客户签名"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/fuwujilu_jishiqianming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="技师签名:"
+                    android:textColor="@color/tab_bar_bac"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/fuwujilu_jishiqianming_img"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerInParent="true" />
+
+                <Button
+                    android:id="@+id/fuwujilu_jishiqianming_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/tab_bar"
+                    android:text="技师签名"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/fuwujilu_yishiqianming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="医师签名:"
+                    android:textColor="@color/tab_bar_bac"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/fuwujilu_yishiqianming_img"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:scaleType="fitCenter"
+                    android:layout_centerInParent="true" />
+
+                <Button
+                    android:id="@+id/fuwujilu_yishiqianming_btn"
+                    android:layout_width="70dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@color/tab_bar"
+                    android:text="医师签名"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

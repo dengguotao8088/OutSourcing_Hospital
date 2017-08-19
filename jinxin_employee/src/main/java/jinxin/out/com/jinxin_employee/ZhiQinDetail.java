@@ -78,13 +78,22 @@ public class ZhiQinDetail extends BaseFragment {
                 return;
             }
             String result = response.body().string();
-            MyResponse response1 = JsonUtil.parsoJsonWithGson(result, MyResponse.class);
-            if (response1.code == 0) {
-                module = response1.data;
+            BaseModule bmodule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (bmodule.code == 1) {
                 if (mMainHandler != null) {
-                    mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
                 }
-                load_qianming_png();
+            }
+            if (bmodule.code == 0) {
+                MyResponse response1 = JsonUtil.parsoJsonWithGson(result, MyResponse.class);
+                if (response1.code == 0) {
+                    module = response1.data;
+                    if (mMainHandler != null) {
+                        mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+                    }
+                    load_qianming_png();
+                }
             }
         }
     };
@@ -172,7 +181,6 @@ public class ZhiQinDetail extends BaseFragment {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
-            Log.d("dengguotao","load qianming png");
             InputStream is = null;
             byte[] buf = new byte[2048];
             int len = 0;
@@ -207,7 +215,6 @@ public class ZhiQinDetail extends BaseFragment {
     };
 
     private void load_qianming_png() {
-        Log.d("dengguotao","load: "+module.customerSignaturePath);
         NetPostUtil.post(module.customerSignaturePath, null, load_qianming_back);
     }
 }

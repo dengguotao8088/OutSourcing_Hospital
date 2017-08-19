@@ -4,17 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
-
-import java.io.IOException;
 
 import jinxin.out.com.jinxin_employee.JsonModule.Employee;
-import jinxin.out.com.jinxin_employee.JsonModule.EmployeeResponseJson;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by Administrator on 2017/8/4.
@@ -83,6 +74,37 @@ public String avatarPath;//员工头像
             editor.putInt("sex", mEmployee.sex);
             editor.commit();
         }
+    }
+
+    public void clearEmp(){
+        if (mSharedPreferences != null) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.remove("token");
+            editor.commit();
+        }
+    }
+
+    public void saveUserAndPass(String name, String password) {
+        if (mSharedPreferences != null) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.putString("u_name", name);
+            editor.putString("password", password);
+            editor.commit();
+        }
+    }
+
+    public String getUserName(){
+        if (mSharedPreferences != null) {
+            return mSharedPreferences.getString("u_name","");
+        }
+        return null;
+    }
+
+    public String getPassword(){
+        if (mSharedPreferences != null) {
+            return mSharedPreferences.getString("password","");
+        }
+        return null;
     }
 
     public void loadEmp() {

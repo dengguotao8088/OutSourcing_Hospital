@@ -96,6 +96,12 @@ public class CustomerInformedFragment extends BaseFragment {
             }
             String result = response.body().string();
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
             if (baseModule.code == 0) {
                 ZhiQinList list = JsonUtil.parsoJsonWithGson(result, ZhiQinList.class);
                 if (list.data.size() > 0) {
@@ -116,7 +122,14 @@ public class CustomerInformedFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
             if (baseModule.code == 0) {
+                Log.d("dengguotao","result: "+result);
                 MyResponseModule baseModule2 = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);
                 mCusZhiQinList.clear();
                 mCusZhiQinList.addAll(baseModule2.data);
@@ -139,6 +152,7 @@ public class CustomerInformedFragment extends BaseFragment {
         mChooseModule = null;
         mChooseRelation = null;
         //if (mCusZhiQinList.size() == 0) {
+        mCusZhiQinList.clear();
         loadAllData();
         //}
     }

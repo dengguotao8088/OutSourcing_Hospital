@@ -1,6 +1,7 @@
 package jinxin.out.com.jinxin_employee;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +29,7 @@ public abstract class BaseFragment extends Fragment {
     public static final int LOAD_DATA_ERROR = 0x101;
     public static final int LOAD_DATA_IIMEOUT = 0x102;
     public static final int SHOW_TOAST = 0x103;
+    public static final int NEED_RELOGIN = 0x104;
 
     public BaseFragment mParentFragment;
     public HomeActivity mActivity;
@@ -77,6 +79,17 @@ public abstract class BaseFragment extends Fragment {
                         mToast.setText(text);
                     }
                     mToast.show();
+                    break;
+                case NEED_RELOGIN:
+                    if (mActivity != null && !mActivity.isDestroyed()) {
+                        LoginManager.getInstance(mActivity).clearEmp();
+                        LoginManager.getInstance(mActivity).loadEmp();
+                        Toast.makeText(mActivity,
+                                "登录已过期，请重新登录！", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mActivity, LoginActivity.class);
+                        mActivity.startActivity(intent);
+                        mActivity.finish();
+                    }
                     break;
                 default:
                     break;

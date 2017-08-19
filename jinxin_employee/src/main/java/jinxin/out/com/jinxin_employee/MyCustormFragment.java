@@ -52,6 +52,7 @@ public class MyCustormFragment extends BaseFragment {
 
     private View mView;
     private SearchView mSearchView;
+    private String searhText;
     private ImageView mSearchClose;
     private PullToRefreshListView mList;
     private List<CustormData> mCusDatas = new ArrayList<>();
@@ -86,12 +87,19 @@ public class MyCustormFragment extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             mActivity.dissmissHUD();
-            if(response.code() !=200) {
+            if (response.code() != 200) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             String result = response.body().string();
+            Log.d("dengguotao","result: "+result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
             if (module.code != 0) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
@@ -119,6 +127,9 @@ public class MyCustormFragment extends BaseFragment {
 
     @Override
     public void loadData() {
+        if (mCusDatas != null && mCusDatas.size() > 10) {
+            page_id = page_id + 1;
+        }
         loadAllData();
     }
 
@@ -132,16 +143,17 @@ public class MyCustormFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        page_id = 1;
+        searhText = "";
         Bundle data = getArguments();
         if (data != null) {
             String search_text = data.getString("search_data");
-            Log.d("dengguotao", "search_text: " + search_text);
             if (search_text != null && !search_text.equals("")) {
                 searchWithMobile(search_text);
-            } else if (mCusDatas.size() == 0) {
+            } else {
                 loadAllData();
             }
-        } else if (mCusDatas.size() == 0) {
+        } else {
             loadAllData();
         }
         isFirstShow = false;
@@ -153,6 +165,7 @@ public class MyCustormFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.my_custorm_layout, container, false);
         mSearchView = mView.findViewById(R.id.custom_search);
+        mSearchView.setText(searhText);
         mSearchView.setOnEditorActionListener(mSearchActionListener);
         mSearchClose = mView.findViewById(R.id.custom_search_close);
         mSearchClose.setOnClickListener(mSearchCloseListener);
@@ -197,10 +210,10 @@ public class MyCustormFragment extends BaseFragment {
                 public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                     if (i == EditorInfo.IME_ACTION_SEARCH) {
                         mSearchView.clearFocus();
-                        mSearchView.setText("");
+                        String searh = mSearchView.getText().toString();
                         HideSoft();
-                        searchWithMobile("15108435883");
-                        mActivity.showHUD("searching");
+                        searchWithMobile(searh);
+                        mActivity.showHUD("搜索中");
                         return true;
                     }
                     return false;
@@ -208,16 +221,18 @@ public class MyCustormFragment extends BaseFragment {
             };
 
     private void searchWithMobile(String mobile) {
+        page_id = 1;
+        searhText = mobile;
         RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                .add("mobile", "15108435883"
-                        //mSearchView.getText().toString()
-                ).build();
+                .add("mobile", mobile).build();
         NetPostUtil.post(Constants.CUSTORM_WITH_PHONE, body, mGetCustormCallback);
     }
 
+    int page_id = 1;
+
     private void loadAllData() {
         RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
-                .add("empId", mEmployee.jobNumber + "").add("page", "1")
+                .add("empId", mEmployee.id + "").add("page", page_id + "")
                 .add("size", "10").build();
         NetPostUtil.post(Constants.CUSTORM_LIST, body, mGetCustormCallback);
     }

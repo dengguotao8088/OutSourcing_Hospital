@@ -77,6 +77,7 @@ import okhttp3.Response;
 public class QianMing extends BaseFragment {
     public static final int MODE_ZHIQIN = 1;
     public static final int MODE_TUIFEI = 2;
+    public static final int MODE_XIAOFEI_DETAIL = 3;
     private String url = "http://medical.mind-node.com/files/upload_app";
 
     private HomeActivity activity;
@@ -104,6 +105,11 @@ public class QianMing extends BaseFragment {
     private int zhiqin_info_id;
     private String zhiqin_relation;
 
+    private int xiaofeidetail_mode;
+    private int xiaofeidetail_cusid;
+    private int xiaofeidetail_cpid;
+    private int filedQueId;
+
     private String path;
 
     @Override
@@ -120,6 +126,10 @@ public class QianMing extends BaseFragment {
         zhiqin_cus_id = -1;
         zhiqin_info_id = -1;
         zhiqin_relation = null;
+        xiaofeidetail_mode = -1;
+        xiaofeidetail_cusid = -1;
+        xiaofeidetail_cpid = -1;
+        filedQueId = -1;
         if (mode == MODE_TUIFEI) {
             tuifei_id = getArguments().getInt("tuifei_id");
             custom_id = getArguments().getInt("cus_id");
@@ -132,6 +142,11 @@ public class QianMing extends BaseFragment {
             } else if (zhiqin_mode == 2) {
                 zhiqin_id = getArguments().getInt("zhiqin_id");
             }
+        } else if (mode == MODE_XIAOFEI_DETAIL) {
+            xiaofeidetail_mode = getArguments().getInt("xiaofeidetail_mode");
+            xiaofeidetail_cusid = getArguments().getInt("xiaofeidetail_cusid");
+            xiaofeidetail_cpid = getArguments().getInt("xiaofeidetail_conid");
+            filedQueId = getArguments().getInt("fieldQueueId");
         }
     }
 
@@ -194,14 +209,6 @@ public class QianMing extends BaseFragment {
         }
     };
 
-    AsyncTask uploadTask = new AsyncTask() {
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            uploadQianming();
-            return null;
-        }
-    };
-
     private void uploadQianming() {
         try {
             if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
@@ -238,6 +245,12 @@ public class QianMing extends BaseFragment {
                     String result = response.body().string();
                     if (response.code() == 200) {
                         BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                        if (module.code == 1) {
+                            if (mMainHandler != null) {
+                                mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                                return;
+                            }
+                        }
                         if (module.code == 0) {
                             JsonModule jsonModule = JsonUtil.parsoJsonWithGson(result,
                                     JsonModule.class);
@@ -250,6 +263,8 @@ public class QianMing extends BaseFragment {
                                 } else {
                                     do_updateZhiqin(path);
                                 }
+                            } else if (mode == MODE_XIAOFEI_DETAIL) {
+                                uploadXiaofeiDetailQianming(path);
                             }
                         }
                     }
@@ -258,6 +273,33 @@ public class QianMing extends BaseFragment {
         } catch (IOException e) {
             mActivity.dissmissHUD();
             upload.setClickable(true);
+        }
+    }
+
+    private void uploadXiaofeiDetailQianming(String path) {
+        if (xiaofeidetail_cusid == -1 || xiaofeidetail_cpid == -1) {
+            return;
+        }
+        if (xiaofeidetail_mode == 3) {
+            RequestBody body = new FormBody.Builder()
+                    .add("token", LoginManager.getInstance(mActivity).getToken())
+                    .add("customerId", xiaofeidetail_cusid + "")
+                    .add("consumptionRecordId", xiaofeidetail_cpid + "")
+                    .add("customerSignaturePath", path)
+                    .build();
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/field_queue/save?"
+                    , body, tuifei_back);
+        } else {
+            RequestBody body = new FormBody.Builder()
+                    .add("token", LoginManager.getInstance(mActivity).getToken())
+                    .add("customerId", xiaofeidetail_cusid + "")
+                    .add("consumptionRecordId", xiaofeidetail_cpid + "")
+                    .add("empSignaturePath", path)
+                    .add("fieldQueueId", filedQueId + "")
+                    .build();
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/field_queue/update?"
+                    , body, tuifei_back);
+
         }
     }
 
@@ -317,10 +359,27 @@ public class QianMing extends BaseFragment {
                 String result = response.body().string();
                 BaseModule module = JsonUtil.parsoJsonWithGson(result,
                         BaseModule.class);
+                if (module.code == 1) {
+                    if (mMainHandler != null) {
+                        mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                        return;
+                    }
+                }
                 if (module.code == 0) {
                     String msg = mode == MODE_ZHIQIN ?
                             (zhiqin_mode == 1 ? "添加知情同意书成功!" : "更新知情同意书成功!")
                             : "退费成功!";
+                    if (mode == MODE_XIAOFEI_DETAIL) {
+                        if (xiaofeidetail_mode == 3) {
+                            msg = "客户签名成功!";
+                        } else {
+                            if (mParentFragment instanceof XiaoFeiFragment) {
+                                msg = "我来服务操作成功!";
+                            } else {
+                                msg = "技师签名成功!";
+                            }
+                        }
+                    }
                     mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, msg));
                     mActivity.showContent(mParentFragment);
                 }

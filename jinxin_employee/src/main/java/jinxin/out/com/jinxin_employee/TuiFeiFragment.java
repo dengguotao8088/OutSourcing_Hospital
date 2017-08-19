@@ -28,74 +28,6 @@ import okhttp3.Response;
  * Created by Administrator on 2017/8/12.
  */
 
-/**
- * 1、点击签名（退费申请）
- * {
- * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/update?token=111&id=11
- * &customerId=12&customerSignaturePath=客户退费申请签字图片地址
- * responseParam {
- * {
- * "code": 0,
- * "action": "",
- * "message": "退费成功",
- * "data": ""
- * }
- * }
- * }
- * <p>
- * 2、根据Id获取退费申请记录
- * {
- * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/get?token=111&id=11
- * responseParam {
- * {
- * "code": 0,
- * "action": "",
- * "message": "退费成功",
- * "data": {
- * "id": 1
- * "customerId": 5,
- * "customerName": 张三,
- * "purchaseRecordId": 1
- * "customerSignaturePath": "http://img002.21cnimg
- * .com/photos/album/20150702/m600/2D79154370E073A2BA3CD4D07868861D.jpeg",
- * "refundType": VIP
- * "status": 1
- * "remarks": 退费200
- * "createTime": 				（申请时间）
- * "updateTime": 				（退费时间）
- * }
- * }
- * }
- * }
- * <p>
- * 3、获取退费申请记录列表
- * {
- * url : http://staff.mind-node.com/staff/api/customer_refund_apply_record/list?token=111&page=1
- * &size10
- * responseParam {
- * {
- * "code": 0,
- * "action": "",
- * "message": "退费成功",
- * "data": [
- * {
- * "id": 1
- * "customerId": 5,
- * "customerName": 张三,
- * "refundMoney": 200
- * },
- * {
- * "id": 1
- * "customerId": 5,
- * "customerName": 张三,
- * "refundMoney": 200
- * }
- * ]
- * }
- * }
- * }
- */
-
 public class TuiFeiFragment extends BaseFragment {
 
     private View mView;
@@ -173,6 +105,12 @@ public class TuiFeiFragment extends BaseFragment {
             }
             String result = response.body().string();
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
             if (baseModule.code == 0) {
                 mdatas.clear();
                 TuiFeiListModule tuiFeiList = JsonUtil.parsoJsonWithGson(result,

@@ -93,17 +93,24 @@ public class KehuXiaoFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            if(response.code() !=200) {
+            if (response.code() != 200) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             String result = response.body().string();
-            JsonModule module = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
             if (module.code == 0) {
-                remark = module.data.remark;
-                p_name = module.data.projectName;
+                JsonModule module1 = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
+                remark = module1.data.remark;
+                p_name = module1.data.projectName;
                 mXiaofeiList.clear();
-                mXiaofeiList.addAll(module.data.datas);
+                mXiaofeiList.addAll(module1.data.datas);
                 if (mMainHandler != null) {
                     mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 }
@@ -118,7 +125,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.kehuxiaofei_main, container, false);
         mList = mView.findViewById(R.id.xiaofeijilu_layout_list);
         ImageView back = mView.findViewById(R.id.back);

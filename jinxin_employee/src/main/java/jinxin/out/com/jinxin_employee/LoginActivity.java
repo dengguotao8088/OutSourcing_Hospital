@@ -43,36 +43,40 @@ public class LoginActivity extends Activity {
 
         mContext = this;
 
-        if (LoginManager.getInstance(this).getToken() != null) {
-            Intent intent = new Intent(mContext, HomeActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
         setContentView(R.layout.login_activity);
 
         initView(this);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (LoginManager.getInstance(this).getToken() != null) {
+            Intent intent = new Intent(mContext, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     private void initView(Context context) {
         mName = findViewById(R.id.login_name);
+        mName.setText(LoginManager.getInstance(this).getUserName());
         mPassword = findViewById(R.id.login_password);
+        mPassword.setText(LoginManager.getInstance(this).getPassword());
         mRemCheckbox = findViewById(R.id.remenber);
         mLogin = findViewById(R.id.login);
         mLogin.setOnClickListener(onClickListener);
     }
 
-    private boolean remenber(String name, String password) {
-        return true;
+    private void remenber(String name, String password) {
+        LoginManager.getInstance(mContext).saveUserAndPass(name, password);
     }
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String name;
-            String password;
-            name = "002";
-            password = "123456";
+            String name= mName.getText().toString();
+            String password= mPassword.getText().toString();
 
             if ("".equals(name) || "".equals(password)) {
                 Toast.makeText(mContext, "用户名和密码不能空", Toast.LENGTH_SHORT).show();
@@ -109,16 +113,16 @@ public class LoginActivity extends Activity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             mHUD.dismiss();
-            if(response.code() !=200) return;
+            if (response.code() != 200) return;
             String result = response.body().string();
             LoginResponseJson loginResponseJson =
                     JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
             if (loginResponseJson.code == 0) {
                 LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
                 LoginManager.getInstance(mContext).setEmployee(loginResponseJson.data.empDO);
-                if (mRemCheckbox.isChecked()) {
-                    LoginManager.getInstance(mContext).saveEmp();
-                }
+                //if (mRemCheckbox.isChecked()) {
+                LoginManager.getInstance(mContext).saveEmp();
+                //}
                 Intent intent = new Intent(mContext, HomeActivity.class);
                 startActivity(intent);
                 finish();
@@ -129,7 +133,7 @@ public class LoginActivity extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(mHUD != null) {
+        if (mHUD != null) {
             mHUD.dismiss();
         }
     }

@@ -70,7 +70,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull int[] grantResults) {
         switch (requestCode) {
             case 0:
                 for (int i = 0; i < grantResults.length; i++) {
@@ -218,7 +218,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(mHUD != null) {
+        if (mHUD != null) {
             mHUD.dismiss();
         }
 

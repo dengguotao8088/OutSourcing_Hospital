@@ -36,42 +36,6 @@ import okhttp3.Response;
  * Created by Administrator on 2017/8/12.
  */
 
-/**
- * 1、根据客户Id获取购买记录
- * {
- * url : http://staff.mind-node.com/staff/api/purchase_record/list?token=1111111111&customerId=5
- * responseParam {
- * {
- * "code": 0,
- * "action": "",
- * "message": "获取购买记录成功",
- * "data": [
- * {
- * "customerName": "小李",
- * "id": 5,
- * "projectFrequency": 10,
- * "projectId": 1,
- * "projectName": "眼科",
- * "remark": "100",
- * "status": 1,
- * "useFrequency": 0
- * },
- * {
- * "customerName": "小李",
- * "id": 5,
- * "projectFrequency": 10,
- * "projectId": 2,
- * "projectName": "眼科",
- * "remark": "100",
- * "status": 1,
- * "useFrequency": 0
- * }
- * ]
- * }
- * }
- * }
- */
-
 public class XiaoFeiFragment extends BaseFragment {
 
     private int custorm_id;
@@ -97,9 +61,12 @@ public class XiaoFeiFragment extends BaseFragment {
         colorEnable = mActivity.getColor(R.color.tab_bar);
         colorDisable = mActivity.getColor(R.color.tab_bar_bac);
         custorm_id = getArguments().getInt("custorm_id", -1);
-        if (tab_id == 0 && mPurchList.size() == 0) {
+        mPurchList.clear();
+        mConsumptionList.clear();
+        tab_id = 0;
+        if (tab_id == 0) {
             loadGouMaiList();
-        } else if (tab_id == 1 && mConsumptionList.size() == 0) {
+        } else if (tab_id == 1) {
             loadDangRiList();
         }
         isFirstShow = false;
@@ -109,7 +76,7 @@ public class XiaoFeiFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.xiaofei_main, container, false);
         mGoumai_btn = mView.findViewById(R.id.xiaofei_title_goumaijilu);
         mDangri_btn = mView.findViewById(R.id.xiaofei_title_dangri_xiaofei);
@@ -155,7 +122,6 @@ public class XiaoFeiFragment extends BaseFragment {
             new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Log.d("dengguotao", "click: " + l);
                     if (tab_id != 0) {
                         return;
                     }
@@ -234,12 +200,19 @@ public class XiaoFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            if(response.code() !=200) {
+            if (response.code() != 200) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             String result = response.body().string();
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
+
             if (baseModule.code == 0) {
                 mPurchList.clear();
                 PurchaseRecordModule purchaseRecordModule = JsonUtil.parsoJsonWithGson(result,
@@ -263,12 +236,19 @@ public class XiaoFeiFragment extends BaseFragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            if(response.code() !=200) {
+            if (response.code() != 200) {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             String result = response.body().string();
+            Log.d("dengguotao", result);
             BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 1) {
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+            }
             if (baseModule.code == 0) {
                 mConsumptionList.clear();
                 ConsumptionRecordModule purchaseRecordModule = JsonUtil.parsoJsonWithGson(result,
@@ -394,6 +374,12 @@ public class XiaoFeiFragment extends BaseFragment {
             if (response.code() == 200) {
                 String result = response.body().string();
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                if (module.code == 1) {
+                    if (mMainHandler != null) {
+                        mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                        return;
+                    }
+                }
                 if (module.code == 0) {
                     mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "添加成功"));
                     loadGouMaiList();
@@ -463,6 +449,8 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.push_msg.setClickable(record.messagePush);
             viewHolder.push_msg.setBackgroundColor(record.messagePush ?
                     colorEnable : colorDisable);
+            viewHolder.wolaifuwu.setTag(record);
+            viewHolder.wolaifuwu.setOnClickListener(wolaifuwu_click);
             viewHolder.wolaifuwu.setClickable(record.myService);
             viewHolder.wolaifuwu.setBackgroundColor(record.myService ?
                     colorEnable : colorDisable);
@@ -471,6 +459,26 @@ public class XiaoFeiFragment extends BaseFragment {
             return view;
         }
     }
+
+    private QianMing mQianMing;
+    private View.OnClickListener wolaifuwu_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (mQianMing == null || custorm_id == -1) {
+                mQianMing = new QianMing();
+                mQianMing.mode = QianMing.MODE_XIAOFEI_DETAIL;
+                mQianMing.mParentFragment = XiaoFeiFragment.this;
+            }
+            ConsumptionRecord record = (ConsumptionRecord) view.getTag();
+            Bundle bundle = new Bundle();
+            bundle.putInt("xiaofeidetail_mode", 4);
+            bundle.putInt("xiaofeidetail_cusid", custorm_id);
+            bundle.putInt("xiaofeidetail_conid", record.id);
+            bundle.putInt("fieldQueueId", record.fieldQueueId);
+            mQianMing.setArguments(bundle);
+            mActivity.showContent(mQianMing);
+        }
+    };
 
     private XiaoFeiDetailFragment mXiaoFeiDetailFragment;
     private View.OnClickListener do_change_click = new View.OnClickListener() {
@@ -529,10 +537,11 @@ public class XiaoFeiFragment extends BaseFragment {
         public String endTime;//结束时间
         public String createTime;//创建时间
         public String updateTime;//更新时间
+        public int fieldQueueId;
 
-        String empName;//员工姓名
-        String customerName;//客户姓名
-        String projectName;//项目名称
+        public String empName;//员工姓名
+        public String customerName;//客户姓名
+        public String projectName;//项目名称
 
         boolean myService;//我来服务按钮状态（可点击、不可点击）
         boolean messagePush;//消息推送按钮（可点击、不可点击）
