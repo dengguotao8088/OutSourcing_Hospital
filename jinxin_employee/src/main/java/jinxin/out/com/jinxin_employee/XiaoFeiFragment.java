@@ -1,5 +1,10 @@
 package jinxin.out.com.jinxin_employee;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +51,7 @@ public class XiaoFeiFragment extends BaseFragment {
     private int tab_id = 0;
     private Button mGoumai_btn;
     private Button mDangri_btn;
+    private ImageView cameraView;
 
     private List<PurchaseRecord> mPurchList = new ArrayList<>();
     private List<ConsumptionRecord> mConsumptionList = new ArrayList<>();
@@ -83,6 +89,8 @@ public class XiaoFeiFragment extends BaseFragment {
         mGoumai_btn.setOnClickListener(mTitle_Btn);
         mDangri_btn.setOnClickListener(mTitle_Btn);
         refreshTitle();
+        cameraView = mView.findViewById(R.id.xiaofei_title_camera);
+        cameraView.setOnClickListener(camera_click);
 
         ImageView back = mView.findViewById(R.id.xiao_title_back);
         back.setOnClickListener(mBackListener);
@@ -94,6 +102,29 @@ public class XiaoFeiFragment extends BaseFragment {
         refreshAdapter();
         isViewCreate = true;
         return mView;
+    }
+
+    private static final int REQUEST_CODE_IMAGE = 0x100;
+    private View.OnClickListener camera_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, REQUEST_CODE_IMAGE);
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+            Cursor cursor = mActivity.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                Log.d("dengguotao", "path: " + path);
+            }
+
+        }
     }
 
     private View.OnClickListener mTitle_Btn = new View.OnClickListener() {
@@ -318,7 +349,6 @@ public class XiaoFeiFragment extends BaseFragment {
         }
     }
 
-    private EditText add_remark_et;
     private AlertDialog add_dialog;
     private int add_click_id = -1;
     private View.OnClickListener mAdd_xiaofeiClick = new View.OnClickListener() {
@@ -339,6 +369,7 @@ public class XiaoFeiFragment extends BaseFragment {
                             public void onClick(String inputText, int which) {
                                 //which,0代表NegativeButton，1代表PositiveButton
                                 if (which == 1) {
+                                    if (inputText == null) inputText = "";
                                     add_xiaofei(add_click_id, inputText);
                                 }
                             }
@@ -472,7 +503,7 @@ public class XiaoFeiFragment extends BaseFragment {
             ConsumptionRecord record = (ConsumptionRecord) view.getTag();
             Bundle bundle = new Bundle();
             bundle.putInt("xiaofeidetail_mode", 4);
-            bundle.putInt("xiaofeidetail_cusid", custorm_id);
+            bundle.putInt("xiaofeidetail_cusid", record.customerId);
             bundle.putInt("xiaofeidetail_conid", record.id);
             bundle.putInt("fieldQueueId", record.fieldQueueId);
             mQianMing.setArguments(bundle);
@@ -538,13 +569,14 @@ public class XiaoFeiFragment extends BaseFragment {
         public String createTime;//创建时间
         public String updateTime;//更新时间
         public int fieldQueueId;
+        public int customerId;
 
         public String empName;//员工姓名
         public String customerName;//客户姓名
         public String projectName;//项目名称
 
-        boolean myService;//我来服务按钮状态（可点击、不可点击）
-        boolean messagePush;//消息推送按钮（可点击、不可点击）
+        public boolean myService;//我来服务按钮状态（可点击、不可点击）
+        public boolean messagePush;//消息推送按钮（可点击、不可点击）
     }
 
     private void refreshTitle() {

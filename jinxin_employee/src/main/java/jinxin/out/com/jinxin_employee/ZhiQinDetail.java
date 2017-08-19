@@ -78,6 +78,7 @@ public class ZhiQinDetail extends BaseFragment {
                 return;
             }
             String result = response.body().string();
+            Log.d("dengguotao", result);
             BaseModule bmodule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (bmodule.code == 1) {
                 if (mMainHandler != null) {
@@ -87,13 +88,11 @@ public class ZhiQinDetail extends BaseFragment {
             }
             if (bmodule.code == 0) {
                 MyResponse response1 = JsonUtil.parsoJsonWithGson(result, MyResponse.class);
-                if (response1.code == 0) {
-                    module = response1.data;
-                    if (mMainHandler != null) {
-                        mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
-                    }
-                    load_qianming_png();
+                module = response1.data;
+                if (mMainHandler != null) {
+                    mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 }
+                load_qianming_png();
             }
         }
     };
@@ -111,10 +110,11 @@ public class ZhiQinDetail extends BaseFragment {
         cusName = getArguments().getString("custorm_name");
         if (saveDir == null) {
             saveDir = mActivity.getExternalCacheDir().getAbsolutePath();
-            File mqianming_file = new File(saveDir, "tmp_qianming.png");
-            if (mqianming_file.exists()) {
-                mqianming_file.delete();
-            }
+        }
+        module = null;
+        File mqianming_file = new File(saveDir, "tmp_qianming.png");
+        if (mqianming_file.exists()) {
+            mqianming_file.delete();
         }
         RequestBody body = new FormBody.Builder()
                 .add("token", LoginManager.getInstance(getActivity()).getToken())
@@ -161,9 +161,10 @@ public class ZhiQinDetail extends BaseFragment {
             mre.setText(module.content);
             mdate.setText("日期:" + JsonUtil.getDate(module.updateTime));
             File mqianming_file = new File(saveDir, "tmp_qianming.png");
-            mqianming.setImageURI(null);
+            mqianming.setVisibility(View.INVISIBLE);
             if (mqianming_file.exists()) {
                 mqianming.setImageURI(Uri.fromFile(mqianming_file));
+                mqianming.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -178,6 +179,7 @@ public class ZhiQinDetail extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() != 200) {
+                Log.d("dengguotao", "down png: " + response.code());
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
@@ -188,6 +190,7 @@ public class ZhiQinDetail extends BaseFragment {
             try {
                 is = response.body().byteStream();
                 long total = response.body().contentLength();
+                Log.d("dengguotao", "down png: " + total);
                 File mqianming_file = new File(saveDir, "tmp_qianming.png");
                 if (mqianming_file.exists()) {
                     mqianming_file.delete();
@@ -199,6 +202,7 @@ public class ZhiQinDetail extends BaseFragment {
                 fos.flush();
             } catch (Exception e) {
             } finally {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 try {
                     if (is != null)
                         is.close();
@@ -209,12 +213,12 @@ public class ZhiQinDetail extends BaseFragment {
                         fos.close();
                 } catch (IOException e) {
                 }
-                mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             }
         }
     };
 
     private void load_qianming_png() {
+        Log.d("dengguotao", "load png: " + module.customerSignaturePath);
         NetPostUtil.post(module.customerSignaturePath, null, load_qianming_back);
     }
 }

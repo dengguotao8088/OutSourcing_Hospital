@@ -324,11 +324,6 @@ public class MyCustormFragment extends BaseFragment {
         public String mobile;
         public String name;
 
-        @Override
-        public String toString() {
-            return name + "-" + JsonUtil.getDate(birthday)
-                    + "-" + mobile + "-" + customerSource + "-" + id;
-        }
     }
 
     public class Custorm {

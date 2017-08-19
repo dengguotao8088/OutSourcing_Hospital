@@ -70,10 +70,6 @@ public class CustomerInformedFragment extends BaseFragment {
 
     public CustomerInformedFragment() {
         manager = LoginManager.getInstance(mActivity);
-        if (mZhiQinList.size() == 0) {
-            RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
-            NetPostUtil.post(Constants.ZHIQIN_LIST, body, mGetZhiQinListCallback);
-        }
     }
 
     @Override
@@ -129,7 +125,7 @@ public class CustomerInformedFragment extends BaseFragment {
                 }
             }
             if (baseModule.code == 0) {
-                Log.d("dengguotao","result: "+result);
+                Log.d("dengguotao", "result: " + result);
                 MyResponseModule baseModule2 = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);
                 mCusZhiQinList.clear();
                 mCusZhiQinList.addAll(baseModule2.data);
@@ -155,6 +151,10 @@ public class CustomerInformedFragment extends BaseFragment {
         mCusZhiQinList.clear();
         loadAllData();
         //}
+        if (mZhiQinList.size() == 0) {
+            RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
+            NetPostUtil.post(Constants.ZHIQIN_LIST, body, mGetZhiQinListCallback);
+        }
     }
 
     @Override
@@ -210,7 +210,7 @@ public class CustomerInformedFragment extends BaseFragment {
     private AdapterView.OnItemClickListener mListClick = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            MyCusZhiQinModule module = (MyCusZhiQinModule) myAdapter.getItem((int) l);
+            MyCusZhiQinModule module = mCusZhiQinList.get((int) l);
             if (mZhiQinDetail == null) {
                 mZhiQinDetail = new ZhiQinDetail();
             }
@@ -276,6 +276,10 @@ public class CustomerInformedFragment extends BaseFragment {
                         mMainHandler.obtainMessage(SHOW_TOAST, "请选择模板及关系"));
                 return;
             }
+            if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络"));
+                return;
+            }
             if (qianMing == null) {
                 qianMing = new QianMing();
                 qianMing.mode = QianMing.MODE_ZHIQIN;
@@ -339,7 +343,7 @@ public class CustomerInformedFragment extends BaseFragment {
             }
             MyCusZhiQinModule zhiQinModule = mCusZhiQinList.get(i);
             holder.name.setText(zhiQinModule.informedConsentTemplateName);
-            holder.qianming.setTag(zhiQinModule.informedConsentTemplateId);
+            holder.qianming.setTag(zhiQinModule.id);
             return view;
         }
     }

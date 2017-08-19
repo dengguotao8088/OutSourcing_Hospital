@@ -109,6 +109,14 @@ public class QianMing extends BaseFragment {
     private int xiaofeidetail_cusid;
     private int xiaofeidetail_cpid;
     private int filedQueId;
+    private String partnerName;
+    private String remarks;
+    private String daySymptom;
+    private String empSign;
+    private String cusSign;
+    private String physiSign;
+    private String painAss;
+
 
     private String path;
 
@@ -147,6 +155,13 @@ public class QianMing extends BaseFragment {
             xiaofeidetail_cusid = getArguments().getInt("xiaofeidetail_cusid");
             xiaofeidetail_cpid = getArguments().getInt("xiaofeidetail_conid");
             filedQueId = getArguments().getInt("fieldQueueId");
+            partnerName = getArguments().getString("partnerName","");
+            remarks = getArguments().getString("xiaofeidetail_remarks","");
+            daySymptom = getArguments().getString("daySymptom","");
+            empSign = getArguments().getString("empSignaturePath","");
+            cusSign = getArguments().getString("customerSignaturePath","");
+            physiSign = getArguments().getString("physicianSignaturePath","");
+            painAss = getArguments().getString("painAssessment","");
         }
     }
 
@@ -184,7 +199,7 @@ public class QianMing extends BaseFragment {
         @Override
         public void onClick(View view) {
             try {
-                qianmingban.save(mtem.getAbsolutePath(), true, 0);
+                qianmingban.save(mtem.getAbsolutePath(), false, 0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -213,10 +228,11 @@ public class QianMing extends BaseFragment {
         try {
             if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
                 mActivity.dissmissHUD();
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络"));
                 upload.setClickable(true);
                 return;
             }
-            boolean result = qianmingban.save(mtem.getAbsolutePath(), true, 0);
+            boolean result = qianmingban.save(mtem.getAbsolutePath(), false, 0);
             if (!result) {
                 mActivity.dissmissHUD();
                 upload.setClickable(true);
@@ -289,7 +305,7 @@ public class QianMing extends BaseFragment {
                     .build();
             NetPostUtil.post("http://staff.mind-node.com/staff/api/field_queue/save?"
                     , body, tuifei_back);
-        } else {
+        } else if(xiaofeidetail_mode == 4){
             RequestBody body = new FormBody.Builder()
                     .add("token", LoginManager.getInstance(mActivity).getToken())
                     .add("customerId", xiaofeidetail_cusid + "")
@@ -300,6 +316,20 @@ public class QianMing extends BaseFragment {
             NetPostUtil.post("http://staff.mind-node.com/staff/api/field_queue/update?"
                     , body, tuifei_back);
 
+        } else if(xiaofeidetail_mode == 5) {
+            RequestBody body = new FormBody.Builder()
+                    .add("token", LoginManager.getInstance(mActivity).getToken())
+                    .add("id", xiaofeidetail_cpid + "")
+                    .add("partnerName", partnerName)
+                    .add("remarks", remarks)
+                    .add("daySymptom", daySymptom)
+                    .add("empSignaturePath", empSign)
+                    .add("customerSignaturePath", cusSign)
+                    .add("physicianSignaturePath", path)
+                    .add("painAssessment", painAss)
+                    .build();
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/update?"
+                    , body, tuifei_back);
         }
     }
 
@@ -319,6 +349,7 @@ public class QianMing extends BaseFragment {
     }
 
     private void do_updateZhiqin(String path) {
+        Log.d("dengguotao","zhiqin_path: "+path);
         if (zhiqin_id == -1) {
             return;
         }
@@ -327,7 +358,7 @@ public class QianMing extends BaseFragment {
                 .add("id", zhiqin_id + "")
                 .add("customerSignaturePath", path)
                 .build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/update"
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/update?"
                 , body, tuifei_back);
     }
 
@@ -372,6 +403,8 @@ public class QianMing extends BaseFragment {
                     if (mode == MODE_XIAOFEI_DETAIL) {
                         if (xiaofeidetail_mode == 3) {
                             msg = "客户签名成功!";
+                        }else if(xiaofeidetail_mode == 5){
+                            msg = "医师签名成功!";
                         } else {
                             if (mParentFragment instanceof XiaoFeiFragment) {
                                 msg = "我来服务操作成功!";

@@ -94,30 +94,33 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         if (isViewCreate && mCurrentPurRecord != null) {
-            cusName.setText("客户姓名： " + mCurrentPurRecord.customerName);
-            zhenduan_ed.setText(mCurrentPurRecord.daySymptom);
-            ttpinggu_ed.setText(mCurrentPurRecord.painAssessment);
-            xiaofei_remark_ed.setText(mCurrentPurRecord.remarks);
-            goumai_remark.setText("购买备注: " + mCurrentPurRecord.purchaseRecordRemarks);
-            partener_remark.setText("合伙人: " + mCurrentPurRecord.partnerName);
+            cusName.setText("客户姓名： " + (mCurrentPurRecord.customerName ==null?"":mCurrentPurRecord.customerName));
+            zhenduan_ed.setText(mCurrentPurRecord.daySymptom ==null?"":mCurrentPurRecord.daySymptom);
+            ttpinggu_ed.setText(mCurrentPurRecord.painAssessment ==null?"":mCurrentPurRecord.painAssessment);
+            xiaofei_remark_ed.setText(mCurrentPurRecord.remarks ==null?"":mCurrentPurRecord.remarks);
+            goumai_remark.setText("购买备注: " + (mCurrentPurRecord.purchaseRecordRemarks ==null?"":mCurrentPurRecord.purchaseRecordRemarks));
+            partener_remark.setText("合伙人: " + (mCurrentPurRecord.partnerName ==null?"":mCurrentPurRecord.partnerName));
 
-            kehuqianming_img.setImageURI(null);
-            jishiqianming_img.setImageURI(null);
-            yishiqianming_img.setImageURI(null);
+            kehuqianming_img.setVisibility(View.INVISIBLE);
+            jishiqianming_img.setVisibility(View.INVISIBLE);
+            yishiqianming_img.setVisibility(View.INVISIBLE);
 
             File kehuqianming = new File(mSaveDir, "tmp_kehuqianming.png");
             if (kehuqianming.exists()) {
                 kehuqianming_img.setImageURI(Uri.fromFile(kehuqianming));
+                kehuqianming_img.setVisibility(View.VISIBLE);
             }
 
             File jishiqianming = new File(mSaveDir, "tmp_jishiqianming.png");
             if (jishiqianming.exists()) {
                 jishiqianming_img.setImageURI(Uri.fromFile(jishiqianming));
+                jishiqianming_img.setVisibility(View.VISIBLE);
             }
 
-            File yishiqianming = new File(mSaveDir, "tmp_kehuqianming.png");
+            File yishiqianming = new File(mSaveDir, "tmp_yishiqianming.png");
             if (yishiqianming.exists()) {
                 yishiqianming_img.setImageURI(Uri.fromFile(yishiqianming));
+                yishiqianming_img.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -131,6 +134,12 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         if (mSaveDir == null) {
             mSaveDir = mActivity.getExternalCacheDir().getAbsolutePath();
         }
+        File kehuqianming = new File(mSaveDir, "tmp_kehuqianming.png");
+        if (kehuqianming.exists()) kehuqianming.delete();
+        File jishiqianming = new File(mSaveDir, "tmp_jishiqianming.png");
+        if (jishiqianming.exists()) jishiqianming.delete();
+        File yishiqianming = new File(mSaveDir, "tmp_yishiqianming.png");
+        if (yishiqianming.exists()) yishiqianming.delete();
         if (ZhenduanList.size() == 0) {
             RequestBody body = new FormBody.Builder().add("token",
                     LoginManager.getInstance(mActivity).getToken())
@@ -160,6 +169,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         ImageView back = mView.findViewById(R.id.fuwujilu_back);
         back.setOnClickListener(mBackListener);
         save_btn = mView.findViewById(R.id.fuwujilu_save);
+        save_btn.setOnClickListener(save_click_listener);
 
         cusName = mView.findViewById(R.id.fuwujilu_kuhuxingming);
         zhenduan_ed = mView.findViewById(R.id.fuwujilu_ed_neirong);
@@ -191,6 +201,63 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         refreshUI();
         return mView;
     }
+
+    private View.OnClickListener save_click_listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络"));
+                return;
+            }
+            if (xiaofei_ID == -1) return;
+            Log.d("dengguotao","save");
+            String daySy = zhenduan_ed.getText().toString();
+            String ttpg = ttpinggu_ed.getText().toString();
+            String remark = xiaofei_remark_ed.getText().toString();
+            RequestBody body = new FormBody.Builder()
+                    .add("token", LoginManager.getInstance(mActivity).getToken())
+                    .add("id", xiaofei_ID + "")
+                    .add("partnerName", mCurrentPurRecord.partnerName==null?"":mCurrentPurRecord.partnerName)
+                    .add("remarks", remark)
+                    .add("daySymptom", daySy)
+                    .add("empSignaturePath", mCurrentPurRecord.empSignaturePath
+                            ==null?"":mCurrentPurRecord.empSignaturePath)
+                    .add("customerSignaturePath", mCurrentPurRecord.customerSignaturePath
+                            ==null?"":mCurrentPurRecord.customerSignaturePath)
+                    .add("physicianSignaturePath", mCurrentPurRecord.physicianSignaturePath
+                            ==null?"":mCurrentPurRecord.physicianSignaturePath)
+                    .add("painAssessment", ttpg)
+                    .build();
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/update?"
+                    , body, save_call_back);
+        }
+    };
+
+    private Callback save_call_back = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "保存失败"));
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() == 200) {
+                String result = response.body().string();
+                Log.d("dengguotao","save: "+result);
+                BaseModule module = JsonUtil.parsoJsonWithGson(result,
+                        BaseModule.class);
+                if (module.code == 1) {
+                    if (mMainHandler != null) {
+                        mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                        return;
+                    }
+                }
+                if (module.code == 0) {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "保存成功"));
+                }
+            }
+        }
+    };
 
     private View.OnClickListener zd_btn_click = new View.OnClickListener() {
         @Override
@@ -236,6 +303,10 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     private View.OnClickListener kehuqianMing = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (null != mCurrentPurRecord.customerSignaturePath && !"".equals(mCurrentPurRecord.customerSignaturePath)) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "已经签名"));
+                return;
+            }
             if (mCurrentPurRecord.customerId == -1) {
                 return;
             }
@@ -256,6 +327,10 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     private View.OnClickListener jishiQianming = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (null != mCurrentPurRecord.empSignaturePath && !"".equals(mCurrentPurRecord.empSignaturePath)) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "已经签名"));
+                return;
+            }
             if (mCurrentPurRecord.customerId == -1) {
                 return;
             }
@@ -277,11 +352,32 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     private View.OnClickListener yishiQianming = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (null != mCurrentPurRecord.physicianSignaturePath && !"".equals(mCurrentPurRecord.physicianSignaturePath)) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "已经签名"));
+                return;
+            }
+            String ttpg = ttpinggu_ed.getText().toString();
+            if (null == ttpg || "".equals(ttpg)) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "请进行疼痛评估"));
+                return;
+            }
             if (mQianMing == null) {
                 mQianMing = new QianMing();
                 mQianMing.mode = QianMing.MODE_XIAOFEI_DETAIL;
                 mQianMing.mParentFragment = XiaoFeiDetailFragment.this;
             }
+            Bundle bundle = new Bundle();
+            bundle.putInt("xiaofeidetail_mode", 5);
+            bundle.putInt("xiaofeidetail_conid", xiaofei_ID);
+            bundle.putString("partnerName", mCurrentPurRecord.partnerName);
+            bundle.putString("xiaofeidetail_remarks", mCurrentPurRecord.remarks);
+            bundle.putString("daySymptom", zhenduan_ed.getText().toString());
+            bundle.putString("empSignaturePath", mCurrentPurRecord.empSignaturePath);
+            bundle.putString("customerSignaturePath", mCurrentPurRecord.customerSignaturePath);
+            bundle.putString("physicianSignaturePath", mCurrentPurRecord.physicianSignaturePath);
+            bundle.putString("painAssessment", ttpg);
+            mQianMing.setArguments(bundle);
+            mActivity.showContent(mQianMing);
         }
     };
 
@@ -295,6 +391,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() == 200) {
                 String result = response.body().string();
+                Log.d("dengguotao",result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                 if (module.code == 1) {
                     if (mMainHandler != null) {
@@ -326,17 +423,14 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     };
 
     private void loadkhqianming(String path) {
-        Log.d("dengguotao","loadkhqianming: "+path);
         NetPostUtil.post(path, null, load_kehuqianming_back);
     }
 
     private void loadjsqianming(String path) {
-        Log.d("dengguotao","loadjsqianming: "+path);
         NetPostUtil.post(path, null, load_jishiqianming_back);
     }
 
     private void loadysqianming(String path) {
-        Log.d("dengguotao","loadysqianming: "+path);
         NetPostUtil.post(path, null, load_yishiqianming_back);
     }
 
@@ -376,7 +470,6 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() == 200) {
                 String result = response.body().string();
-                Log.d("dengguotao", "result: " + result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                 if (module.code == 1) {
                     if (mMainHandler != null) {

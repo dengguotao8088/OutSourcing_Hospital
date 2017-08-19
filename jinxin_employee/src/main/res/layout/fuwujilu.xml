@@ -178,14 +178,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:text="客户签名:"
                     android:textColor="@color/tab_bar_bac"
                     android:textSize="13sp" />
 
                 <ImageView
                     android:id="@+id/fuwujilu_kehuqianming_img"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerInParent="true" />
 
                 <Button
@@ -193,6 +194,7 @@
                     android:layout_width="70dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:background="@color/tab_bar"
                     android:text="客户签名"
                     android:textColor="@color/white"
@@ -209,14 +211,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:text="技师签名:"
                     android:textColor="@color/tab_bar_bac"
                     android:textSize="13sp" />
 
                 <ImageView
                     android:id="@+id/fuwujilu_jishiqianming_img"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerInParent="true" />
 
                 <Button
@@ -224,6 +227,7 @@
                     android:layout_width="70dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:background="@color/tab_bar"
                     android:text="技师签名"
                     android:textColor="@color/white"
@@ -240,22 +244,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:text="医师签名:"
                     android:textColor="@color/tab_bar_bac"
                     android:textSize="13sp" />
 
                 <ImageView
                     android:id="@+id/fuwujilu_yishiqianming_img"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:scaleType="fitCenter"
-                    android:layout_centerInParent="true" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitCenter" />
 
                 <Button
                     android:id="@+id/fuwujilu_yishiqianming_btn"
                     android:layout_width="70dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:background="@color/tab_bar"
                     android:text="医师签名"
                     android:textColor="@color/white"
