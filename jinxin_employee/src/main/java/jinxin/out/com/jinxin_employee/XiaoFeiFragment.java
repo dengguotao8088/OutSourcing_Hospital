@@ -1,8 +1,10 @@
 package jinxin.out.com.jinxin_employee;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -11,14 +13,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,10 +116,31 @@ public class XiaoFeiFragment extends BaseFragment {
     private View.OnClickListener camera_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, REQUEST_CODE_IMAGE);
+            showPopFormBottom(null);
         }
     };
+
+    public void showPopFormBottom(View view) {
+        TakePhotoPopWin takePhotoPopWin = new TakePhotoPopWin(mActivity, null);
+//        设置Popupwindow显示位置（从底部弹出）
+        takePhotoPopWin.showAtLocation(mView.findViewById(R.id.xiaofei_main_view), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+
+        WindowManager.LayoutParams params = mActivity.getWindow().getAttributes();
+        //当弹出Popupwindow时，背景变半透明
+        params.alpha = 0.7f;
+        mActivity.getWindow().setAttributes(params);
+        //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
+        takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                WindowManager.LayoutParams params = mActivity.getWindow().getAttributes();
+                params.alpha = 1f;
+                mActivity.getWindow().setAttributes(params);
+            }
+        });
+
+//        takePhotoPopWin.lis
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -121,7 +150,6 @@ public class XiaoFeiFragment extends BaseFragment {
             Cursor cursor = mActivity.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
                 String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
-                Log.d("dengguotao", "path: " + path);
             }
 
         }
@@ -590,6 +618,57 @@ public class XiaoFeiFragment extends BaseFragment {
             mDangri_btn.setTextColor(mActivity.getColor(R.color.tab_bar));
             mGoumai_btn.setBackgroundResource(R.drawable.xiaofei_title_btn_bac);
             mGoumai_btn.setTextColor(mActivity.getColor(R.color.white));
+        }
+    }
+
+    public class TakePhotoPopWin extends PopupWindow {
+
+        private Context mContext;
+
+        private View view;
+
+        private TextView btn_cancel;
+
+
+        public TakePhotoPopWin(Context mContext, View.OnClickListener itemsOnClick) {
+
+            this.view = LayoutInflater.from(mContext).inflate(R.layout.take_photo_pop, null);
+
+            this.setOutsideTouchable(true);
+            // mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
+            this.view.setOnTouchListener(new View.OnTouchListener() {
+
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    int height = view.findViewById(R.id.pop_layout).getTop();
+
+                    int y = (int) event.getY();
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        if (y < height) {
+                            dismiss();
+                        }
+                    }
+                    return true;
+                }
+            });
+
+
+            this.setContentView(this.view);
+            // 设置弹出窗体的宽和高
+            this.setHeight(RelativeLayout.LayoutParams.WRAP_CONTENT);
+            this.setWidth(RelativeLayout.LayoutParams.MATCH_PARENT);
+
+            // 设置弹出窗体可点击
+            this.setFocusable(true);
+
+            // 实例化一个ColorDrawable颜色为半透明
+            ColorDrawable dw = new ColorDrawable(0xb0000000);
+            // 设置弹出窗体的背景
+            this.setBackgroundDrawable(dw);
+
+            // 设置弹出窗体显示时的动画，从底部向上弹出
+            this.setAnimationStyle(R.style.take_photo_anim);
+
         }
     }
 }
