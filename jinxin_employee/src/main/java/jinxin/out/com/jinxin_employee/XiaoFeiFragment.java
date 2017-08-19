@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -34,7 +36,12 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.necer.ndialog.NDialog;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +49,8 @@ import jinxin.out.com.jinxin_employee.JsonModule.BaseModule;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
@@ -84,6 +93,9 @@ public class XiaoFeiFragment extends BaseFragment {
             loadDangRiList();
         }
         isFirstShow = false;
+        if (tmp_capture == null) {
+            tmp_capture = new File(mActivity.getExternalCacheDir(), "capture_tmp.png").getAbsolutePath();
+        }
     }
 
 
@@ -113,6 +125,7 @@ public class XiaoFeiFragment extends BaseFragment {
     }
 
     private static final int REQUEST_CODE_IMAGE = 0x100;
+    private static final int REQUEST_CODE_CAMERA = 0x101;
     private View.OnClickListener camera_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -120,39 +133,188 @@ public class XiaoFeiFragment extends BaseFragment {
         }
     };
 
+    private TakePhotoPopWin takePhotoPopWin;
+    private View popView;
+    private TextView camera;
+    private TextView gallery;
+    private TextView local_gallery;
+
     public void showPopFormBottom(View view) {
-        TakePhotoPopWin takePhotoPopWin = new TakePhotoPopWin(mActivity, null);
-//        设置Popupwindow显示位置（从底部弹出）
+        if (takePhotoPopWin == null) {
+            popView = LayoutInflater.from(mActivity).inflate(R.layout.take_photo_pop, null);
+            takePhotoPopWin = new TakePhotoPopWin(popView);
+            takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    WindowManager.LayoutParams params = mActivity.getWindow().getAttributes();
+                    params.alpha = 1f;
+                    mActivity.getWindow().setAttributes(params);
+                }
+            });
+
+            TextView cacel = popView.findViewById(R.id.pop_cancel);
+            cacel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (takePhotoPopWin != null) {
+                        takePhotoPopWin.dismiss();
+                    }
+                }
+            });
+            TextView camera = popView.findViewById(R.id.pop_camera);
+            camera.setOnClickListener(pop_camera_click);
+            TextView gallery = popView.findViewById(R.id.pop_gallery);
+            gallery.setOnClickListener(pop_gallery_click);
+            TextView local_gallery = popView.findViewById(R.id.pop_local_gallery);
+            local_gallery.setOnClickListener(pop_local_gallery_click);
+        }
         takePhotoPopWin.showAtLocation(mView.findViewById(R.id.xiaofei_main_view), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
         WindowManager.LayoutParams params = mActivity.getWindow().getAttributes();
-        //当弹出Popupwindow时，背景变半透明
         params.alpha = 0.7f;
         mActivity.getWindow().setAttributes(params);
-        //设置Popupwindow关闭监听，当Popupwindow关闭，背景恢复1f
-        takePhotoPopWin.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                WindowManager.LayoutParams params = mActivity.getWindow().getAttributes();
-                params.alpha = 1f;
-                mActivity.getWindow().setAttributes(params);
-            }
-        });
-
-//        takePhotoPopWin.lis
     }
+
+    private View.OnClickListener pop_camera_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            File file = new File(tmp_capture);
+            Uri imageUri = Uri.fromFile(file);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            takePhotoPopWin.dismiss();
+        }
+    };
+
+    private View.OnClickListener pop_gallery_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(
+                    Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(i, REQUEST_CODE_IMAGE);
+            takePhotoPopWin.dismiss();
+        }
+    };
+
+    private View.OnClickListener pop_local_gallery_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            takePhotoPopWin.dismiss();
+        }
+    };
+
+    private String tmp_capture;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_IMAGE && resultCode == Activity.RESULT_OK) {
+            String path = null;
             Uri uri = data.getData();
             Cursor cursor = mActivity.getContentResolver().query(uri, null, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
-                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                cursor.close();
             }
-
+            if (path != null && !path.equals("")) {
+                uploadBitmap(path);
+            }
+        } else if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            uploadBitmap(tmp_capture);
         }
+    }
+
+    private File tem_upload_file;
+
+    private void uploadBitmap(final String path) {
+        mActivity.showHUD("图片上传中");
+        new Thread() {
+            @Override
+            public void run() {
+                Log.d("dengguotao", "uploadBitmap");
+                if (path == null || "".equals(path)) {
+                    mActivity.dissmissHUD();
+                    return;
+                }
+                File file = new File(tmp_capture);
+                Bitmap tem_bitmap = BitmapFactory.decodeFile(path, null);
+                Bitmap bitmap = Bitmap.createScaledBitmap(tem_bitmap,450,450,true);
+                if (tem_upload_file == null) {
+                    String pa = mActivity.getExternalCacheDir().getAbsolutePath();
+                    tem_upload_file = new File(pa, "tmp_upload_pop.png");
+                }
+
+                try {
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos);
+                    byte[] buffer = bos.toByteArray();
+                    if (buffer != null) {
+                        if (tem_upload_file.exists()) {
+                            tem_upload_file.delete();
+                        }
+                        OutputStream outputStream = null;
+
+                        outputStream = new FileOutputStream(tem_upload_file);
+
+                        outputStream.write(buffer);
+                        outputStream.close();
+                        bos.close();
+                    }
+                } catch (FileNotFoundException e) {
+                    mActivity.dissmissHUD();
+                    return;
+                } catch (IOException e) {
+                    mActivity.dissmissHUD();
+                    return;
+                } finally {
+                    bitmap.recycle();
+                    tem_bitmap.recycle();
+                    if (file.exists()) {
+                        file.delete();
+                    }
+                }
+                RequestBody fileBody = RequestBody.create(MediaType.parse("image/png"),
+                        tem_upload_file);
+
+                RequestBody requestBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("file", tem_upload_file.getName(),
+                                fileBody)
+                        .build();
+                NetPostUtil.post("http://medical.mind-node.com/files/upload_app", requestBody, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        mActivity.dissmissHUD();
+                        mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传失败"));
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        mActivity.dissmissHUD();
+                        Log.d("dengguotao", ""+response.code());
+                        String result = response.body().string();
+                        Log.d("dengguotao", result);
+                        if (response.code() == 200) {
+                            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                            if (module.code == 1) {
+                                if (mMainHandler != null) {
+                                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                                    return;
+                                }
+                            }
+                            if (module.code == 0) {
+                                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传成功"));
+                            } else {
+                                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传失败"));
+                            }
+                        } else {
+                            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传失败"));
+                        }
+                    }
+                });
+            }
+        }.start();
     }
 
     private View.OnClickListener mTitle_Btn = new View.OnClickListener() {
@@ -623,20 +785,17 @@ public class XiaoFeiFragment extends BaseFragment {
 
     public class TakePhotoPopWin extends PopupWindow {
 
-        private Context mContext;
-
         private View view;
 
         private TextView btn_cancel;
 
 
-        public TakePhotoPopWin(Context mContext, View.OnClickListener itemsOnClick) {
+        public TakePhotoPopWin(View v) {
+            view = v;
 
-            this.view = LayoutInflater.from(mContext).inflate(R.layout.take_photo_pop, null);
-
-            this.setOutsideTouchable(true);
+            setOutsideTouchable(true);
             // mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-            this.view.setOnTouchListener(new View.OnTouchListener() {
+            view.setOnTouchListener(new View.OnTouchListener() {
 
                 public boolean onTouch(View v, MotionEvent event) {
 
@@ -660,11 +819,6 @@ public class XiaoFeiFragment extends BaseFragment {
 
             // 设置弹出窗体可点击
             this.setFocusable(true);
-
-            // 实例化一个ColorDrawable颜色为半透明
-            ColorDrawable dw = new ColorDrawable(0xb0000000);
-            // 设置弹出窗体的背景
-            this.setBackgroundDrawable(dw);
 
             // 设置弹出窗体显示时的动画，从底部向上弹出
             this.setAnimationStyle(R.style.take_photo_anim);

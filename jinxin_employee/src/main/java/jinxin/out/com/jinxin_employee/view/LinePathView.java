@@ -219,6 +219,7 @@ public class LinePathView extends View {
             OutputStream outputStream = new FileOutputStream(file);
             outputStream.write(buffer);
             outputStream.close();
+            bos.close();
             result = true;
         }
         return result;
