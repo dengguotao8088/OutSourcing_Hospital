@@ -1,4 +1,4 @@
-#Sun Aug 20 19:40:08 CST 2017
+#Sun Aug 20 20:21:58 CST 2017
 base.0=/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/transforms/dexMerger/debug/1
 renamed.0=classes.dex
 file.0=/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/transforms/dexMerger/debug/1/classes.dex

@@ -213,6 +213,7 @@ public class MyCustormFragment extends BaseFragment {
                     }
                     Bundle data = new Bundle();
                     data.putInt("custorm_id", mCusDatas.get((int) l).id);
+                    Log.d("dengguotao","click: "+l+"   cid: "+mCusDatas.get((int) l).id);
                     data.putBoolean("xiaofei_fragement_reset", true);
                     xiaoFeiFragment.setArguments(data);
                     mActivity.showContent(xiaoFeiFragment);
@@ -255,6 +256,7 @@ public class MyCustormFragment extends BaseFragment {
     int page_id = 1;
 
     private void loadAllData() {
+        Log.d("dengguotao","page_id: "+page_id);
         RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
                 .add("empId", mEmployee.id + "").add("page", page_id + "")
                 .add("size", "10").build();

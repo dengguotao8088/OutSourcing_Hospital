@@ -18,6 +18,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 import java.io.IOException;
 
+import jinxin.out.com.jinxin_employee.JsonModule.BaseModule;
 import jinxin.out.com.jinxin_employee.JsonModule.LoginResponseJson;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -128,6 +129,7 @@ public class LoginActivity extends Activity {
         @Override
         public void onFailure(Call call, IOException e) {
             mHUD.dismiss();
+            mainHandler.sendMessage(mainHandler.obtainMessage(100, "登录失败"));
         }
 
         @Override
@@ -139,9 +141,10 @@ public class LoginActivity extends Activity {
                 return;
             }
             String result = response.body().string();
-            LoginResponseJson loginResponseJson =
-                    JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
-            if (loginResponseJson.code == 0) {
+            BaseModule baseModule = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (baseModule.code == 0) {
+                LoginResponseJson loginResponseJson =
+                        JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
                 LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
                 LoginManager.getInstance(mContext).setEmployee(loginResponseJson.data.empDO);
                 //LoginManager.getInstance(mContext).saveEmp();
@@ -152,7 +155,7 @@ public class LoginActivity extends Activity {
                 finish();
             } else {
                 //Toast.makeText(mContext, "登录失败", Toast.LENGTH_SHORT).show();
-                mainHandler.sendMessage(mainHandler.obtainMessage(100, "登录失败"));
+                mainHandler.sendMessage(mainHandler.obtainMessage(100, baseModule.message));
             }
         }
     };
