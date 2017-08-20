@@ -197,8 +197,7 @@ public class CustomerInformedFragment extends BaseFragment {
         mAdd.setOnClickListener(mAddListener);
 
         mList = mView.findViewById(R.id.my_custorm_info_layout_list);
-        TextView empty = mView.findViewById(R.id.empty);
-        initListView(mList, empty);
+        initListView(mList, null);
         mList.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         mList.setAdapter(myAdapter);
         mList.setOnItemClickListener(mListClick);

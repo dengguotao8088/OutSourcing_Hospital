@@ -128,9 +128,9 @@ public abstract class BaseFragment extends Fragment {
 
     public void initListView(PullToRefreshListView listView, TextView emptyView) {
         mListView = listView;
-        if (emptyView != null) {
+        //if (emptyView != null) {
             //mListView.setEmptyView(emptyView);
-        }
+        //}
         mListView.setOnRefreshListener(mListViewOnRefreshListener2);
         mListView.setScrollingWhileRefreshingEnabled(true);
         mListView.setMode(PullToRefreshBase.Mode.BOTH);

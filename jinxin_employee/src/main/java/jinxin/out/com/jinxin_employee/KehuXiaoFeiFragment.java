@@ -136,10 +136,8 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         mRemark = mView.findViewById(R.id.xiaofeijilu_remark);
         mRemark.setText("购买备注: ");
 
-        TextView empty = mView.findViewById(R.id.empty);
-        initListView(mList, empty);
+        initListView(mList, null);
         mList.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
-        mList.setEmptyView(empty);
         mList.setAdapter(myAdapter);
         isViewCreate = true;
         return mView;

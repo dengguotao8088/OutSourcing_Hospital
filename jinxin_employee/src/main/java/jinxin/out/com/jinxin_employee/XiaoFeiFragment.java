@@ -123,7 +123,7 @@ public class XiaoFeiFragment extends BaseFragment {
         back.setOnClickListener(mBackListener);
 
         mList = mView.findViewById(R.id.my_xiaofei_layout_list);
-        initListView(mList, (TextView) mView.findViewById(R.id.empty));
+        initListView(mList, null);
         mList.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         mList.setOnItemClickListener(onItemClickListener);
         refreshAdapter();

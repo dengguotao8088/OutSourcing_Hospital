@@ -194,9 +194,7 @@ public class MyCustormFragment extends BaseFragment {
         mSearchClose.setOnClickListener(mSearchCloseListener);
 
         mList = mView.findViewById(R.id.my_custorm_layout_list);
-        TextView empty = mView.findViewById(R.id.empty);
-        initListView(mList, empty);
-        mList.setEmptyView(empty);
+        initListView(mList, null);
         mList.setOnItemClickListener(onItemClickListener);
         mList.setAdapter(myAdapter);
         isViewCreate = true;

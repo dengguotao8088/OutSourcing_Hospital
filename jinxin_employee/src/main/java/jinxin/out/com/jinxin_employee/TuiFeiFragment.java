@@ -59,8 +59,7 @@ public class TuiFeiFragment extends BaseFragment {
         backView.setOnClickListener(mBackListener);
 
         mList = mView.findViewById(R.id.my_tuifei_layout_list);
-        TextView empty = mView.findViewById(R.id.empty);
-        initListView(mList, empty);
+        initListView(mList, null);
         mList.setAdapter(myAdapter);
         isViewCreate = true;
         return mView;
