@@ -6,22 +6,22 @@
     density="xxhdpi"
     format="10"
     plugin-version="3.0.0-alpha5"
-    timestamp="1503229681990"
+    timestamp="1503231242129"
     token="2357474232956171200"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="430" />
+        duration="1935" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="11" />
+        duration="155" />
     <task
         name="verifier"
-        duration="1" />
+        duration="88" />
 
     <artifact
         location="/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/split-apk/debug/slices/slice_4.apk"
@@ -62,7 +62,7 @@
 
     <build
         build-mode="FULL"
-        timestamp="1503229681990"
+        timestamp="1503231242129"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/split-apk/debug/slices/slice_4.apk"
