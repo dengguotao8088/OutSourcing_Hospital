@@ -81,6 +81,9 @@ public class MyCustormFragment extends BaseFragment {
         @Override
         public void onFailure(Call call, IOException e) {
             mActivity.dissmissHUD();
+            if (page_id > 1) {
+                page_id = page_id - 1;
+            }
             mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
         }
 
@@ -88,11 +91,13 @@ public class MyCustormFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             mActivity.dissmissHUD();
             if (response.code() != 200) {
+                if (page_id > 1) {
+                    page_id = page_id - 1;
+                }
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             String result = response.body().string();
-            Log.d("dengguotao","result: "+result);
             BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
             if (module.code == 1) {
                 if (mMainHandler != null) {
@@ -101,12 +106,23 @@ public class MyCustormFragment extends BaseFragment {
                 }
             }
             if (module.code != 0) {
+                if (page_id > 1) {
+                    page_id = page_id - 1;
+                }
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
             MyCustormJson module2 = JsonUtil.parsoJsonWithGson(result, MyCustormJson.class);
-            mCusDatas.clear();
+            if (page_id == 1) {
+                mCusDatas.clear();
+            }
             mCusDatas.addAll(module2.data);
+//            if(mCusDatas.size() == 10 * page_id) {
+//                //page_id = page_id
+//            }
+            if (module2.data.size() == 0 && page_id > 1) {
+                page_id = page_id - 1;
+            }
             mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
         }
     };
@@ -122,12 +138,19 @@ public class MyCustormFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
+        if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            return;
+        }
+        page_id = 1;
         loadAllData();
     }
 
     @Override
     public void loadData() {
-        if (mCusDatas != null && mCusDatas.size() > 10) {
+        if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            return;
+        }
+        if (mCusDatas != null && mCusDatas.size() >= (10 * page_id)) {
             page_id = page_id + 1;
         }
         loadAllData();

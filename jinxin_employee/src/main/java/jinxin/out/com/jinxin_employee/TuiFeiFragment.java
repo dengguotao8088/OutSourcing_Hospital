@@ -41,6 +41,7 @@ public class TuiFeiFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         //if (mdatas.size() == 0) {
         mdatas.clear();
+        page_id = 1;
         loadTuiFeiList();
         //}
         isFirstShow = false;
@@ -49,7 +50,7 @@ public class TuiFeiFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tuifei_layout, container, false);
 
         TextView textView = mView.findViewById(R.id.header_title);
@@ -67,11 +68,23 @@ public class TuiFeiFragment extends BaseFragment {
 
     @Override
     public void refreshData() {
+        if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            return;
+        }
+        page_id = 1;
         loadTuiFeiList();
     }
 
+    private int page_id = 1;
+
     @Override
     public void loadData() {
+        if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            return;
+        }
+        if (mdatas != null && mdatas.size() >= (10 * page_id)) {
+            page_id = page_id + 1;
+        }
         loadTuiFeiList();
     }
 
@@ -83,9 +96,10 @@ public class TuiFeiFragment extends BaseFragment {
     }
 
     private void loadTuiFeiList() {
+        Log.d("dengguotao", "page: " + page_id);
         RequestBody body = new FormBody.Builder().add("token",
                 LoginManager.getInstance(mActivity).getToken())
-                .add("page", "1")
+                .add("page", page_id + "")
                 .add("size", "10").build();
         NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_refund_apply_record/list?",
                 body, mGetTuiFeiListCallBack);
@@ -95,11 +109,17 @@ public class TuiFeiFragment extends BaseFragment {
         @Override
         public void onFailure(Call call, IOException e) {
             mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+            if (page_id > 1) {
+                page_id = page_id - 1;
+            }
         }
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            if(response.code() !=200) {
+            if (response.code() != 200) {
+                if (page_id > 1) {
+                    page_id = page_id - 1;
+                }
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
                 return;
             }
@@ -112,12 +132,20 @@ public class TuiFeiFragment extends BaseFragment {
                 }
             }
             if (baseModule.code == 0) {
-                mdatas.clear();
+                if (page_id == 1) {
+                    mdatas.clear();
+                }
                 TuiFeiListModule tuiFeiList = JsonUtil.parsoJsonWithGson(result,
                         TuiFeiListModule.class);
                 mdatas.addAll(tuiFeiList.data);
+                if (tuiFeiList.data.size() == 0 && page_id > 1) {
+                    page_id = page_id - 1;
+                }
                 mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             } else {
+                if (page_id > 1) {
+                    page_id = page_id - 1;
+                }
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
             }
         }

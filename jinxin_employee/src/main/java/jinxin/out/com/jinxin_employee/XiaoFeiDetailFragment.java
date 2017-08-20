@@ -427,6 +427,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     };
 
     private void loadkhqianming(String path) {
+        Log.d("dengguotao","path: "+path);
         NetPostUtil.post(path, null, load_kehuqianming_back);
     }
 

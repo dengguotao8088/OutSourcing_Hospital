@@ -802,6 +802,8 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.push_msg.setClickable(record.messagePush);
             viewHolder.push_msg.setBackgroundColor(record.messagePush ?
                     colorEnable : colorDisable);
+            viewHolder.push_msg.setTag(i);
+            viewHolder.push_msg.setOnClickListener(push_msg_click);
             viewHolder.wolaifuwu.setTag(record);
             viewHolder.wolaifuwu.setOnClickListener(wolaifuwu_click);
             viewHolder.wolaifuwu.setClickable(record.myService);
@@ -811,6 +813,63 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.click_change.setOnClickListener(do_change_click);
             return view;
         }
+    }
+
+    private View.OnClickListener push_msg_click = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int position = (int) view.getTag();
+            ConsumptionRecord record = mConsumptionList.get(position);
+            String content = record.daySymptom == null ? "" : record.daySymptom;
+            String pro_name = record.projectName == null ? "" : record.projectName;
+            push_msg(content, pro_name);
+        }
+    };
+
+
+    private Callback m_push_Callback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "推送失败"));
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() == 200) {
+                String result = response.body().string();
+                Log.d("dengguotao",result);
+                BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                if (module.code == 1) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+                if (module.code == 0) {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "推送成功"));
+                } else {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
+                }
+            } else
+
+            {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "推送失败"));
+            }
+        }
+    };
+
+    // http://staff.mind-node.com/staff/api/purchase_record/push?
+// customerId  content  projectName
+    private void push_msg(String content, String pro_name) {
+        if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络，请稍后重试"));
+        }
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("customerId", custorm_id + "")
+                .add("content", content)
+                .add("projectName", pro_name)
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/push_message_record/push?", body,
+                m_push_Callback);
     }
 
     private QianMing mQianMing;

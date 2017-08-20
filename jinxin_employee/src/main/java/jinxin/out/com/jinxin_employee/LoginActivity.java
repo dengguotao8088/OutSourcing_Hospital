@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -37,11 +39,29 @@ public class LoginActivity extends Activity {
 
     private KProgressHUD mHUD;
 
+    private MainHandler mainHandler;
+
+    private class MainHandler extends Handler {
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 100:
+                    String str = (String) msg.obj;
+                    Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mContext = this;
+        mainHandler = new MainHandler();
 
         setContentView(R.layout.login_activity);
 
@@ -75,8 +95,8 @@ public class LoginActivity extends Activity {
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String name= mName.getText().toString();
-            String password= mPassword.getText().toString();
+            String name = mName.getText().toString();
+            String password = mPassword.getText().toString();
 
             if ("".equals(name) || "".equals(password)) {
                 Toast.makeText(mContext, "用户名和密码不能空", Toast.LENGTH_SHORT).show();
@@ -113,19 +133,26 @@ public class LoginActivity extends Activity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             mHUD.dismiss();
-            if (response.code() != 200) return;
+            if (response.code() != 200) {
+                //Toast.makeText(mContext, "登录失败", Toast.LENGTH_SHORT).show();
+                mainHandler.sendMessage(mainHandler.obtainMessage(100, "登录失败"));
+                return;
+            }
             String result = response.body().string();
             LoginResponseJson loginResponseJson =
                     JsonUtil.parsoJsonWithGson(result, LoginResponseJson.class);
             if (loginResponseJson.code == 0) {
                 LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
                 LoginManager.getInstance(mContext).setEmployee(loginResponseJson.data.empDO);
-                //if (mRemCheckbox.isChecked()) {
                 LoginManager.getInstance(mContext).saveEmp();
-                //}
+                //Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
+                mainHandler.sendMessage(mainHandler.obtainMessage(100, "登录成功"));
                 Intent intent = new Intent(mContext, HomeActivity.class);
                 startActivity(intent);
                 finish();
+            } else {
+                //Toast.makeText(mContext, "登录失败", Toast.LENGTH_SHORT).show();
+                mainHandler.sendMessage(mainHandler.obtainMessage(100, "登录失败"));
             }
         }
     };
