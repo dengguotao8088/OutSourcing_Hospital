@@ -41,6 +41,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import jinxin.out.com.jinxinhospital.Banner.BannerResponseJson;
+import jinxin.out.com.jinxinhospital.CurrentCheck.QueueInfoResponseJson;
 import jinxin.out.com.jinxinhospital.Employee.Employee;
 import jinxin.out.com.jinxinhospital.Employee.EmployeeResponseJson;
 import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
@@ -73,6 +75,7 @@ public class HomePageFragment extends BaseFragment {
     private static final int SHOW_NEWS_CONTENT = 0x114;
     private static final int SHOW_EMPLOYEE_CONTENT = 0x114;
     private static final int SHOW_PHYTYPE_CONTENT = 0x115;
+    private static final int SHOW_BANNER= 0x116;
     private static final String TAG = "HomePageFragment";
 
     private int mIndex;
@@ -120,6 +123,7 @@ public class HomePageFragment extends BaseFragment {
             R.drawable.banner4,
             R.drawable.banner5
     };
+    private String[] mBannerPath = null;
 
     private LinearLayout LinearOne;
     private LinearLayout LinearTwo;
@@ -184,7 +188,14 @@ public class HomePageFragment extends BaseFragment {
         LinearFive.setOnClickListener(mLinearOnclickListener);
 
         mShowImageView = view.findViewById(R.id.home_page_show_img);
-        mShowImageView.setImageResource(mHomePageShow[0]);
+        if (mBannerPath == null) {
+            mShowImageView.setImageResource(mHomePageShow[0]);
+        } else {
+            Glide.with(mContext).load(mBannerPath[0])
+                    .placeholder(mHomePageShow[0])
+                    .error(mHomePageShow[0])
+                    .into(mShowImageView);
+        }
         mYHBtn = view.findViewById(R.id.home_page_yihurenyuan_btn);
         mYHBtn.setBackgroundColor(Color.WHITE);
         mYHBtn.setTextColor(getResources().getColor(R.color.colorHomePageBlue));
@@ -255,8 +266,6 @@ public class HomePageFragment extends BaseFragment {
     private void addEmployeeToList() {
         Log.d("xie", "AddEmployeeToList...");
         mListView.setAdapter(mEmployeeAdpter);
-        //TODO: 员工详情显示
-        //mListView.setOnItemClickListener(mNewsOnItemClickListener);
     }
     private void addNewsToList() {
         Log.d("xie", "AddNewsToList...");
@@ -284,6 +293,8 @@ public class HomePageFragment extends BaseFragment {
         RequestBody requestBodyNotice = new FormBody.Builder().build();
         NetPostUtil.post(Constants.GET_NOTICE, requestBodyNotice, mNoticeCallback);
         NetPostUtil.post(Constants.GET_PHYSIOTHERPY_TYPE_LISY, requestBodyNotice, mPhyTypeCallback);
+        mBannerPath = null;
+        NetPostUtil.post(Constants.GET_BANNERS_PATH, requestBodyNotice, mBannerCallback);
     }
 
     public String getTitleFormPhyType(int id) {
@@ -294,6 +305,35 @@ public class HomePageFragment extends BaseFragment {
         }
         return null;
     }
+
+    private Callback mBannerCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.e(TAG,"mBannerCallback onFailure...");
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "mBannerCallback result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
+            BannerResponseJson bannerJson = JsonUtil.parsoJsonWithGson(result, BannerResponseJson.class);
+            if (bannerJson == null) {
+                return;
+            }
+            mBannerPath = new String[5];
+            for (int i = 0; i< bannerJson.data.length; i++) {
+                mBannerPath[i] = bannerJson.data[i].picPath;
+            }
+            mHandler.sendEmptyMessage(SHOW_BANNER);
+        }
+    };
 
     private Callback mNewsContentListCallback = new Callback() {
         @Override
@@ -417,7 +457,14 @@ public class HomePageFragment extends BaseFragment {
             switch (msg.what) {
                 case CHANGE_SHOW_IMAGE:
                     mCurrentShow = (mCurrentShow + 1) % 5;
-                    mShowImageView.setImageResource(mHomePageShow[mCurrentShow]);
+                    if (mBannerPath == null) {
+                        mShowImageView.setImageResource(mHomePageShow[mCurrentShow]);
+                    } else {
+                        Glide.with(mContext).load(mBannerPath[mCurrentShow])
+                                .placeholder(mHomePageShow[mCurrentShow])
+                                .error(mHomePageShow[mCurrentShow])
+                                .into(mShowImageView);
+                    }
                     if (mCurrentPage == mIndex) {
                         mHandler.removeMessages(CHANGE_SHOW_IMAGE);
                         mHandler.sendEmptyMessageDelayed(CHANGE_SHOW_IMAGE, 1500);
@@ -433,7 +480,6 @@ public class HomePageFragment extends BaseFragment {
                     mNoticeView.setText(mNotice);
                     break;
                 case SHOW_PHYTYPE_CONTENT:
-                    Log.d("xie", "................size = " + mPhysiotherapyTypeList.size());
                     if (mPhysiotherapyTypeList.size() < 5) {
                         break;
                     }
@@ -470,12 +516,8 @@ public class HomePageFragment extends BaseFragment {
                     break;
 
                 case SHOW_NEWS_CONTENT:
-//                    NewsContentFragment mNewsContentFragment = new NewsContentFragment();
-//                    Bundle data = new Bundle();
-//                    data.putString("title", mNewsContentResponseJson.data.title);
-//                    data.putString("content", mNewsContentResponseJson.data.coverPath);
-//                    mNewsContentFragment.setArguments(data);
-//                    mMainContext.showContent(mNewsContentFragment);
+                    break;
+                case SHOW_BANNER:
                     break;
                 default:
                     break;

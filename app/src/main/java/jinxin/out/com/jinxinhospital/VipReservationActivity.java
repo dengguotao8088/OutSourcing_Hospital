@@ -149,7 +149,7 @@ public class VipReservationActivity extends UserAppCompatActivity {
         mMinute = c.get(Calendar.MINUTE);
         if ( mHour < 15) {
             mHourView.setMaxValue(17);
-            mHourView.setMinValue((mHour + 2) > 9 ? (mHour+2) : 9);
+            mHourView.setMinValue((mHour+2)>9 ? (mHour+2) : 9);
             mDayView.setMinValue(0);
             mDayView.setMaxValue(2);
             mDayString = mYear +"-" +mMonth +"-"+ mDay;
@@ -158,7 +158,7 @@ public class VipReservationActivity extends UserAppCompatActivity {
             mDayArray [0] = mYear +"-" +mMonth +"-"+ (mDay++);
             mDayArray [1] = mYear +"-" +mMonth +"-"+ (mDay++);
             mDayArray [2] = mYear +"-" +mMonth +"-"+ mDay;
-            mMinView.setMinValue(mMinute);
+            mMinView.setMinValue(mMinute + 1);
             mMinView.setMaxValue(59);
         } else {
             mHourView.setMaxValue(17);
@@ -179,11 +179,19 @@ public class VipReservationActivity extends UserAppCompatActivity {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 mHourString = mHourView.getValue();
-                if (mHourString !=  mHour) {
+                if (mHourString == 17) {
+                    mMinView.setMinValue(0);
+                    mMinView.setMaxValue(0);
+                    return;
+                }
+                if (mHourString !=  mHour+2) {
                     mMinView.setMinValue(0);
                     mMinView.setMaxValue(59);
-                } else if (mHourString == mHour && mDayArray.length == 3 && mDayIndex == 0){
-                    mMinView.setMinValue(mMinute);
+                } else if (mHourString == mHour+2 && mDayArray.length == 3 && mDayIndex == 0){
+                    mMinView.setMinValue(mMinute + 1);
+                    mMinView.setMaxValue(59);
+                } else {
+                    mMinView.setMinValue(0);
                     mMinView.setMaxValue(59);
                 }
             }
@@ -199,6 +207,25 @@ public class VipReservationActivity extends UserAppCompatActivity {
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 mDayIndex = mDayView.getValue();
                 mDayString = mDayArray[mDayIndex];
+                if(mDayIndex == 2) {
+                    mHourView.setMinValue(9);
+                    mHourView.setMaxValue(mHour);
+                    mMinView.setMinValue(0);
+                    mMinView.setMaxValue(59);
+                } else if (mDayIndex == 0 && mHourString != mHour + 2) {
+                    mHourView.setMaxValue(17);
+                    mHourView.setMinValue((mHour+2)>9 ? (mHour+2) : 9);
+                } else if (mDayIndex == 0 && mHourString == mHour + 2) {
+                    mHourView.setMaxValue(17);
+                    mHourView.setMinValue((mHour+2)>9 ? (mHour+2) : 9);
+                    mMinView.setMinValue(mMinute + 1);
+                    mMinView.setMaxValue(59);
+                } else if (mDayIndex == 1) {
+                    mHourView.setMinValue(9);
+                    mHourView.setMaxValue(17);
+                    mMinView.setMinValue(0);
+                    mMinView.setMaxValue(59);
+                }
             }
         });
     }

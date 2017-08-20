@@ -90,6 +90,15 @@
             android:textSize="17sp"
             android:textStyle="bold" />
     </LinearLayout>
+    <TextView
+        android:id="@+id/vip_temp"
+        android:paddingTop="10dp"
+        android:textSize="16sp"
+        android:text="目前没有vip消息"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <ListView
         android:id="@+id/vip_list"

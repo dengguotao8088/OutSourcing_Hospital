@@ -12,6 +12,8 @@ public class Constants {
 
     public static final String URL_PREFIX = "http://client.mind-node.com/client/";
 
+    public static final String GET_BANNERS_PATH = URL_PREFIX + "api/banner/list";
+
     //根据客户Id获取本次检查(当日消费)
     public static final String GET_CURRENT_PAGE = URL_PREFIX + "api/consumption_record/real_list?";
 

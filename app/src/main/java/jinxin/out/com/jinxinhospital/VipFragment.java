@@ -53,6 +53,7 @@ public class VipFragment extends BaseFragment {
     private String token;
     private int customerId;
     private MyHandler mHandler;
+    private TextView mTempText;
 
     @Override
     public void onAttach(Context context) {
@@ -81,6 +82,7 @@ public class VipFragment extends BaseFragment {
         mVipListView= view.findViewById(R.id.vip_list);
         mReservationLayout = view.findViewById(R.id.vip_reservation);
         mPowerLayout = view.findViewById(R.id.vip_power);
+        mTempText = view.findViewById(R.id.vip_temp);
         mReservationLayout.setOnClickListener(mOnClickListener);
         mPowerLayout.setOnClickListener(mOnClickListener);
         getData();
@@ -141,7 +143,12 @@ public class VipFragment extends BaseFragment {
             for(int i=0; i<mVipResponseJson.data.length; i++) {
                 mVipMsgList.add(mVipResponseJson.data[i]);
             }
-            mHandler.sendEmptyMessage(0x11);
+            if (mVipMsgList.isEmpty())
+            {
+                mHandler.sendEmptyMessage(0x22);
+            } else {
+                mHandler.sendEmptyMessage(0x11);
+            }
         }
     };
 
@@ -155,8 +162,11 @@ public class VipFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0x11:
+                    mTempText.setVisibility(View.GONE);
                     mAdapter.notifyDataSetChanged();
                     break;
+                case 0x22:
+                    mTempText.setVisibility(View.VISIBLE);
                 default:
                     break;
             }
