@@ -17,6 +17,7 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
             android:theme="@style/myHomeActivityStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,13 @@
         </activity>
         <activity
             android:name=".LoadActivity"
-            android:screenOrientation="portrait"></activity>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.LOAD_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".UserContactMe"
             android:parentActivityName=".MainActivity"

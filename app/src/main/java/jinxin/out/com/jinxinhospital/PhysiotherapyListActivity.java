@@ -70,6 +70,7 @@ public class PhysiotherapyListActivity extends UserAppCompatActivity{
         mEmptyMsg = findViewById(R.id.phy_empty);
         myAdapter = new MyAdapter();
         mPullRefreshListView.setAdapter(myAdapter);
+        initPTRListView();
         onRefreshData();
     }
 
@@ -78,7 +79,7 @@ public class PhysiotherapyListActivity extends UserAppCompatActivity{
         isPull = false;
         RequestBody requestBody = new FormBody.Builder()
                 .add("page", page + "")
-                .add("size", 5 + "")
+                .add("size", 10 + "")
                 .add("physiotherapyTypeId", mId+"")
                 .build();
         NetPostUtil.post(Constants.GET_PHYSIOTHERPY_LIST, requestBody, mPhysiotherapyListCallback);
@@ -88,7 +89,7 @@ public class PhysiotherapyListActivity extends UserAppCompatActivity{
         isPull = true;
         RequestBody requestBody = new FormBody.Builder()
                 .add("page", (page++) + "")
-                .add("size", 5 + "")
+                .add("size", 10 + "")
                 .add("physiotherapyTypeId", mId+"")
                 .build();
         NetPostUtil.post(Constants.GET_PHYSIOTHERPY_LIST, requestBody, mPhysiotherapyListCallback);
@@ -132,6 +133,7 @@ public class PhysiotherapyListActivity extends UserAppCompatActivity{
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            mPullRefreshListView.onRefreshComplete();
             if (mPhysiotherapyList.isEmpty()) {
                 mEmptyMsg.setVisibility(View.VISIBLE);
             } else {

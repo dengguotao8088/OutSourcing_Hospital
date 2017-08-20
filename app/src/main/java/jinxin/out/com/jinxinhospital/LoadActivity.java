@@ -1,7 +1,10 @@
 package jinxin.out.com.jinxinhospital;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -49,12 +52,14 @@ public class LoadActivity extends FragmentActivity {
     private  String name= "";
     private  String tel = "";
     private boolean vip = false;
+    private int backPressNum = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.load_main);
         mContext = this;
+        NetPostUtil netPostUtil = new NetPostUtil(getApplicationContext());
         mLoginBt = findViewById(R.id.login);
         mLoginBt.setOnClickListener(mLoginOnClickListener);
         mRegistChild = findViewById(R.id.regist_child);
@@ -80,20 +85,24 @@ public class LoadActivity extends FragmentActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.regist_adult:
+                    if (adultRegisterFragment == null){
+                        adultRegisterFragment = new AdultRegisterFragment();
+                    }
                     isShow = 1;
                     mLinearLayout.setVisibility(View.GONE);
                     android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.login_content, adultRegisterFragment).commitAllowingStateLoss();
                     break;
                 case R.id.regist_child:
+                    if (childRegisterFragment == null){
+                        childRegisterFragment = new ChildRegisterFragment();
+                    }
                     isShow = 2;
                     mLinearLayout.setVisibility(View.GONE);
                     android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
                     manager.beginTransaction().replace(R.id.login_content, childRegisterFragment).commitAllowingStateLoss();
                     break;
                 case R.id.login_no:
-                    Intent intent = new Intent(mContext, MainActivity.class);
-                    startActivity(intent);
                     finish();
                     break;
             }
@@ -109,6 +118,8 @@ public class LoadActivity extends FragmentActivity {
             String pwd = mPwd.getText().toString();
             if ("".equals(tel) || "".equals(pwd)) {
                 Toast.makeText(mContext, "用户名和密码不能空", Toast.LENGTH_SHORT).show();
+            } else if (!isNetworkConnected()) {
+                Toast.makeText(mContext, "网络连接不可用，请检查网络。", Toast.LENGTH_SHORT).show();
             } else {
                 RequestBody body = new FormBody.Builder().add("mobile", tel)
                         .add("password", pwd)
@@ -163,20 +174,39 @@ public class LoadActivity extends FragmentActivity {
         @Override
         public void getCustomerDone() {
             Log.d("xie", "getCustomerDone, startActivity:HomePageFragment");
-            Intent intent = new Intent(mContext, MainActivity.class);
-            startActivity(intent);
             finish();
         }
     };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("xie", "onKeyDown........keyCode = ." + keyCode);
+        if (keyCode == KeyEvent.KEYCODE_DEL)
+        {
+            return super.onKeyDown(keyCode, event);
+        }
         if (keyCode != KeyEvent.KEYCODE_BACK || (adultRegisterFragment == null
                 && childRegisterFragment == null ) || (isShow == 0) ) {
+//            backPressNum ++;
+//            if (backPressNum == 1) {
+//                Toast.makeText(mContext, "再按一次返回键将退出应用。", Toast.LENGTH_SHORT).show();
+//            } else if (backPressNum == 2){
+//                System.exit(0);
+////                finish();
+//            } else {
+//                return super.onKeyDown(keyCode, event);
+//            }
             return super.onKeyDown(keyCode, event);
         }
         showSelf();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("xie", "onBackPressed.........");
+
     }
 
     public void showSelf(){
@@ -184,8 +214,10 @@ public class LoadActivity extends FragmentActivity {
         FragmentTransaction transaction = manager.beginTransaction();
         if (isShow == 1) {
             transaction.remove(adultRegisterFragment).commit();
+            adultRegisterFragment = null;
         } else if (isShow == 2){
             transaction.remove(childRegisterFragment).commit();
+            childRegisterFragment = null;
         }
         isShow = 0;
         mLinearLayout.setVisibility(View.VISIBLE);
@@ -193,5 +225,16 @@ public class LoadActivity extends FragmentActivity {
 
     public static LoadActivity getObj(){
         return mContext;
+    }
+
+    public boolean isNetworkConnected() {
+        if (mContext != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 }

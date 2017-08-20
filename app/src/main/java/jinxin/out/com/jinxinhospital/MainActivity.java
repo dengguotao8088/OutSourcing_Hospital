@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -23,10 +25,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jinxin.out.com.jinxinhospital.JsonModule.NetPostUtil;
 
 //import cn.jpush.android.api.JPushInterface;
 
@@ -65,6 +72,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = this;
+        ImageLoaderConfiguration.Builder builder = new ImageLoaderConfiguration.Builder(this);
+        //builder.memoryCacheExtraOptions(320, 480);
+        ImageLoader.getInstance().init(builder.build());
+        NetPostUtil netPostUtil = new NetPostUtil(getApplicationContext());
 
         //Init JPush
         android.util.Log.d("xie", "IPush  Init");
@@ -154,26 +165,33 @@ public class MainActivity extends AppCompatActivity {
             Log.d("xie", "onTabSelected = " + position);
             if (sharedPreferences == null) {
                 sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
-                token = sharedPreferences.getString("token", null);
-                mCustomerId = sharedPreferences.getInt("customerId", -1);
-                tel = sharedPreferences.getString("tel", null);
-                name = sharedPreferences.getString("name", null);
-                vip = sharedPreferences.getBoolean("vip", false);
-
             }
+            token = sharedPreferences.getString("token", null);
+            mCustomerId = sharedPreferences.getInt("customerId", -1);
+            tel = sharedPreferences.getString("tel", null);
+            name = sharedPreferences.getString("name", null);
+            vip = sharedPreferences.getBoolean("vip", false);
             if (!vip && position == 2) {
                 Toast.makeText(mContext, "您还不是VIP客户", Toast.LENGTH_LONG).show();
                 mContentPager.setCurrentItem(mOlderTab);
+                mTabLayout.getTabAt(mOlderTab).select();
                 return;
             }
             Log.d("xie", "token = " + token + ";  mCustomerId = " + mCustomerId + ";  position = " + position);
-            if (token == null || mCustomerId < 0) {
+            if (token == null || token == "" || mCustomerId < 0) {
                 if (position != 0) {
+                    Log.d("xie","go to LoadActivity.........");
                     Intent intent = new Intent(mContext, LoadActivity.class);
                     startActivity(intent);
+                    mTabLayout.getTabAt(0).select();
+                    mContentPager.setCurrentItem(0);
                 }
             } else {
+                if (!isNetworkConnected()) {
+                    Toast.makeText(mContext, "网络连接不可用，请检查网络。", Toast.LENGTH_SHORT).show();
+                }
                 mContentPager.setCurrentItem(position);
+                mTabLayout.getTabAt(position).select();
                 mOlderTab = position;
             }
         }
@@ -188,6 +206,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    public void setHomeItem(int pos) {
+        mContentPager.setCurrentItem(pos);
+        mTabLayout.getTabAt(pos).select();
+        mOlderTab = pos;
+    }
 
     private class TabsAdapter extends FragmentPagerAdapter implements ViewPager.OnPageChangeListener {
 
@@ -301,6 +324,17 @@ public class MainActivity extends AppCompatActivity {
             return super.onKeyDown(keyCode, event);
         }
         return result;
+}
+
+    private boolean isNetworkConnected() {
+        if (mContext != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager.getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
     }
 
 }

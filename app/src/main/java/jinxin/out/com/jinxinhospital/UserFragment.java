@@ -51,6 +51,7 @@ public class UserFragment extends BaseFragment {
     private TextView mNameText;
     private TextView mTelText;
     private UserListView mListView;
+    private MainActivity mainActivity;
 
     private ArrayList<HashMap<String, Object>> mGroupView;
     private HashMap<String, Object> mMap;
@@ -213,6 +214,7 @@ public class UserFragment extends BaseFragment {
             editor.putString("tel", "");
             editor.putString("name", "");
             editor.commit();
+            //((MainActivity)getContext()).setHomeItem(0);
             mIntent = new Intent(mContext, LoadActivity.class);
             startActivity(mIntent);
         }

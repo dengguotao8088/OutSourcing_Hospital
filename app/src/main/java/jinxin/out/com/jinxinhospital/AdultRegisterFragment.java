@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,8 +24,12 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import jinxin.out.com.jinxinhospital.ArchivesType.ArchivesTypeResponseJson;
+import jinxin.out.com.jinxinhospital.Department.DepartmentResponseJson;
 import jinxin.out.com.jinxinhospital.JsonModule.BaseModule;
 import jinxin.out.com.jinxinhospital.JsonModule.Constants;
 import jinxin.out.com.jinxinhospital.JsonModule.JsonUtil;
@@ -70,7 +75,10 @@ public class AdultRegisterFragment extends BaseFragment{
     private String mDeliveryValue;
     private String mDeliverySexValue;
     private String mWhereValue;
-
+    private  int archivesTypeId = 0;
+    private ArrayAdapter<String> mTypeAdpater;
+    private List<String> mTypeList = new ArrayList<>();
+    private List<Integer> mTypeIndexList = new ArrayList<>();
 
     @Override
     public void onAttach(Context context) {
@@ -84,10 +92,84 @@ public class AdultRegisterFragment extends BaseFragment{
         mView = inflater.inflate(R.layout.adult_register_layout, container, false);
 
         initView();
+        getTypeList();
+        mTypeAdpater = new ArrayAdapter<String>(mContext, R.layout.base_item, R.id.vip_dep_item, mTypeList);
+        mType.setAdapter(mTypeAdpater);
+        mType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                mTypeValue = mTypeIndexList.get(i) + "";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         mHandler = new MyHandler();
         return mView;
     }
+    private void getTypeList() {
+        Log.d("xie", "getDepList....");
+        RequestBody requestBody = new FormBody.Builder().build();
+        NetPostUtil.post(Constants.GET_CUS_TYPE, requestBody, mTypeCallback);
+        NetPostUtil.post(Constants.GET_ADULT_ARCHIVETYPE, requestBody, mAdultCallback);
+    }
+
+    private Callback mAdultCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("xie", "mAdultCallback onFailure");
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "mAdultCallback result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
+            ArchivesTypeResponseJson archivesTypeResponseJson
+                    = JsonUtil.parsoJsonWithGson(result, ArchivesTypeResponseJson.class);
+            archivesTypeId = archivesTypeResponseJson.data.id;
+        }
+    };
+    private Callback mTypeCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("xie", "mTypeCallback onFailure");
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String result = response.body().string();
+            Log.d("xie" , "mTypeCallback result = " + result);
+            if (result.contains("502  Bad Gateway")) {
+                return;
+            }
+            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+            if (module.code != 0 ) {
+                return;
+            }
+            DepartmentResponseJson departmentResponseJson
+                    = JsonUtil.parsoJsonWithGson(result, DepartmentResponseJson.class);
+            mTypeList.clear();
+            mTypeIndexList.clear();
+            for(int i=0; i<departmentResponseJson.data.length; i++) {
+                mTypeList.add(departmentResponseJson.data[i].name);
+                mTypeIndexList.add(departmentResponseJson.data[i].id);
+            }
+            mHandler.sendEmptyMessage(0x44);
+        }
+    };
+
 
     private void initView() {
         mName = mView.findViewById(R.id.r_name);
@@ -104,7 +186,6 @@ public class AdultRegisterFragment extends BaseFragment{
         mWhere = mView.findViewById(R.id.r_where);
 
         mWhere.setOnItemSelectedListener(onItemClickListener);
-        mType.setOnItemSelectedListener(onItemClickListener);
         mSex.setOnItemSelectedListener(onItemClickListener);
         mAllergy.setOnItemSelectedListener(onItemClickListener);
         mDisease.setOnItemSelectedListener(onItemClickListener);
@@ -119,7 +200,7 @@ public class AdultRegisterFragment extends BaseFragment{
                  public void onDateSet(DatePicker view, int year, int monthOfYear,
                                        int dayOfMonth) {
                         mBirthDayDate
-                                = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + "-");
+                                = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + " 00:00:00");
                         mHandler.sendEmptyMessage(0x22);
 
                     }
@@ -137,7 +218,7 @@ public class AdultRegisterFragment extends BaseFragment{
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
                         mBabyBirthDayDate
-                                = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + "-");
+                                = StrToDate(year + "-" + monthOfYear + "-" + dayOfMonth + " 00:00:00");
                         mHandler.sendEmptyMessage(0x33);
                     }
                 }, 2017, 1, 1);
@@ -161,6 +242,7 @@ public class AdultRegisterFragment extends BaseFragment{
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            Log.d("xie", "type = "  + "mTypeValue");
             RequestBody requestBody = new FormBody.Builder()
                     .add("consumptionTypeId", mTypeValue)
                     .add("name", mName.getText().toString())
@@ -177,6 +259,7 @@ public class AdultRegisterFragment extends BaseFragment{
                     .add("guardianName", "")
                     .add("childbirthSex", mDeliverySexValue)
                     .add("customerSource", mWhereValue)
+                    .add("archivesTypeId", archivesTypeId + "")
                     .build();
             NetPostUtil.post(Constants.CUSTOMER_REGIST, requestBody, mRegisterCallBack );
         }
@@ -218,6 +301,9 @@ public class AdultRegisterFragment extends BaseFragment{
                 case 0x33:
                     mBabyBirthDay.setText(DateToStr(mBabyBirthDayDate));
                     break;
+                case 0x44:
+                    mTypeAdpater.notifyDataSetChanged();
+                    break;
                 default:
                     break;
             }
@@ -228,9 +314,6 @@ public class AdultRegisterFragment extends BaseFragment{
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             Log.d("xie", "adapterView = " + view + " i = " + i);
             switch (adapterView.getId()) {
-                case R.id.r_type:
-                    mTypeValue = i + 1 + "";
-                    break;
                 case R.id.r_sex:
                     mSexValue = i + 1 + "";
                     break;
@@ -264,7 +347,7 @@ public class AdultRegisterFragment extends BaseFragment{
     };
 
     public static Date StrToDate(String str) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
         try {
             date = format.parse(str);
@@ -277,7 +360,7 @@ public class AdultRegisterFragment extends BaseFragment{
     public static String DateToStr(Date date) {
 
         if (date != null) {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String str = format.format(date);
             return str;
         }

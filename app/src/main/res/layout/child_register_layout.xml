@@ -33,7 +33,6 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/r_type"
                     android:layout_gravity="center_vertical"
-                    android:entries="@array/spinner_type"
                     />
             </LinearLayout>
 

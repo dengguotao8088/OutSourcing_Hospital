@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.IOException;
 import java.lang.annotation.Target;
@@ -155,6 +156,7 @@ public class HomePageFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
         mMainContext = (MainActivity)context;
         myHandler = new MyHandler(mMainContext);
         myHandler.sendEmptyMessage(000);
@@ -163,7 +165,6 @@ public class HomePageFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mContext = getContext();
         View view = inflater.inflate(R.layout.home_page, container, false);
         LinearOne = view.findViewById(R.id.zhongyiyangsheng);
         LinearTwo = view.findViewById(R.id.chanhoukangfu);
@@ -278,7 +279,7 @@ public class HomePageFragment extends BaseFragment {
     private void getDataFromHttp(){
         //获取新闻列表
         RequestBody requestBodyNews = new FormBody.Builder().add("page", "1")
-                .add("size", "10")
+                .add("size", "9999")
                 .build();
         NetPostUtil.post(Constants.GET_NEWS_LIST, requestBodyNews, mNewsContentListCallback);
     }
@@ -286,7 +287,7 @@ public class HomePageFragment extends BaseFragment {
         mListView.setAdapter(null);
         //获取员工列表
         RequestBody requestBodyEmp = new FormBody.Builder().add("page", "1")
-                .add("size", "10")
+                .add("size", "9999")
                 .build();
         NetPostUtil.post(Constants.GET_EMPLOYEE_LIST, requestBodyEmp, mEmployeesListCallback);
 
@@ -460,10 +461,11 @@ public class HomePageFragment extends BaseFragment {
                     if (mBannerPath == null) {
                         mShowImageView.setImageResource(mHomePageShow[mCurrentShow]);
                     } else {
-                        Glide.with(mContext).load(mBannerPath[mCurrentShow])
-                                .placeholder(mHomePageShow[mCurrentShow])
-                                .error(mHomePageShow[mCurrentShow])
-                                .into(mShowImageView);
+                        //Glide.with(mContext).load(mBannerPath[mCurrentShow])
+                        //        .placeholder(mHomePageShow[mCurrentShow])
+                        //        .error(mHomePageShow[mCurrentShow])
+                        //        .into(mShowImageView);
+                        ImageLoader.getInstance().displayImage(mBannerPath[mCurrentShow],mShowImageView);
                     }
                     if (mCurrentPage == mIndex) {
                         mHandler.removeMessages(CHANGE_SHOW_IMAGE);

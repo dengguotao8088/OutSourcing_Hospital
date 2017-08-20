@@ -115,7 +115,7 @@ public class VipFragment extends BaseFragment {
                 .add("token",  token)
                 .add("customerId", customerId + "")
                 .add("page", 1+"")
-                .add("size", 20 + "")
+                .add("size", 50 + "")
                 .build();
         NetPostUtil.post(Constants.GET_VIP_MESSAGE_LIST, requestBody, mVipListCallback);
     }
@@ -209,7 +209,7 @@ public class VipFragment extends BaseFragment {
             view.setTag(holder);
 
             final VipData data = mVipMsgList.get(i);
-            holder.mImageView.setImageResource(R.drawable.vipyy);
+            holder.mImageView.setImageResource(R.drawable.vipbb);
             holder.name.setText(data.title);
             holder.summary.setText(data.summary);
             holder.mItem.setTag(data.id);

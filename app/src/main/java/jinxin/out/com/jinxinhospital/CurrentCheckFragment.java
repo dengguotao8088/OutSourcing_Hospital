@@ -66,11 +66,8 @@ public class CurrentCheckFragment extends BaseFragment {
         SharedPreferences sharedPreferences = mContext.getSharedPreferences("jinxin_clien_app", 0);
         token = sharedPreferences.getString("token", null);
         customerId = sharedPreferences.getInt("customerId", -1);
-        Log.d("xie", "HEALTH:          token = " +token);
-        if (token == null) {
-            Intent intent = new Intent(mContext, LoadActivity.class);
-            startActivity(intent);
-        }
+        Log.d("xie", "CurrentCheckFragment:          token = " +token);
+
         mNum = view.findViewById(R.id.current_num);
         mShouFa = view.findViewById(R.id.current_shoufa);
         mYiQi = view.findViewById(R.id.current_yiqi);
@@ -79,7 +76,9 @@ public class CurrentCheckFragment extends BaseFragment {
         mEmptyMsg = view.findViewById(R.id.curren_empty);
 
         mNum.setText(customerId + "");
-
+        if (token == null ||  token == "" || token == "") {
+            return view;
+        }
         getDataFromHttp();
         return view;
     }
@@ -171,7 +170,7 @@ public class CurrentCheckFragment extends BaseFragment {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String result = response.body().string();
-            Log.d("xie" , "mQueueCallback: result = " + result);
+            Log.d("xie" , "mQueueListCallback: result = " + result);
             if (result.contains("502  Bad Gateway")) {
                 return;
             }

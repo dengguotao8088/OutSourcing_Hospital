@@ -79,7 +79,7 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
                 .add("token", token)
                 .add("customerId", customerId +"")
                 .add("page", 1 + "")
-                .add("size", 10 + "")
+                .add("size", 9999 + "")
                 .build();
         NetPostUtil.post(Constants.GET_PUSH_LIST_WITH_ID, requestBody, mMessageListCallback);
     }

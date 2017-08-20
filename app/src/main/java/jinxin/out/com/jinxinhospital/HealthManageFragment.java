@@ -105,7 +105,7 @@ public class HealthManageFragment extends BaseFragment{
         token = sharedPreferences.getString("token", null);
         customerId = sharedPreferences.getInt("customerId", -1);
         isVip = sharedPreferences.getBoolean("vip",false);
-        if (token == "" || customerId <0){
+        if (token == "" || token == null || customerId <0){
             return;
         }
     }
@@ -141,6 +141,7 @@ public class HealthManageFragment extends BaseFragment{
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder holder;
+            i = mPurchaseContentRecord.size() < i ? mPurchaseContentRecord.size() : i;
             if (view == null) {
                 view = LayoutInflater.from(mContext).inflate(R.layout.purchase_item, viewGroup, false);
                 holder = new ViewHolder();

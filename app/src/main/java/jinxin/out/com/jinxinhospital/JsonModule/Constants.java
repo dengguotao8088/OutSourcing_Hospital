@@ -12,13 +12,21 @@ public class Constants {
 
     public static final String URL_PREFIX = "http://client.mind-node.com/client/";
 
+    public static final String GET_ADULT_ARCHIVETYPE = URL_PREFIX + "api/archives_type/get_adult";
+
+    public static final String GET_CHILD_ARCHIVETYPE = URL_PREFIX + "api/archives_type/get_child";
+
+    public static final String GET_CUS_TYPE = URL_PREFIX + "api/consumption_type/list";
+
+    public static final String VERFICATION_TOKEN = URL_PREFIX + "api/auth/verification?";
+
     public static final String GET_BANNERS_PATH = URL_PREFIX + "api/banner/list";
 
     //根据客户Id获取本次检查(当日消费)
     public static final String GET_CURRENT_PAGE = URL_PREFIX + "api/consumption_record/real_list?";
 
     //根据客户Id获取现场排号情况
-    public static final String GET_FEILD_QUEUE_LIST = URL_PREFIX + "api/customer/field_queue/list?";
+    public static final String GET_FEILD_QUEUE_LIST = URL_PREFIX + "api/field_queue/list?";
 
     //获取理疗类型列表
     public static final String GET_PHYSIOTHERPY_TYPE_LISY = URL_PREFIX + "api/physiotherapy_type/list?";
