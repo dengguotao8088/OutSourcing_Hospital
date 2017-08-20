@@ -64,7 +64,7 @@
             android:id="@+id/pop_local_gallery"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="查看本地图库"
+            android:text="查看客户图库"
             android:textColor="@color/tab_bar_bac"
             android:textSize="20sp" />
 

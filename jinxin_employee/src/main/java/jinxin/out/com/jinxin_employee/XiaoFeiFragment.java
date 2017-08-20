@@ -197,9 +197,15 @@ public class XiaoFeiFragment extends BaseFragment {
         }
     };
 
+    private KehuGalleryFragment kehuGalleryFragment;
     private View.OnClickListener pop_local_gallery_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if(kehuGalleryFragment == null){
+                kehuGalleryFragment = new KehuGalleryFragment();
+                kehuGalleryFragment.mParentFragment = XiaoFeiFragment.this;
+            }
+            mActivity.showContent(kehuGalleryFragment);
             takePhotoPopWin.dismiss();
         }
     };

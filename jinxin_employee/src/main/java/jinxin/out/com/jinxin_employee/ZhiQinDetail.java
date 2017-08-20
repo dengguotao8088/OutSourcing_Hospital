@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -103,9 +105,14 @@ public class ZhiQinDetail extends BaseFragment {
         super.onResume();
     }
 
+    private ImageLoader imageLoader;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (imageLoader == null) {
+            imageLoader = ImageLoader.getInstance();
+        }
         Id = getArguments().getInt("zhiqin_id");
         cusName = getArguments().getString("custorm_name");
         if (saveDir == null) {
@@ -218,7 +225,8 @@ public class ZhiQinDetail extends BaseFragment {
     };
 
     private void load_qianming_png() {
-        Log.d("dengguotao", "load png: " + module.customerSignaturePath);
+        //Log.d("dengguotao", "load png: " + module.customerSignaturePath);
         NetPostUtil.post(module.customerSignaturePath, null, load_qianming_back);
+        //imageLoader.displayImage(module.customerSignaturePath,mDetailPhotoView);
     }
 }

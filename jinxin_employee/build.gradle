@@ -40,4 +40,6 @@ dependencies {
     //compile 'cn.yipianfengye.android:zxing-library:2.1'
     implementation project(':lib-zxing')
     compile 'com.necer.ndialog2:ndialog:1.0.2'
+    compile 'com.github.chrisbanes:PhotoView:1.2.6'
+    implementation files('libs/universal-image-loader-1.9.5.jar')
 }
