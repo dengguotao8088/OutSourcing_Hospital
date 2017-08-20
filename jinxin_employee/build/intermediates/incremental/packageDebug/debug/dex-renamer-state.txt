@@ -1,7 +1,7 @@
-#Thu Aug 10 17:39:40 CST 2017
-base.0=Y\:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\transforms\\dexMerger\\debug\\10
+#Sun Aug 20 19:40:08 CST 2017
+base.0=/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/transforms/dexMerger/debug/11
 renamed.1=classes2.dex
 renamed.0=classes.dex
-file.1=Y\:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\transforms\\dexMerger\\debug\\11\\classes.dex
-base.1=Y\:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\transforms\\dexMerger\\debug\\11
-file.0=Y\:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\transforms\\dexMerger\\debug\\10\\classes.dex
+file.1=/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/transforms/dexMerger/debug/10/classes.dex
+base.1=/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/transforms/dexMerger/debug/10
+file.0=/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/transforms/dexMerger/debug/11/classes.dex

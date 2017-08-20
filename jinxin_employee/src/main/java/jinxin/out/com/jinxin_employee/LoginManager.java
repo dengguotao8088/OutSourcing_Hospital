@@ -32,7 +32,7 @@ public class LoginManager {
         mConnectivityManager =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         mSharedPreferences = mContext.getSharedPreferences("emp_msg", Context.MODE_PRIVATE);
-        loadEmp();
+        //loadEmp();
     }
 
     public boolean isNetworkConnected() {
@@ -77,11 +77,12 @@ public String avatarPath;//员工头像
     }
 
     public void clearEmp(){
-        if (mSharedPreferences != null) {
-            SharedPreferences.Editor editor = mSharedPreferences.edit();
-            editor.remove("token");
-            editor.commit();
-        }
+        //if (mSharedPreferences != null) {
+         //   SharedPreferences.Editor editor = mSharedPreferences.edit();
+        //    editor.remove("token");
+        //    editor.commit();
+        //}
+        mToken = null;
     }
 
     public void saveUserAndPass(String name, String password) {

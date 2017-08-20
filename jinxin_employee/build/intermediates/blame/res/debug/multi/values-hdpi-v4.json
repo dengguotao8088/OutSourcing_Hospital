@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "Y:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hdpi-v4\\values-hdpi-v4.xml",
+        "outputFile": "/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 327
                 },
                 "from": {
-                    "file": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\appcompat-v7-26.0.0-beta2.aar\\b675fb90ac471024b7efe38e9b25cbf9\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "file": "/home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/res/values-hdpi-v4/values-hdpi-v4.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,

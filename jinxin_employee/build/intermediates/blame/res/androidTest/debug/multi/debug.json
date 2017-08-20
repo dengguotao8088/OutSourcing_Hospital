@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "Y:\\OutSourcing_Hospital\\jinxin_employee\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+        "outputFile": "/home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/build/intermediates/res/merged/androidTest/debug/values_values.arsc.flat",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 96
                 },
                 "from": {
-                    "file": "C:\\Users\\DELL\\.gradle\\caches\\transforms-1\\files-1.1\\rules-0.5.aar\\89010a52dfe02f86b64ae10c038a4cd8\\res\\values\\values.xml",
+                    "file": "/home/dengguotao/.gradle/caches/transforms-1/files-1.1/rules-0.5.aar/17a232a3ab4126112b08cce0d54f8b26/res/values/values.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,

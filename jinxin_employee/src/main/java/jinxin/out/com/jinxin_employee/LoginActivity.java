@@ -144,7 +144,7 @@ public class LoginActivity extends Activity {
             if (loginResponseJson.code == 0) {
                 LoginManager.getInstance(mContext).setToken(loginResponseJson.data.token);
                 LoginManager.getInstance(mContext).setEmployee(loginResponseJson.data.empDO);
-                LoginManager.getInstance(mContext).saveEmp();
+                //LoginManager.getInstance(mContext).saveEmp();
                 //Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
                 mainHandler.sendMessage(mainHandler.obtainMessage(100, "登录成功"));
                 Intent intent = new Intent(mContext, HomeActivity.class);

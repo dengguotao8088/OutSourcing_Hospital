@@ -1,182 +1,220 @@
 -- Merging decision tree log ---
 manifest
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
-MERGED from [com.kaopiz:kprogresshud:1.0.1] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\kprogresshud-1.0.1.aar\61396ff7b3534eba24c882487c0d9502\AndroidManifest.xml:2:1-15:12
-MERGED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-20:12
-MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\c444d2f42a9e02f11cb57c9119d51564\AndroidManifest.xml:2:1-11:12
-MERGED from [:library] Y:\OutSourcing_Hospital\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:2:1-13:12
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:17:1-28:12
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:17:1-28:12
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:17:1-31:12
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:17:1-31:12
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:1-29:12
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
+MERGED from [com.kaopiz:kprogresshud:1.0.1] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/kprogresshud-1.0.1.aar/99b09660935726ae9a244ee76fe8edb3/AndroidManifest.xml:2:1-15:12
+MERGED from [com.necer.ndialog2:ndialog:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/ndialog-1.0.2.aar/c0126446486da348da2e08eb6e4c2bbf/AndroidManifest.xml:2:1-17:12
+MERGED from [com.github.chrisbanes:PhotoView:1.2.6] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/PhotoView-1.2.6.aar/2f99472a4eea2370409adbe1542e7551/AndroidManifest.xml:2:1-12:12
+MERGED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-20:12
+MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/fc633ed093dfc9d8d2254d9b147e3dff/AndroidManifest.xml:2:1-11:12
+MERGED from [:library] /home/dengguotao/work/Android/OutSourcing_Hospital/library/build/intermediates/manifests/full/debug/AndroidManifest.xml:2:1-13:12
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:17:1-31:12
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:1-42:12
 	package
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:3:11-51
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:3:11-51
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:2:11-69
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:5:5-66
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:5:5-66
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:5:22-64
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:5:22-64
 uses-permission#android.permission.CAMERA
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:6:5-64
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:6:5-64
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:6:22-62
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:6:22-62
 uses-permission#android.permission.VIBRATE
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:7:5-65
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:7:5-65
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:7:22-63
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:7:22-63
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:8:5-80
+	android:name
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:8:22-78
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:9:22-77
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:10:5-78
+	android:name
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:10:22-76
 application
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:9:5-27:19
-MERGED from [com.kaopiz:kprogresshud:1.0.1] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\kprogresshud-1.0.1.aar\61396ff7b3534eba24c882487c0d9502\AndroidManifest.xml:11:5-13:38
-MERGED from [com.kaopiz:kprogresshud:1.0.1] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\kprogresshud-1.0.1.aar\61396ff7b3534eba24c882487c0d9502\AndroidManifest.xml:11:5-13:38
-MERGED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-18:19
-MERGED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-18:19
-MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\c444d2f42a9e02f11cb57c9119d51564\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\c444d2f42a9e02f11cb57c9119d51564\AndroidManifest.xml:9:5-20
-MERGED from [:library] Y:\OutSourcing_Hospital\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-20
-MERGED from [:library] Y:\OutSourcing_Hospital\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:11:5-20
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:22:5-26:19
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:22:5-26:19
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:22:5-26:19
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:22:5-26:19
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:25:5-29:19
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:25:5-29:19
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:12:5-40:19
+MERGED from [com.kaopiz:kprogresshud:1.0.1] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/kprogresshud-1.0.1.aar/99b09660935726ae9a244ee76fe8edb3/AndroidManifest.xml:11:5-13:38
+MERGED from [com.kaopiz:kprogresshud:1.0.1] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/kprogresshud-1.0.1.aar/99b09660935726ae9a244ee76fe8edb3/AndroidManifest.xml:11:5-13:38
+MERGED from [com.necer.ndialog2:ndialog:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/ndialog-1.0.2.aar/c0126446486da348da2e08eb6e4c2bbf/AndroidManifest.xml:11:5-15:19
+MERGED from [com.necer.ndialog2:ndialog:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/ndialog-1.0.2.aar/c0126446486da348da2e08eb6e4c2bbf/AndroidManifest.xml:11:5-15:19
+MERGED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-18:19
+MERGED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-18:19
+MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/fc633ed093dfc9d8d2254d9b147e3dff/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/fc633ed093dfc9d8d2254d9b147e3dff/AndroidManifest.xml:9:5-20
+MERGED from [:library] /home/dengguotao/work/Android/OutSourcing_Hospital/library/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-20
+MERGED from [:library] /home/dengguotao/work/Android/OutSourcing_Hospital/library/build/intermediates/manifests/full/debug/AndroidManifest.xml:11:5-20
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:25:5-29:19
 	android:supportsRtl
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:14:9-35
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:18:9-35
 	android:label
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:12:9-41
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:16:9-41
 	android:roundIcon
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:13:9-54
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:17:9-54
 	android:icon
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:11:9-43
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:15:9-38
 	android:allowBackup
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:10:9-35
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:14:9-35
 	android:theme
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:15:9-40
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:19:9-40
+	android:name
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:13:9-39
 activity#jinxin.out.com.jinxin_employee.LoginActivity
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:16:9-22:20
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:20:9-26:20
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:16:19-48
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:20:19-48
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:17:13-21:29
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:21:13-25:29
 action#android.intent.action.MAIN
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:18:17-68
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:22:17-68
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:18:25-66
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:22:25-66
 category#android.intent.category.LAUNCHER
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:20:17-76
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:24:17-76
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:20:27-74
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:24:27-74
 activity#jinxin.out.com.jinxin_employee.HomeActivity
-ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:23:9-26:54
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:27:9-30:54
 	android:launchMode
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:25:13-43
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:29:13-43
 	android:windowSoftInputMode
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:26:13-52
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:30:13-52
 	android:name
-		ADDED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml:24:13-41
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:28:13-41
+provider#android.support.v4.content.FileProvider
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:31:9-39:20
+	android:grantUriPermissions
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:34:13-47
+	android:authorities
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:33:13-74
+	android:exported
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:35:13-37
+	android:name
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:32:13-67
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:36:13-38:53
+	android:resource
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:38:17-50
+	android:name
+		ADDED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml:37:17-67
 uses-sdk
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-MERGED from [com.kaopiz:kprogresshud:1.0.1] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\kprogresshud-1.0.1.aar\61396ff7b3534eba24c882487c0d9502\AndroidManifest.xml:7:5-9:41
-MERGED from [com.kaopiz:kprogresshud:1.0.1] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\kprogresshud-1.0.1.aar\61396ff7b3534eba24c882487c0d9502\AndroidManifest.xml:7:5-9:41
-MERGED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:21:5-23:78
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\c444d2f42a9e02f11cb57c9119d51564\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\c444d2f42a9e02f11cb57c9119d51564\AndroidManifest.xml:5:5-7:41
-MERGED from [:library] Y:\OutSourcing_Hospital\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [:library] Y:\OutSourcing_Hospital\library\build\intermediates\manifests\full\debug\AndroidManifest.xml:7:5-9:41
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:21:5-23:54
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:21:5-23:60
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:21:5-23:63
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:21:5-23:61
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:21:5-23:58
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:21:5-23:58
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+MERGED from [com.kaopiz:kprogresshud:1.0.1] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/kprogresshud-1.0.1.aar/99b09660935726ae9a244ee76fe8edb3/AndroidManifest.xml:7:5-9:41
+MERGED from [com.kaopiz:kprogresshud:1.0.1] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/kprogresshud-1.0.1.aar/99b09660935726ae9a244ee76fe8edb3/AndroidManifest.xml:7:5-9:41
+MERGED from [com.necer.ndialog2:ndialog:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/ndialog-1.0.2.aar/c0126446486da348da2e08eb6e4c2bbf/AndroidManifest.xml:7:5-9:41
+MERGED from [com.necer.ndialog2:ndialog:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/ndialog-1.0.2.aar/c0126446486da348da2e08eb6e4c2bbf/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.chrisbanes:PhotoView:1.2.6] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/PhotoView-1.2.6.aar/2f99472a4eea2370409adbe1542e7551/AndroidManifest.xml:8:5-10:41
+MERGED from [com.github.chrisbanes:PhotoView:1.2.6] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/PhotoView-1.2.6.aar/2f99472a4eea2370409adbe1542e7551/AndroidManifest.xml:8:5-10:41
+MERGED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/fc633ed093dfc9d8d2254d9b147e3dff/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.0.2.aar/fc633ed093dfc9d8d2254d9b147e3dff/AndroidManifest.xml:5:5-7:41
+MERGED from [:library] /home/dengguotao/work/Android/OutSourcing_Hospital/library/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [:library] /home/dengguotao/work/Android/OutSourcing_Hospital/library/build/intermediates/manifests/full/debug/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:21:5-23:58
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
 	tools:overrideLibrary
-		ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:23:9-75
+		ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
-		INJECTED from Y:\OutSourcing_Hospital\jinxin_employee\src\main\AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
+		INJECTED from /home/dengguotao/work/Android/OutSourcing_Hospital/jinxin_employee/src/main/AndroidManifest.xml
 activity#com.uuzuche.lib_zxing.activity.CaptureActivity
-ADDED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:12:9-17:63
+ADDED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:12:9-17:63
 	android:screenOrientation
-		ADDED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:15:13-49
+		ADDED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:15:13-49
 	android:windowSoftInputMode
-		ADDED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:17:13-60
+		ADDED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:17:13-60
 	android:configChanges
-		ADDED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:14:13-63
+		ADDED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:14:13-63
 	android:theme
-		ADDED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:16:13-63
+		ADDED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:16:13-63
 	android:name
-		ADDED from [:lib-zxing] Y:\OutSourcing_Hospital\lib-zxing\build\intermediates\manifests\full\debug\AndroidManifest.xml:13:13-74
+		ADDED from [:lib-zxing] /home/dengguotao/work/Android/OutSourcing_Hospital/lib-zxing/build/intermediates/manifests/full/debug/AndroidManifest.xml:13:13-74
 meta-data#android.support.VERSION
-ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:23:9-25:44
-MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-26.0.0-beta2.aar\62ba89fcf36565c91daed985875c7b60\AndroidManifest.xml:23:9-25:44
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:23:9-25:44
-MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-26.0.0-beta2.aar\af464e020bc9b3d9f8e4c6bdfe7cd520\AndroidManifest.xml:23:9-25:44
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-v4:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-v4-26.0.0-beta2.aar\35f5c746172a2b7f66468ba4c3cde6ae\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-fragment:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-fragment-26.0.0-beta2.aar\3928e21388b201b2ec750323dbdd1bf5\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-core-ui:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.0.0-beta2.aar\05cf4ed5be5ddaa1cc47fc9a15087b5a\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-media-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-media-compat-26.0.0-beta2.aar\58597d8d8099951590dba43189863436\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-core-utils:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-core-utils-26.0.0-beta2.aar\fd4c12e74b13002063da7b02eb362cdd\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:26:9-28:44
-MERGED from [com.android.support:support-compat:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\support-compat-26.0.0-beta2.aar\7681404e0f67a9505dde3a634b7035fd\AndroidManifest.xml:26:9-28:44
+ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-v4:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-v4-26.0.0-beta2.aar/191d1eb11d6108a29f836ca803dc0006/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:23:9-25:44
+MERGED from [com.android.support:animated-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-26.0.0-beta2.aar/74744ba692f8b8069644905bc7efd57e/AndroidManifest.xml:23:9-25:44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:23:9-25:44
+MERGED from [com.android.support:support-vector-drawable:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-26.0.0-beta2.aar/fcd479d91b0ad286f3046d54cf1996ab/AndroidManifest.xml:23:9-25:44
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-fragment:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-fragment-26.0.0-beta2.aar/d01f67c9aca65624f7e2224d53f0374a/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-core-ui:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-ui-26.0.0-beta2.aar/5f527b19e1cd3fd9b65f5d67dd742c5c/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-media-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.0.0-beta2.aar/55040991b54824586589a889d20530cb/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-core-utils:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-core-utils-26.0.0-beta2.aar/d1b64cf428ddba0f90e133f5cc9f1ba3/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:26:9-28:44
+MERGED from [com.android.support:support-compat:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/support-compat-26.0.0-beta2.aar/add5bc8c05987e0ce2a510e40979212c/AndroidManifest.xml:26:9-28:44
 	android:value
-		ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:28:13-41
+		ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:28:13-41
 	android:name
-		ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] C:\Users\DELL\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.0.0-beta2.aar\b675fb90ac471024b7efe38e9b25cbf9\AndroidManifest.xml:27:13-51
+		ADDED from [com.android.support:appcompat-v7:26.0.0-beta2] /home/dengguotao/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.0.0-beta2.aar/800b71437b1f4e5162f62e71f036007f/AndroidManifest.xml:27:13-51

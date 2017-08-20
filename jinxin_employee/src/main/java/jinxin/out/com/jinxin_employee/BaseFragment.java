@@ -83,7 +83,7 @@ public abstract class BaseFragment extends Fragment {
                 case NEED_RELOGIN:
                     if (mActivity != null && !mActivity.isDestroyed()) {
                         LoginManager.getInstance(mActivity).clearEmp();
-                        LoginManager.getInstance(mActivity).loadEmp();
+                        //LoginManager.getInstance(mActivity).loadEmp();
                         Toast.makeText(mActivity,
                                 "登录已过期，请重新登录！", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mActivity, LoginActivity.class);
