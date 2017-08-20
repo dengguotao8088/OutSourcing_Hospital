@@ -190,6 +190,7 @@ public class MyCustormFragment extends BaseFragment {
                     }
                     Bundle data = new Bundle();
                     data.putInt("custorm_id", mCusDatas.get((int) l).id);
+                    data.putBoolean("xiaofei_fragement_reset", true);
                     xiaoFeiFragment.setArguments(data);
                     mActivity.showContent(xiaoFeiFragment);
                 }

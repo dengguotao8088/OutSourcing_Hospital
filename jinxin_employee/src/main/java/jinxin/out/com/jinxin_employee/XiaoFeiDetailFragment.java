@@ -64,6 +64,8 @@ public class XiaoFeiDetailFragment extends BaseFragment {
 
     private TextView partener_remark;
 
+    private EditText partener_edit;
+
     private TextView kehuqianming;
     private ImageView kehuqianming_img;
     private Button kehuqianming_btn;
@@ -99,7 +101,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
             ttpinggu_ed.setText(mCurrentPurRecord.painAssessment ==null?"":mCurrentPurRecord.painAssessment);
             xiaofei_remark_ed.setText(mCurrentPurRecord.remarks ==null?"":mCurrentPurRecord.remarks);
             goumai_remark.setText("购买备注: " + (mCurrentPurRecord.purchaseRecordRemarks ==null?"":mCurrentPurRecord.purchaseRecordRemarks));
-            partener_remark.setText("合伙人: " + (mCurrentPurRecord.partnerName ==null?"":mCurrentPurRecord.partnerName));
+            partener_edit.setText(mCurrentPurRecord.partnerName ==null?"":mCurrentPurRecord.partnerName);
 
             kehuqianming_img.setVisibility(View.INVISIBLE);
             jishiqianming_img.setVisibility(View.INVISIBLE);
@@ -181,6 +183,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         xiaofei_remark_ed = mView.findViewById(R.id.fuwujilu_ed_beizhu);
         goumai_remark = mView.findViewById(R.id.fuwujilu_gm_beizhu);
         partener_remark = mView.findViewById(R.id.fuwujilu_tv_hehuoren);
+        partener_edit = mView.findViewById(R.id.fuwujilu_ed_hehuoren);
 
         kehuqianming = mView.findViewById(R.id.fuwujilu_kehuqianming);
         kehuqianming_img = mView.findViewById(R.id.fuwujilu_kehuqianming_img);
@@ -214,10 +217,11 @@ public class XiaoFeiDetailFragment extends BaseFragment {
             String daySy = zhenduan_ed.getText().toString();
             String ttpg = ttpinggu_ed.getText().toString();
             String remark = xiaofei_remark_ed.getText().toString();
+            String partner = partener_edit.getText().toString();
             RequestBody body = new FormBody.Builder()
                     .add("token", LoginManager.getInstance(mActivity).getToken())
                     .add("id", xiaofei_ID + "")
-                    .add("partnerName", mCurrentPurRecord.partnerName==null?"":mCurrentPurRecord.partnerName)
+                    .add("partnerName", partner)
                     .add("remarks", remark)
                     .add("daySymptom", daySy)
                     .add("empSignaturePath", mCurrentPurRecord.empSignaturePath
@@ -369,7 +373,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
             Bundle bundle = new Bundle();
             bundle.putInt("xiaofeidetail_mode", 5);
             bundle.putInt("xiaofeidetail_conid", xiaofei_ID);
-            bundle.putString("partnerName", mCurrentPurRecord.partnerName);
+            bundle.putString("partnerName", partener_edit.getText().toString());
             bundle.putString("xiaofeidetail_remarks", mCurrentPurRecord.remarks);
             bundle.putString("daySymptom", zhenduan_ed.getText().toString());
             bundle.putString("empSignaturePath", mCurrentPurRecord.empSignaturePath);

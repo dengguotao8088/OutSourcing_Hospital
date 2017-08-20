@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,17 @@ import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import jinxin.out.com.jinxin_employee.JsonModule.BaseModule;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import uk.co.senab.photoview.PhotoView;
 
 /**
@@ -50,7 +58,9 @@ public class KehuGalleryFragment extends BaseFragment {
 
     @Override
     public void refreshUI() {
-
+        if (isViewCreate) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private ImageLoader imageLoader;
@@ -62,6 +72,10 @@ public class KehuGalleryFragment extends BaseFragment {
     private PhotoView mDetailPhotoView;
     private ImageButton delete_btn;
 
+    private int cus_id = -1;
+
+    private List<CustomGalleryRecord> customGalleryRecords = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,8 +85,71 @@ public class KehuGalleryFragment extends BaseFragment {
         if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
             mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络，加载图库失败!"));
         }
-        current_click = -1;
+        cus_id = getArguments().getInt("cus_id", -1);
+        Log.d("dengguotao","cus_id: "+cus_id);
+        customGalleryRecords.clear();
         mItems = null;
+        if (cus_id != -1) {
+            load_cus_pic_list();
+        }
+        current_click = -1;
+    }
+
+    private void load_cus_pic_list() {
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("customerId", cus_id + "")
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_gallery/list?"
+                , body, getListCallback);
+    }
+
+    private Callback getListCallback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() == 200) {
+                String result = response.body().string();
+                Log.d("dengguotao",result);
+                BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                if (module.code == 1) {
+                    if (mMainHandler != null) {
+                        mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                        return;
+                    }
+                }
+                if (module.code == 0) {
+                    JsonModule jsonModule = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
+                    customGalleryRecords.clear();
+                    customGalleryRecords.addAll(jsonModule.data);
+                    mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
+                } else {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
+                }
+            } else {
+                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+            }
+        }
+    };
+
+    private class JsonModule extends BaseModule {
+        public List<CustomGalleryRecord> data;
+    }
+
+    private class CustomGalleryRecord {
+        public int id;//
+        public int customerId;//用户Id
+        public String picName;//图片名称
+        public String picPath;//图片地址
+        public int empId;//员工Id
+        public int status;//图片状态，1：正常，2：停用
+        public String statusName;//图片状态名称
+        public String createTime;//创建时间
+        public String updateTime;//更新时间
     }
 
     @Nullable
@@ -101,23 +178,61 @@ public class KehuGalleryFragment extends BaseFragment {
         @Override
         public void onClick(View view) {
             if (current_click != -1) {
-                if (mItems.get(current_click) != null) {
-                    mItems.remove(current_click);
-                    String[] tmp = new String[datas.length - 1];
-                    int j = 0;
-                    for (int i = 0; i < datas.length; i++) {
-                        if (i == current_click) continue;
-                        tmp[j] = datas[i];
-                        j++;
-                    }
-                    datas = tmp;
-                    mDetailContent.setVisibility(View.INVISIBLE);
-                    current_click = -1;
-                    mAdapter.notifyDataSetChanged();
-                }
+                delete_pic(customGalleryRecords.get(current_click).id, current_click);
             }
         }
     };
+
+    private void delete_pic(int id, final int position) {
+        if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络,删除失败"));
+            return;
+        }
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("id", id + "")
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_gallery/delete?"
+                , body, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "删除失败"));
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (response.code() == 200) {
+                            String result = response.body().string();
+                            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                            if (module.code == 1) {
+                                if (mMainHandler != null) {
+                                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                                    return;
+                                }
+                            }
+                            if (module.code == 0) {
+                                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
+                                if (mItems.get(position) != null) {
+                                    mItems.remove(position);
+                                    customGalleryRecords.remove(position);
+                                    current_click = -1;
+                                    mMainHandler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mDetailContent.setVisibility(View.INVISIBLE);
+                                            mAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+                                }
+                            } else {
+                                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "删除失败"));
+                            }
+                        } else {
+                            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络,删除失败"));
+                        }
+                    }
+                });
+    }
 
     private int current_click = -1;
     private Bitmap mShowBitmap;
@@ -129,7 +244,7 @@ public class KehuGalleryFragment extends BaseFragment {
             view.setDrawingCacheEnabled(false);
             zoomImageFromThumb(view);
             mDetailPhotoView.setImageBitmap(mShowBitmap);
-            imageLoader.displayImage(datas[(int) l], mDetailPhotoView);
+            imageLoader.displayImage(customGalleryRecords.get((int) l).picPath, mDetailPhotoView);
             current_click = (int) l;
         }
     };
@@ -155,31 +270,18 @@ public class KehuGalleryFragment extends BaseFragment {
         super.onDestroy();
     }
 
-    private String datas[] = {
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503207754718&di=7ee5838401565f7d907d7ea77b5c44bd&imgtype=0&src=http%3A%2F%2Fi2.sanwen.net%2Fdoc%2F1608%2F704-160PQ43458.png",
-            "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503207755808&di=82512c62a16fddc803134cb244a11172&imgtype=0&src=http%3A%2F%2Fpic18.nipic.com%2F20111206%2F2256974_131330799000_2.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417483254744807355368.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417481982818289807227.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417484215721177218964.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417485267326585640400.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417485943916277505654.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417487565856939451192.jpg",
-            "http://www.qiwen007.com/images/image/2017/0627/6363417488547146745487665.jpg",
-    };
-
-    private HashMap<String, View> img_datas;
     private List<View> mItems = new ArrayList<>();
 
     private class GridAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
-            return datas.length;
+            return customGalleryRecords.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return datas[i];
+            return customGalleryRecords.get(i);
         }
 
         @Override
@@ -197,16 +299,17 @@ public class KehuGalleryFragment extends BaseFragment {
                 mItems = new ArrayList<>();
             }
             View item_view = null;
-            if(mItems.size() > i){
+            if (mItems.size() > i) {
                 item_view = mItems.get(i);
             }
             ViewHolder holder;
             if (item_view == null) {
+                CustomGalleryRecord record = customGalleryRecords.get(i);
                 if (view == null) {
                     view = LayoutInflater.from(mActivity).inflate(R.layout.grid_item, null);
                     holder = new ViewHolder();
                     holder.imageView = view.findViewById(R.id.grid_item_img);
-                    imageLoader.displayImage(datas[i], holder.imageView);
+                    imageLoader.displayImage(record.picPath, holder.imageView);
                     view.setTag(holder);
                     item_view = view;
                 } else {

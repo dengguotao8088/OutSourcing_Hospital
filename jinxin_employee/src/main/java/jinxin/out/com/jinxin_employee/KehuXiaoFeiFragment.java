@@ -216,7 +216,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         }
     };
 
-    public class JsonModule extends BaseModule {
+    private class JsonModule extends BaseModule {
         public Data data;
 
         public class Data {

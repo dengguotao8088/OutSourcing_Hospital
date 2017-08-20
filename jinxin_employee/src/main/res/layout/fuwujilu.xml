@@ -168,6 +168,16 @@
                 android:textColor="@color/tab_bar_bac"
                 android:textSize="13sp" />
 
+            <EditText
+                android:id="@+id/fuwujilu_ed_hehuoren"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/edittext"
+                android:gravity="top"
+                android:textCursorDrawable="@null"
+                android:textSize="13sp" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

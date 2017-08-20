@@ -259,6 +259,7 @@ public class QianMing extends BaseFragment {
                     mActivity.dissmissHUD();
                     upload.setClickable(true);
                     String result = response.body().string();
+                    Log.d("dengguotao",result);
                     if (response.code() == 200) {
                         BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                         if (module.code == 1) {
@@ -425,6 +426,7 @@ public class QianMing extends BaseFragment {
 
         private class Data {
             public String path;
+            public String picName;
         }
     }
 

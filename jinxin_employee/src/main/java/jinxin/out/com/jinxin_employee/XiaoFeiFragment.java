@@ -8,7 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -86,7 +88,10 @@ public class XiaoFeiFragment extends BaseFragment {
         custorm_id = getArguments().getInt("custorm_id", -1);
         mPurchList.clear();
         mConsumptionList.clear();
-        tab_id = 0;
+        boolean reset = getArguments().getBoolean("xiaofei_fragement_reset", false);
+        if (reset) {
+            tab_id = 0;
+        }
         if (tab_id == 0) {
             loadGouMaiList();
         } else if (tab_id == 1) {
@@ -96,6 +101,8 @@ public class XiaoFeiFragment extends BaseFragment {
         if (tmp_capture == null) {
             tmp_capture = new File(mActivity.getExternalCacheDir(), "capture_tmp.png").getAbsolutePath();
         }
+        can_upload_cuspic = false;
+        updata_cuspic_count();
     }
 
 
@@ -178,9 +185,24 @@ public class XiaoFeiFragment extends BaseFragment {
     private View.OnClickListener pop_camera_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST,
+                        "没有网络，请稍后重试"));
+                return;
+            }
+            if (!can_upload_cuspic) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST,
+                        "数量已达上限，无法上传，请删除后在操作"));
+                return;
+            }
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             File file = new File(tmp_capture);
-            Uri imageUri = Uri.fromFile(file);
+            Uri imageUri = null;
+            if (Build.VERSION.SDK_INT >= 24) {
+                imageUri = FileProvider.getUriForFile(mActivity.getApplicationContext(), "jinxin.out.jinxin_employee.fileprovider", file);
+            } else {
+                imageUri = Uri.fromFile(file);
+            }
             intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
             startActivityForResult(intent, REQUEST_CODE_CAMERA);
             takePhotoPopWin.dismiss();
@@ -190,6 +212,16 @@ public class XiaoFeiFragment extends BaseFragment {
     private View.OnClickListener pop_gallery_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST,
+                        "没有网络，请稍后重试"));
+                return;
+            }
+            if (!can_upload_cuspic) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST,
+                        "数量已达上限，无法上传，请删除后在操作"));
+                return;
+            }
             Intent i = new Intent(
                     Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(i, REQUEST_CODE_IMAGE);
@@ -201,10 +233,13 @@ public class XiaoFeiFragment extends BaseFragment {
     private View.OnClickListener pop_local_gallery_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(kehuGalleryFragment == null){
+            if (kehuGalleryFragment == null) {
                 kehuGalleryFragment = new KehuGalleryFragment();
                 kehuGalleryFragment.mParentFragment = XiaoFeiFragment.this;
             }
+            Bundle bundle = new Bundle();
+            bundle.putInt("cus_id", custorm_id);
+            kehuGalleryFragment.setArguments(bundle);
             mActivity.showContent(kehuGalleryFragment);
             takePhotoPopWin.dismiss();
         }
@@ -238,14 +273,17 @@ public class XiaoFeiFragment extends BaseFragment {
         new Thread() {
             @Override
             public void run() {
-                Log.d("dengguotao", "uploadBitmap");
+                if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+                    mActivity.dissmissHUD();
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络,上传失败"));
+                }
                 if (path == null || "".equals(path)) {
                     mActivity.dissmissHUD();
                     return;
                 }
                 File file = new File(tmp_capture);
                 Bitmap tem_bitmap = BitmapFactory.decodeFile(path, null);
-                Bitmap bitmap = Bitmap.createScaledBitmap(tem_bitmap,450,450,true);
+                Bitmap bitmap = Bitmap.createScaledBitmap(tem_bitmap, 450, 450, true);
                 if (tem_upload_file == null) {
                     String pa = mActivity.getExternalCacheDir().getAbsolutePath();
                     tem_upload_file = new File(pa, "tmp_upload_pop.png");
@@ -298,7 +336,6 @@ public class XiaoFeiFragment extends BaseFragment {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         mActivity.dissmissHUD();
-                        Log.d("dengguotao", ""+response.code());
                         String result = response.body().string();
                         Log.d("dengguotao", result);
                         if (response.code() == 200) {
@@ -310,7 +347,11 @@ public class XiaoFeiFragment extends BaseFragment {
                                 }
                             }
                             if (module.code == 0) {
-                                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传成功"));
+                                //mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传成功"));
+                                JsonModule jsonModule = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
+                                String path = jsonModule.data.path;
+                                String name = jsonModule.data.picName;
+                                saveCusPicture(path, name);
                             } else {
                                 mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传失败"));
                             }
@@ -321,6 +362,91 @@ public class XiaoFeiFragment extends BaseFragment {
                 });
             }
         }.start();
+    }
+
+    private void saveCusPicture(String path, String name) {
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("customerId", custorm_id + "")
+                .add("picPath", path)
+                .add("picName", name)
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_gallery/save?"
+                , body, save_pic_callback);
+    }
+
+    private Callback save_pic_callback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传失败"));
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() == 200) {
+                String result = response.body().string();
+                BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                if (module.code == 1) {
+                    if (mMainHandler != null) {
+                        mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                        return;
+                    }
+                }
+                if (module.code == 0) {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
+                    updata_cuspic_count();
+                } else {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
+                }
+            } else {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传失败"));
+            }
+        }
+    };
+
+    private boolean can_upload_cuspic = false;
+
+    private void updata_cuspic_count() {
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(mActivity).getToken())
+                .add("customerId", custorm_id + "")
+                .build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_gallery/count?"
+                , body, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (response.code() == 200) {
+                            String result = response.body().string();
+                            BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                            if (module.code == 1) {
+                                if (mMainHandler != null) {
+                                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                                    can_upload_cuspic = false;
+                                    return;
+                                }
+                            }
+                            if (module.code == 0) {
+                                can_upload_cuspic = true;
+                            } else {
+                                can_upload_cuspic = false;
+                            }
+                        }
+                    }
+                });
+    }
+
+    private class JsonModule extends BaseModule {
+        public Data data;
+
+        private class Data {
+            public String path;
+            public String picName;
+        }
     }
 
     private View.OnClickListener mTitle_Btn = new View.OnClickListener() {
