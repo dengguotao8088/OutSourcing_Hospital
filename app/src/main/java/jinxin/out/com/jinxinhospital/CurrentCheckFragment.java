@@ -109,7 +109,7 @@ public class CurrentCheckFragment extends BaseFragment {
             TextView tab_4 = (TextView) layout.findViewById(R.id.current_tab_4);
 
             tab_1.setText(item.projectName);
-            tab_2.setText(item.remarks);
+            tab_2.setText(item.daySymptom);
             tab_3.setText(item.statusName);
             tab_4.setText(item.empName);
 
