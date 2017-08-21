@@ -87,7 +87,7 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
     private Callback mMessageListCallback = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-            Log.e("xie", "mMessageListCallback onFailure");
+            Log.e("xie", "MessageCenter onFailure");
             mMainHandler.sendEmptyMessage(DISPLAY_TEXT);
         }
 
@@ -105,7 +105,7 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
             }
             mMessageResponseJson =
                     JsonUtil.parsoJsonWithGson(result, MessageResponseJson.class);
-            for(int i=0; i < mMessageResponseJson.data.length-1; i++) {
+            for(int i=0; i < mMessageResponseJson.data.length; i++) {
                 Log.d("xie" , "i = " + i);
                 mMessageList.add(mMessageResponseJson.data[i]);
             }
@@ -158,8 +158,10 @@ public class MessgeCenterActivity extends UserAppCompatActivity {
             String type = "";
             if (data.type == 1) {
                 type = "群体推送";
+            } else {
+                type = data.type + "";
             }
-            holder.type.setText( "消息类型： " + data.type);
+            holder.type.setText( "消息类型： " + type);
             holder.content.setText(data.content + "");
             return view;
         }

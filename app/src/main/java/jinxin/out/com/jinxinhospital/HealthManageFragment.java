@@ -182,7 +182,7 @@ public class HealthManageFragment extends BaseFragment{
             PurchaseResponseData mPurchaseResponseData = (PurchaseResponseData) view.getTag();
             Bundle bundle = new Bundle();
             bundle.putString("projectName", mPurchaseResponseData.projectName);
-            bundle.putString("purchaseRecordId", mPurchaseResponseData.projectId+"");
+            bundle.putString("purchaseRecordId", mPurchaseResponseData.id+"");
             bundle.putString("remark", mPurchaseResponseData.remark);
             intent.putExtras(bundle);
             startActivity(intent);

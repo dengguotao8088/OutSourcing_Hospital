@@ -79,20 +79,21 @@ public class PhysiotherapyListActivity extends UserAppCompatActivity{
         isPull = false;
         RequestBody requestBody = new FormBody.Builder()
                 .add("page", page + "")
-                .add("size", 10 + "")
+                .add("size", 9999 + "")
                 .add("physiotherapyTypeId", mId+"")
                 .build();
         NetPostUtil.post(Constants.GET_PHYSIOTHERPY_LIST, requestBody, mPhysiotherapyListCallback);
     }
 
     private void onPullData() {
-        isPull = true;
-        RequestBody requestBody = new FormBody.Builder()
-                .add("page", (page++) + "")
-                .add("size", 10 + "")
-                .add("physiotherapyTypeId", mId+"")
-                .build();
-        NetPostUtil.post(Constants.GET_PHYSIOTHERPY_LIST, requestBody, mPhysiotherapyListCallback);
+        onRefreshData();
+//        isPull = true;
+//        RequestBody requestBody = new FormBody.Builder()
+//                .add("page", (page++) + "")
+//                .add("size", 10 + "")
+//                .add("physiotherapyTypeId", mId+"")
+//                .build();
+//        NetPostUtil.post(Constants.GET_PHYSIOTHERPY_LIST, requestBody, mPhysiotherapyListCallback);
     }
 
 

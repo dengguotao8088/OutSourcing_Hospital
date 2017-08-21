@@ -110,6 +110,7 @@ public class InformedConsentListActivity extends UserAppCompatActivity {
                 return;
             }
             mHandler.sendEmptyMessage(0x22);
+            mlist.clear();
             InformedConsentResponseJson mResponseJson
                     = JsonUtil.parsoJsonWithGson(result, InformedConsentResponseJson.class);
             for(int i=0; i<mResponseJson.data.length; i++) {
