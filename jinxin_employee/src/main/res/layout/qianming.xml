@@ -26,11 +26,14 @@
 
         <Button
             android:id="@+id/qianming_refresh"
-            android:layout_width="30dp"
+            android:layout_width="45dp"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginRight="60dp"
-            android:background="@drawable/refresh" />
+            android:text="重置"
+            android:textColor="@color/white"
+            android:background="@color/tab_bar"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/qianming_upload"

@@ -155,13 +155,13 @@ public class QianMing extends BaseFragment {
             xiaofeidetail_cusid = getArguments().getInt("xiaofeidetail_cusid");
             xiaofeidetail_cpid = getArguments().getInt("xiaofeidetail_conid");
             filedQueId = getArguments().getInt("fieldQueueId");
-            partnerName = getArguments().getString("partnerName","");
-            remarks = getArguments().getString("xiaofeidetail_remarks","");
-            daySymptom = getArguments().getString("daySymptom","");
-            empSign = getArguments().getString("empSignaturePath","");
-            cusSign = getArguments().getString("customerSignaturePath","");
-            physiSign = getArguments().getString("physicianSignaturePath","");
-            painAss = getArguments().getString("painAssessment","");
+            partnerName = getArguments().getString("partnerName", "");
+            remarks = getArguments().getString("xiaofeidetail_remarks", "");
+            daySymptom = getArguments().getString("daySymptom", "");
+            empSign = getArguments().getString("empSignaturePath", "");
+            cusSign = getArguments().getString("customerSignaturePath", "");
+            physiSign = getArguments().getString("physicianSignaturePath", "");
+            painAss = getArguments().getString("painAssessment", "");
         }
     }
 
@@ -251,6 +251,7 @@ public class QianMing extends BaseFragment {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     mActivity.dissmissHUD();
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传图片失败"));
                     upload.setClickable(true);
                 }
 
@@ -259,7 +260,7 @@ public class QianMing extends BaseFragment {
                     mActivity.dissmissHUD();
                     upload.setClickable(true);
                     String result = response.body().string();
-                    Log.d("dengguotao",result);
+                    Log.d("dengguotao", result);
                     if (response.code() == 200) {
                         BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                         if (module.code == 1) {
@@ -283,7 +284,11 @@ public class QianMing extends BaseFragment {
                             } else if (mode == MODE_XIAOFEI_DETAIL) {
                                 uploadXiaofeiDetailQianming(path);
                             }
+                        } else {
+                            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
                         }
+                    } else {
+                        mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "上传图片失败"));
                     }
                 }
             });
@@ -306,18 +311,16 @@ public class QianMing extends BaseFragment {
                     .build();
             NetPostUtil.post("http://staff.mind-node.com/staff/api/field_queue/save?"
                     , body, tuifei_back);
-        } else if(xiaofeidetail_mode == 4){
+        } else if (xiaofeidetail_mode == 4) {
             RequestBody body = new FormBody.Builder()
                     .add("token", LoginManager.getInstance(mActivity).getToken())
-                    .add("customerId", xiaofeidetail_cusid + "")
-                    .add("consumptionRecordId", xiaofeidetail_cpid + "")
+                    .add("id", xiaofeidetail_cpid + "")
                     .add("empSignaturePath", path)
-                    .add("fieldQueueId", filedQueId + "")
                     .build();
-            NetPostUtil.post("http://staff.mind-node.com/staff/api/field_queue/update?"
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/change?"
                     , body, tuifei_back);
 
-        } else if(xiaofeidetail_mode == 5) {
+        } else if (xiaofeidetail_mode == 5) {
             RequestBody body = new FormBody.Builder()
                     .add("token", LoginManager.getInstance(mActivity).getToken())
                     .add("id", xiaofeidetail_cpid + "")
@@ -350,7 +353,7 @@ public class QianMing extends BaseFragment {
     }
 
     private void do_updateZhiqin(String path) {
-        Log.d("dengguotao","zhiqin_path: "+path);
+        Log.d("dengguotao", "zhiqin_path: " + path);
         if (zhiqin_id == -1) {
             return;
         }
@@ -382,7 +385,7 @@ public class QianMing extends BaseFragment {
     private Callback tuifei_back = new Callback() {
         @Override
         public void onFailure(Call call, IOException e) {
-
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "更新失败"));
         }
 
         @Override
@@ -404,18 +407,16 @@ public class QianMing extends BaseFragment {
                     if (mode == MODE_XIAOFEI_DETAIL) {
                         if (xiaofeidetail_mode == 3) {
                             msg = "客户签名成功!";
-                        }else if(xiaofeidetail_mode == 5){
+                        } else if (xiaofeidetail_mode == 5) {
                             msg = "医师签名成功!";
-                        } else {
-                            if (mParentFragment instanceof XiaoFeiFragment) {
-                                msg = "我来服务操作成功!";
-                            } else {
-                                msg = "技师签名成功!";
-                            }
+                        } else if (xiaofeidetail_mode == 4) {
+                            msg = "技师签名成功!";
                         }
                     }
                     mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, msg));
                     mActivity.showContent(mParentFragment);
+                } else {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
                 }
             }
         }

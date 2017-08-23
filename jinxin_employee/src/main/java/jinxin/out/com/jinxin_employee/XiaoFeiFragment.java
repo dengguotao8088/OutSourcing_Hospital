@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jinxin.out.com.jinxin_employee.JsonModule.BaseModule;
+import jinxin.out.com.jinxin_employee.JsonModule.Employee;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -83,6 +84,7 @@ public class XiaoFeiFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mEmployee = LoginManager.getInstance(mActivity).getEmployee();
         colorEnable = mActivity.getColor(R.color.tab_bar);
         colorDisable = mActivity.getColor(R.color.tab_bar_bac);
         custorm_id = getArguments().getInt("custorm_id", -1);
@@ -90,13 +92,13 @@ public class XiaoFeiFragment extends BaseFragment {
         mConsumptionList.clear();
         boolean reset = getArguments().getBoolean("xiaofei_fragement_reset", false);
         if (reset) {
-            tab_id = 0;
+            //tab_id = 0;
         }
-        if (tab_id == 0) {
-            loadGouMaiList();
-        } else if (tab_id == 1) {
-            loadDangRiList();
-        }
+        //if (tab_id == 0) {
+        loadGouMaiList();
+        //} else if (tab_id == 1) {
+        loadDangRiList();
+        //}
         isFirstShow = false;
         if (tmp_capture == null) {
             tmp_capture = new File(mActivity.getExternalCacheDir(), "capture_tmp.png").getAbsolutePath();
@@ -455,11 +457,12 @@ public class XiaoFeiFragment extends BaseFragment {
             int tab = -1;
             if (view.getId() == R.id.xiaofei_title_goumaijilu) {
                 tab = 0;
+                loadGouMaiList();
             } else {
                 tab = 1;
-                if (mConsumptionList.size() == 0) {
-                    loadDangRiList();
-                }
+                //if (mConsumptionList.size() == 0) {
+                loadDangRiList();
+                //}
             }
             if (tab != tab_id) {
                 tab_id = tab;
@@ -665,6 +668,8 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.status.setText(record.statusName);
             viewHolder.add_xiaofei.setClickable(
                     (record.projectFrequency - record.useFrequency) > 0);
+            viewHolder.add_xiaofei.setBackgroundColor(
+                    (record.projectFrequency - record.useFrequency) > 0 ? colorEnable : colorDisable);
             viewHolder.add_xiaofei.setTag(record.id);
             viewHolder.add_xiaofei.setOnClickListener(mAdd_xiaofeiClick);
             return view;
@@ -837,7 +842,7 @@ public class XiaoFeiFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() == 200) {
                 String result = response.body().string();
-                Log.d("dengguotao",result);
+                Log.d("dengguotao", result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                 if (module.code == 1) {
                     mMainHandler.sendEmptyMessage(NEED_RELOGIN);
@@ -873,22 +878,52 @@ public class XiaoFeiFragment extends BaseFragment {
     }
 
     private QianMing mQianMing;
+    private Employee mEmployee;
     private View.OnClickListener wolaifuwu_click = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (mQianMing == null || custorm_id == -1) {
-                mQianMing = new QianMing();
-                mQianMing.mode = QianMing.MODE_XIAOFEI_DETAIL;
-                mQianMing.mParentFragment = XiaoFeiFragment.this;
+            if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "没有网络，请稍后重试"));
             }
             ConsumptionRecord record = (ConsumptionRecord) view.getTag();
-            Bundle bundle = new Bundle();
-            bundle.putInt("xiaofeidetail_mode", 4);
-            bundle.putInt("xiaofeidetail_cusid", record.customerId);
-            bundle.putInt("xiaofeidetail_conid", record.id);
-            bundle.putInt("fieldQueueId", record.fieldQueueId);
-            mQianMing.setArguments(bundle);
-            mActivity.showContent(mQianMing);
+            RequestBody body = new FormBody.Builder()
+                    .add("token", LoginManager.getInstance(mActivity).getToken())
+                    .add("id", record.id + "")
+                    .add("empId", mEmployee.id + "")
+                    .add("fieldQueueId", record.fieldQueueId + "")
+                    .build();
+            NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/server?", body,
+                    wolaifuwu_Callback);
+        }
+    };
+
+    private Callback wolaifuwu_Callback = new Callback() {
+        @Override
+        public void onFailure(Call call, IOException e) {
+            mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "服务失败"));
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            if (response.code() == 200) {
+                String result = response.body().string();
+                Log.d("dengguotao", result);
+                BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
+                if (module.code == 1) {
+                    mMainHandler.sendEmptyMessage(NEED_RELOGIN);
+                    return;
+                }
+                if (module.code == 0) {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "服务成功"));
+                    loadDangRiList();
+                } else {
+                    mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
+                }
+            } else
+
+            {
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, "服务失败"));
+            }
         }
     };
 

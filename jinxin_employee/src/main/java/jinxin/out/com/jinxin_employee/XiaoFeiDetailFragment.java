@@ -45,6 +45,9 @@ public class XiaoFeiDetailFragment extends BaseFragment {
             "重度疼痛",
             "剧烈疼痛"};
 
+    private int colorEnable;
+    private int colorDisable;
+
     private CurrentPurRecord mCurrentPurRecord;
 
     private View mView;
@@ -96,12 +99,12 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         if (isViewCreate && mCurrentPurRecord != null) {
-            cusName.setText("客户姓名： " + (mCurrentPurRecord.customerName ==null?"":mCurrentPurRecord.customerName));
-            zhenduan_ed.setText(mCurrentPurRecord.daySymptom ==null?"":mCurrentPurRecord.daySymptom);
-            ttpinggu_ed.setText(mCurrentPurRecord.painAssessment ==null?"":mCurrentPurRecord.painAssessment);
-            xiaofei_remark_ed.setText(mCurrentPurRecord.remarks ==null?"":mCurrentPurRecord.remarks);
-            goumai_remark.setText("购买备注: " + (mCurrentPurRecord.purchaseRecordRemarks ==null?"":mCurrentPurRecord.purchaseRecordRemarks));
-            partener_edit.setText(mCurrentPurRecord.partnerName ==null?"":mCurrentPurRecord.partnerName);
+            cusName.setText("客户姓名： " + (mCurrentPurRecord.customerName == null ? "" : mCurrentPurRecord.customerName));
+            zhenduan_ed.setText(mCurrentPurRecord.daySymptom == null ? "" : mCurrentPurRecord.daySymptom);
+            ttpinggu_ed.setText(mCurrentPurRecord.painAssessment == null ? "" : mCurrentPurRecord.painAssessment);
+            xiaofei_remark_ed.setText(mCurrentPurRecord.remarks == null ? "" : mCurrentPurRecord.remarks);
+            goumai_remark.setText("购买备注: " + (mCurrentPurRecord.purchaseRecordRemarks == null ? "" : mCurrentPurRecord.purchaseRecordRemarks));
+            partener_edit.setText(mCurrentPurRecord.partnerName == null ? "" : mCurrentPurRecord.partnerName);
 
             kehuqianming_img.setVisibility(View.INVISIBLE);
             jishiqianming_img.setVisibility(View.INVISIBLE);
@@ -124,7 +127,20 @@ public class XiaoFeiDetailFragment extends BaseFragment {
                 yishiqianming_img.setImageURI(Uri.fromFile(yishiqianming));
                 yishiqianming_img.setVisibility(View.VISIBLE);
             }
+            refreshQianMingBtn();
         }
+    }
+
+    private void refreshQianMingBtn() {
+        boolean cus_sign_null = mCurrentPurRecord.customerSignaturePath == null;
+        boolean jishi_sign_null = mCurrentPurRecord.empSignaturePath == null;
+        boolean yishi_sign_null = mCurrentPurRecord.physicianSignaturePath == null;
+        kehuqianming_btn.setClickable(cus_sign_null);
+        kehuqianming_btn.setBackgroundColor(cus_sign_null ? colorEnable : colorDisable);
+        jishiqianming_btn.setClickable(!cus_sign_null && jishi_sign_null);
+        jishiqianming_btn.setBackgroundColor((!cus_sign_null && jishi_sign_null) ? colorEnable : colorDisable);
+        yishiqianming_btn.setClickable(!cus_sign_null && yishi_sign_null);
+        yishiqianming_btn.setBackgroundColor((!cus_sign_null && yishi_sign_null) ? colorEnable : colorDisable);
     }
 
     private String mSaveDir;
@@ -133,6 +149,8 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         xiaofei_ID = getArguments().getInt("prcu_id");
+        colorEnable = mActivity.getColor(R.color.tab_bar);
+        colorDisable = mActivity.getColor(R.color.tab_bar_bac);
         if (mSaveDir == null) {
             mSaveDir = mActivity.getExternalCacheDir().getAbsolutePath();
         }
@@ -201,6 +219,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         yishiqianming_btn.setOnClickListener(yishiQianming);
 
         isViewCreate = true;
+        refreshQianMingBtn();
         refreshUI();
         return mView;
     }
@@ -213,7 +232,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
                 return;
             }
             if (xiaofei_ID == -1) return;
-            Log.d("dengguotao","save");
+            Log.d("dengguotao", "save");
             String daySy = zhenduan_ed.getText().toString();
             String ttpg = ttpinggu_ed.getText().toString();
             String remark = xiaofei_remark_ed.getText().toString();
@@ -225,11 +244,11 @@ public class XiaoFeiDetailFragment extends BaseFragment {
                     .add("remarks", remark)
                     .add("daySymptom", daySy)
                     .add("empSignaturePath", mCurrentPurRecord.empSignaturePath
-                            ==null?"":mCurrentPurRecord.empSignaturePath)
+                            == null ? "" : mCurrentPurRecord.empSignaturePath)
                     .add("customerSignaturePath", mCurrentPurRecord.customerSignaturePath
-                            ==null?"":mCurrentPurRecord.customerSignaturePath)
+                            == null ? "" : mCurrentPurRecord.customerSignaturePath)
                     .add("physicianSignaturePath", mCurrentPurRecord.physicianSignaturePath
-                            ==null?"":mCurrentPurRecord.physicianSignaturePath)
+                            == null ? "" : mCurrentPurRecord.physicianSignaturePath)
                     .add("painAssessment", ttpg)
                     .build();
             NetPostUtil.post("http://staff.mind-node.com/staff/api/consumption_record/update?"
@@ -247,7 +266,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() == 200) {
                 String result = response.body().string();
-                Log.d("dengguotao","save: "+result);
+                Log.d("dengguotao", "save: " + result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result,
                         BaseModule.class);
                 if (module.code == 1) {
@@ -395,7 +414,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         public void onResponse(Call call, Response response) throws IOException {
             if (response.code() == 200) {
                 String result = response.body().string();
-                Log.d("dengguotao",result);
+                Log.d("dengguotao", result);
                 BaseModule module = JsonUtil.parsoJsonWithGson(result, BaseModule.class);
                 if (module.code == 1) {
                     if (mMainHandler != null) {
@@ -427,7 +446,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
     };
 
     private void loadkhqianming(String path) {
-        Log.d("dengguotao","path: "+path);
+        Log.d("dengguotao", "path: " + path);
         NetPostUtil.post(path, null, load_kehuqianming_back);
     }
 
