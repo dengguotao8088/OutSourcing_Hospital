@@ -55,7 +55,8 @@ public class Constants {
     //获取喇叭通知
     public static final String GET_NOTICE = URL_PREFIX + "api/notice/list";
 
-    public static final String REQUEST_IMPEMENTATIONVOID = URL_PREFIX + "api/customer/implementationVoid/update?";
+    //申请作废
+    public static final String REQUEST_IMPEMENTATIONVOID = URL_PREFIX + "api/implementation_void/save?";
 
     //客户登录
     public static final String LOGIN_URL = "http://client.mind-node.com/client/api/customer/login?";

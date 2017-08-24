@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -77,6 +78,17 @@ public class InformedConsentListActivity extends UserAppCompatActivity {
         mTextView = findViewById(R.id.infored_message);
         mAdapter = new SimpleAdapter(mContext, mMap, R.layout.informed_item, new String[]{"name"}, new int[]{R.id.name});
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", mlist.get(i).id );
+                bundle.putString("name", mlist.get(i).informedConsentTemplateName);
+                Intent intent = new Intent("android.intent.action.ZHIQIN_DETAIL_CONTENT_ACTION");
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -87,6 +99,7 @@ public class InformedConsentListActivity extends UserAppCompatActivity {
                 .add("token", token)
                 .add("customerId", customerId + "")
                 .build();
+        NetPostUtil netPostUtil = new NetPostUtil(this);
         NetPostUtil.post(Constants.GET_CONSENT_LIST_WITH_ID, requestBody, mCallback);
     }
 
@@ -109,8 +122,8 @@ public class InformedConsentListActivity extends UserAppCompatActivity {
                 mHandler.sendEmptyMessage(0x11);
                 return;
             }
-            mHandler.sendEmptyMessage(0x22);
             mlist.clear();
+            mMap.clear();
             InformedConsentResponseJson mResponseJson
                     = JsonUtil.parsoJsonWithGson(result, InformedConsentResponseJson.class);
             for(int i=0; i<mResponseJson.data.length; i++) {
@@ -119,13 +132,9 @@ public class InformedConsentListActivity extends UserAppCompatActivity {
                 listem.put("name", mResponseJson.data[i].informedConsentTemplateName);
                 mMap.add(listem);
             }
+            mHandler.sendEmptyMessage(0x22);
         }
     };
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-    }
 
     @Override
     protected boolean isShowBacking() {

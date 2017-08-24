@@ -55,7 +55,7 @@ public class HealthManageFragment extends BaseFragment{
     private static final int DISPLAY_TEXT = 0x13;
     private View mView;
     private ListView mListView;
-    private PullToRefreshListView mPullRefreshListView;
+    private ListView mPullRefreshListView;
     private MainActivity mContext;
     private MyAdapter myAdapter;
     private MyHandler mMainHandler;
@@ -80,7 +80,6 @@ public class HealthManageFragment extends BaseFragment{
         isVip = sharedPreferences.getBoolean("vip",false);
         mTextview= mView.findViewById(R.id.health_message);
         mPullRefreshListView = mView.findViewById(R.id.my_custorm_layout_list);
-        initPTRListView();
         mMainHandler = new MyHandler(mContext);
         myAdapter = new MyAdapter();
         mBalanceText = mView.findViewById(R.id.health_balance);
@@ -245,7 +244,6 @@ public class HealthManageFragment extends BaseFragment{
                         mBalanceLayout.setVisibility(View.VISIBLE);
                         mBalanceText.setText(String.valueOf(mBalance) + "元");
                     }
-                    mPullRefreshListView.onRefreshComplete();
                     mTextview.setVisibility(View.GONE);
                     myAdapter.notifyDataSetChanged();
                     break;
@@ -266,66 +264,5 @@ public class HealthManageFragment extends BaseFragment{
                 .add("customerId", customerId+"")
                 .build();
         NetPostUtil.post(Constants.GET_PURCHASE_WITH_ID, requestBody, mHealthManagerCallback);
-    }
-
-    /**
-     * 设置下拉刷新的listview的动作
-     */
-    private void initPTRListView() {
-        //设置拉动监听器
-            mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-
-                @Override
-                public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    //设置下拉时显示的日期和时间
-                    String label = DateUtils.formatDateTime(mContext, System.currentTimeMillis(),
-                            DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-                    // 更新显示的label
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                    refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                    // 开始执行异步任务，传入适配器来进行数据改变
-                    onRefreshData();
-
-                }
-
-                @Override
-                public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                    //设置下拉时显示的日期和时间
-                    String label = DateUtils.formatDateTime(mContext, System.currentTimeMillis(),
-                            DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-                    // 更新显示的label
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                    refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                    // 开始执行异步任务，传入适配器来进行数据改变
-                    onRefreshData();
-                }
-        });
-
-        // 添加滑动到底部的监听器
-        mPullRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
-
-            @Override
-            public void onLastItemVisible() {
-                Toast.makeText(mContext, "已经到底了", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //mPullRefreshListView.isScrollingWhileRefreshingEnabled();//看刷新时是否允许滑动
-        //在刷新时允许继续滑动
-        mPullRefreshListView.setScrollingWhileRefreshingEnabled(true);
-        //mPullRefreshListView.getMode();//得到模式
-        //上下都可以刷新的模式。这里有两个选择：Mode.PULL_FROM_START，Mode.BOTH，PULL_FROM_END
-        mPullRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-
-        /**
-         * 设置反馈音效
-         */
-//        SoundPullEventListener<ListView> soundListener = new SoundPullEventListener<ListView>(mContext);
-//        soundListener.addSoundEvent(PullToRefreshBase.State.PULL_TO_REFRESH, R.raw.pull_event);
-//        soundListener.addSoundEvent(State.RESET, R.raw.reset_sound);
-//        soundListener.addSoundEvent(State.REFRESHING, R.raw.refreshing_sound);
-//        mPullRefreshListView.setOnPullEventListener(soundListener);
     }
 }

@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:textColor="#555454"/>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <ListView
         android:id="@+id/my_consumption_layout_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

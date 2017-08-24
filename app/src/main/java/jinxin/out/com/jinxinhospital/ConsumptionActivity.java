@@ -59,7 +59,7 @@ public class ConsumptionActivity extends UserAppCompatActivity{
     private String mPurchaseRecordId = "";
     private TextView mTitleTextView;
     private TextView mMessageTextView;
-    private PullToRefreshListView mPullRefreshListView;
+    private ListView mPullRefreshListView;
     private Context mContext;
     private MyHandler mMainHandler;
     private MyAdapter myAdapter;
@@ -174,14 +174,18 @@ public class ConsumptionActivity extends UserAppCompatActivity{
             }
             if (data.myComment) {
                 holder.comment.setTag(data);
+                holder.comment.setTextColor(Color.WHITE);
             } else {
+                holder.comment.setTextColor(Color.GRAY);
                 holder.comment.setTag(null);
             }
             holder.comment.setOnClickListener(mCommentListener);
 
             if (data.myApplyVoid) {
                 holder.inVaild.setTag(data);
+                holder.inVaild.setTextColor(Color.WHITE);
             }else {
+                holder.inVaild.setTextColor(Color.GRAY);
                 holder.inVaild.setTag(null);
             }
             holder.inVaild.setOnClickListener(mInVaildListener);
@@ -270,7 +274,6 @@ public class ConsumptionActivity extends UserAppCompatActivity{
                     break;
                 case ADAPTER_DATA_CHANGE:
                     Log.d("xie", "health: MyHandler->ADAPTER_DATA_CHANGE");
-                    mPullRefreshListView.onRefreshComplete();
                     mTitleTextView.setVisibility(View.VISIBLE);
                     mMessageTextView.setVisibility(View.GONE);
                     myAdapter.notifyDataSetChanged();
@@ -305,9 +308,7 @@ public class ConsumptionActivity extends UserAppCompatActivity{
                 RequestBody requestBody = new FormBody.Builder()
                         .add("token", token)
                         .add("id", data.id + "")
-                        .add("status", data + "")
-                        .add("remark", data.remarks)
-                        .add("commentLevel", "1")
+                        .add("status", data.status + "")
                         .add("commentContent", dialogMessage)
                         .build();
                 NetPostUtil.post(Constants.UPDATE_CONSUMPTIONRECORD, requestBody, mCommentCallback);
@@ -390,10 +391,9 @@ public class ConsumptionActivity extends UserAppCompatActivity{
                 String dialogMessage = dialogText.getText().toString();
                 //: change to invaild request
                 Log.d("xie", "dialogMessage = " + dialogMessage);
-                Log.d("xie", Constants.REQUEST_IMPEMENTATIONVOID+"token="+token+"&consumption_record_id="+data.id + ""+"&content="+dialogMessage);
                 RequestBody requestBody = new FormBody.Builder()
                         .add("token", token)
-                        .add("consumption_record_id", data.id + "")
+                        .add("consumptionRecordId", data.id + "")
                         .add("content", dialogMessage)
                         .build();
                 NetPostUtil.post(Constants.REQUEST_IMPEMENTATIONVOID, requestBody, mInvaildCallback);
@@ -417,55 +417,5 @@ public class ConsumptionActivity extends UserAppCompatActivity{
                 .add("remark", mRemark)  //xie
                 .build();
         NetPostUtil.post(Constants.GET_CONSUMPTIONRECORD_LIST_WITH_ID, requestBody, mConsumptionListCallback);
-    }
-
-    private void initPTRListView() {
-        //设置拉动监听器
-        mPullRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                //设置下拉时显示的日期和时间
-                String label = DateUtils.formatDateTime(mContext, System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-                // 更新显示的label
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                // 开始执行异步任务，传入适配器来进行数据改变
-                onRefreshData();
-
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                //设置下拉时显示的日期和时间
-                String label = DateUtils.formatDateTime(mContext, System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-                // 更新显示的label
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-                refreshView.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                // 开始执行异步任务，传入适配器来进行数据改变
-                onRefreshData();
-            }
-        });
-
-        // 添加滑动到底部的监听器
-        mPullRefreshListView.setOnLastItemVisibleListener(new PullToRefreshBase.OnLastItemVisibleListener() {
-
-            @Override
-            public void onLastItemVisible() {
-                Toast.makeText(mContext, "已经到底了", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //mPullRefreshListView.isScrollingWhileRefreshingEnabled();//看刷新时是否允许滑动
-        //在刷新时允许继续滑动
-        mPullRefreshListView.setScrollingWhileRefreshingEnabled(true);
-        //mPullRefreshListView.getMode();//得到模式
-        //上下都可以刷新的模式。这里有两个选择：Mode.PULL_FROM_START，Mode.BOTH，PULL_FROM_END
-        mPullRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-
     }
 }

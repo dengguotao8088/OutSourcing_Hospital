@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.widget.Toast;
 
