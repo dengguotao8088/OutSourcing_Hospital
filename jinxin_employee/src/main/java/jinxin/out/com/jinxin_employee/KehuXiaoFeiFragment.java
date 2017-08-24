@@ -41,6 +41,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
     private PullToRefreshListView mList;
 
     private List<XiaofeiRecord> mXiaofeiList = new ArrayList<>();
+    private List<XiaofeiRecord> mXiaofeiList_temp = new ArrayList<>();
 
     @Override
     public void refreshData() {
@@ -56,6 +57,9 @@ public class KehuXiaoFeiFragment extends BaseFragment {
     public void refreshUI() {
         if (isViewCreate) {
             mRemark.setText("购买备注: " + remark);
+            mXiaofeiList.clear();
+            mXiaofeiList.addAll(mXiaofeiList_temp);
+            mXiaofeiList_temp.clear();
             myAdapter.notifyDataSetChanged();
             mList.getRefreshableView().setSelection(0);
         }
@@ -68,6 +72,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         p_name = getArguments().getString("p_name");
         remark = getArguments().getString("remark");
         mXiaofeiList.clear();
+        mXiaofeiList_temp.clear();
         loadList();
     }
 
@@ -109,8 +114,8 @@ public class KehuXiaoFeiFragment extends BaseFragment {
                 JsonModule module1 = JsonUtil.parsoJsonWithGson(result, JsonModule.class);
                 remark = module1.data.remark;
                 p_name = module1.data.projectName;
-                mXiaofeiList.clear();
-                mXiaofeiList.addAll(module1.data.datas);
+                mXiaofeiList_temp.clear();
+                mXiaofeiList_temp.addAll(module1.data.datas);
                 if (mMainHandler != null) {
                     mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
                 }

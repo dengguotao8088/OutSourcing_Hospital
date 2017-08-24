@@ -62,6 +62,7 @@ public class CustomerInformedFragment extends BaseFragment {
 
     private List<ZhiQinModule> mZhiQinList = new ArrayList<ZhiQinModule>();
     private List<MyCusZhiQinModule> mCusZhiQinList = new ArrayList<MyCusZhiQinModule>();
+    private List<MyCusZhiQinModule> mCusZhiQinList_temp = new ArrayList<MyCusZhiQinModule>();
 
     private Dialog mChooseInfoDialog;
     private ZhiQinModule mChooseModule;
@@ -127,8 +128,8 @@ public class CustomerInformedFragment extends BaseFragment {
             if (baseModule.code == 0) {
                 Log.d("dengguotao", "result: " + result);
                 MyResponseModule baseModule2 = JsonUtil.parsoJsonWithGson(result, MyResponseModule.class);
-                mCusZhiQinList.clear();
-                mCusZhiQinList.addAll(baseModule2.data);
+                mCusZhiQinList_temp.clear();
+                mCusZhiQinList_temp.addAll(baseModule2.data);
                 mMainHandler.sendEmptyMessage(LOAD_DATA_DONE);
             } else {
                 mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
@@ -149,6 +150,7 @@ public class CustomerInformedFragment extends BaseFragment {
         mChooseRelation = null;
         //if (mCusZhiQinList.size() == 0) {
         mCusZhiQinList.clear();
+        mCusZhiQinList_temp.clear();
         loadAllData();
         //}
         if (mZhiQinList.size() == 0) {
@@ -377,6 +379,9 @@ public class CustomerInformedFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         if (isViewCreate) {
+            mCusZhiQinList.clear();
+            mCusZhiQinList.addAll(mCusZhiQinList_temp);
+            mCusZhiQinList_temp.clear();
             myAdapter.notifyDataSetChanged();
         }
     }

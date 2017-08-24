@@ -109,7 +109,7 @@ public class MyCustormFragment extends BaseFragment {
                 if (page_id > 1) {
                     page_id = page_id - 1;
                 }
-                mMainHandler.sendEmptyMessage(LOAD_DATA_ERROR);
+                mMainHandler.sendMessage(mMainHandler.obtainMessage(SHOW_TOAST, module.message));
                 return;
             }
             MyCustormJson module2 = JsonUtil.parsoJsonWithGson(result, MyCustormJson.class);

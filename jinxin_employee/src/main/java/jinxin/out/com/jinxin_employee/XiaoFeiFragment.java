@@ -666,12 +666,12 @@ public class XiaoFeiFragment extends BaseFragment {
             viewHolder.baohan_cishu.setText(record.projectFrequency + "");
             viewHolder.yiyong_cishu.setText(record.useFrequency + "");
             viewHolder.status.setText(record.statusName);
-            viewHolder.add_xiaofei.setClickable(
-                    (record.projectFrequency - record.useFrequency) > 0);
             viewHolder.add_xiaofei.setBackgroundColor(
                     (record.projectFrequency - record.useFrequency) > 0 ? colorEnable : colorDisable);
-            viewHolder.add_xiaofei.setTag(record.id);
+            viewHolder.add_xiaofei.setTag(record);
             viewHolder.add_xiaofei.setOnClickListener(mAdd_xiaofeiClick);
+            //viewHolder.add_xiaofei.setClickable(
+                    //(record.projectFrequency - record.useFrequency) > 0);
             return view;
         }
     }
@@ -681,7 +681,11 @@ public class XiaoFeiFragment extends BaseFragment {
     private View.OnClickListener mAdd_xiaofeiClick = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            add_click_id = (int) view.getTag();
+            PurchaseRecord record = (PurchaseRecord) view.getTag();
+            if ((record.projectFrequency - record.useFrequency) <= 0) {
+                return;
+            }
+            add_click_id = record.id;
             if (add_dialog == null) {
                 add_dialog = new NDialog(mActivity).setTitle("请输入消费备注")
                         .setInputText("")
