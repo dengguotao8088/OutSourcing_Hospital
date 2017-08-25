@@ -81,6 +81,8 @@ public class XiaoFeiFragment extends BaseFragment {
     private MyAdapter mGoumaiAdapter = new MyAdapter();
     private MyAdapter2 mDangRiAdapter = new MyAdapter2();
 
+    private boolean is_adapter_set = false;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,9 +97,9 @@ public class XiaoFeiFragment extends BaseFragment {
             //tab_id = 0;
         }
         //if (tab_id == 0) {
-        loadGouMaiList();
+        //loadGouMaiList();
         //} else if (tab_id == 1) {
-        loadDangRiList();
+        //loadDangRiList();
         //}
         isFirstShow = false;
         if (tmp_capture == null) {
@@ -130,6 +132,8 @@ public class XiaoFeiFragment extends BaseFragment {
         mList.setOnItemClickListener(onItemClickListener);
         refreshAdapter();
         isViewCreate = true;
+        loadGouMaiList();
+        loadDangRiList();
         return mView;
     }
 
@@ -521,6 +525,10 @@ public class XiaoFeiFragment extends BaseFragment {
     public void refreshUI() {
         if (isViewCreate) {
             refreshTitle();
+            //if(!is_adapter_set) {
+                //refreshAdapter();
+                //is_adapter_set = true;
+            //}
             if (tab_id == 0) {
                 mGoumaiAdapter.notifyDataSetChanged();
             } else {

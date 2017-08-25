@@ -85,6 +85,7 @@ public class LoginActivity extends Activity {
         mPassword = findViewById(R.id.login_password);
         mPassword.setText(LoginManager.getInstance(this).getPassword());
         mRemCheckbox = findViewById(R.id.remenber);
+        mRemCheckbox.setChecked(true);
         mLogin = findViewById(R.id.login);
         mLogin.setOnClickListener(onClickListener);
     }
@@ -106,6 +107,8 @@ public class LoginActivity extends Activity {
             } else {
                 if (mRemCheckbox.isChecked()) {
                     remenber(name, password);
+                } else {
+                    LoginManager.getInstance(mContext).deleteUserAndPass();
                 }
                 RequestBody body = new FormBody.Builder().add("jobNumber", name)
                         .add("password", password)

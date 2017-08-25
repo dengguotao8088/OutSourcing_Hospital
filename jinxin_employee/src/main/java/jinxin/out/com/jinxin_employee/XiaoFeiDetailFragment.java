@@ -168,7 +168,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
                     body, getZhenDuanMoban_callback);
         }
         mCurrentPurRecord = new CurrentPurRecord();
-        loadDetail();
+        //loadDetail();
     }
 
     //http://staff.mind-node.com/staff/api/consumption_record/get?
@@ -219,6 +219,7 @@ public class XiaoFeiDetailFragment extends BaseFragment {
         yishiqianming_btn.setOnClickListener(yishiQianming);
 
         isViewCreate = true;
+        loadDetail();
         refreshQianMingBtn();
         refreshUI();
         return mView;

@@ -89,9 +89,9 @@ public class KehuGalleryFragment extends BaseFragment {
         Log.d("dengguotao","cus_id: "+cus_id);
         customGalleryRecords.clear();
         mItems = null;
-        if (cus_id != -1) {
-            load_cus_pic_list();
-        }
+        //if (cus_id != -1) {
+            //load_cus_pic_list();
+        //}
         current_click = -1;
     }
 
@@ -171,6 +171,9 @@ public class KehuGalleryFragment extends BaseFragment {
         delete_btn = mView.findViewById(R.id.grid_item_delete);
         delete_btn.setOnClickListener(delete_click);
         isViewCreate = true;
+        if (cus_id != -1) {
+            load_cus_pic_list();
+        }
         return mView;
     }
 

@@ -151,7 +151,7 @@ public class CustomerInformedFragment extends BaseFragment {
         //if (mCusZhiQinList.size() == 0) {
         mCusZhiQinList.clear();
         mCusZhiQinList_temp.clear();
-        loadAllData();
+        //loadAllData();
         //}
         if (mZhiQinList.size() == 0) {
             RequestBody body = new FormBody.Builder().add("token", manager.getToken()).build();
@@ -204,6 +204,7 @@ public class CustomerInformedFragment extends BaseFragment {
         mList.setAdapter(myAdapter);
         mList.setOnItemClickListener(mListClick);
         isViewCreate = true;
+        loadAllData();
         return mView;
     }
 

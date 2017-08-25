@@ -123,10 +123,6 @@ public class ZhiQinDetail extends BaseFragment {
         if (mqianming_file.exists()) {
             mqianming_file.delete();
         }
-        RequestBody body = new FormBody.Builder()
-                .add("token", LoginManager.getInstance(getActivity()).getToken())
-                .add("id", Id + "").build();
-        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?", body, mback);
     }
 
     @Override
@@ -147,6 +143,10 @@ public class ZhiQinDetail extends BaseFragment {
         ImageView button = mView.findViewById(R.id.back);
         button.setOnClickListener(mBackListener);
         isViewCreate = true;
+        RequestBody body = new FormBody.Builder()
+                .add("token", LoginManager.getInstance(getActivity()).getToken())
+                .add("id", Id + "").build();
+        NetPostUtil.post("http://staff.mind-node.com/staff/api/customer_informed_consent_record/get?", body, mback);
         refreshUI();
         return mView;
     }

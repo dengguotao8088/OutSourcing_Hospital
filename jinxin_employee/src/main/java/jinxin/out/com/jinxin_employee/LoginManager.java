@@ -76,9 +76,9 @@ public String avatarPath;//员工头像
         }
     }
 
-    public void clearEmp(){
+    public void clearEmp() {
         //if (mSharedPreferences != null) {
-         //   SharedPreferences.Editor editor = mSharedPreferences.edit();
+        //   SharedPreferences.Editor editor = mSharedPreferences.edit();
         //    editor.remove("token");
         //    editor.commit();
         //}
@@ -94,16 +94,16 @@ public String avatarPath;//员工头像
         }
     }
 
-    public String getUserName(){
+    public String getUserName() {
         if (mSharedPreferences != null) {
-            return mSharedPreferences.getString("u_name","");
+            return mSharedPreferences.getString("u_name", "");
         }
         return null;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         if (mSharedPreferences != null) {
-            return mSharedPreferences.getString("password","");
+            return mSharedPreferences.getString("password", "");
         }
         return null;
     }
@@ -135,4 +135,12 @@ public String avatarPath;//员工头像
         mEmployee = employee;
     }
 
+    public void deleteUserAndPass() {
+        if (mSharedPreferences != null) {
+            SharedPreferences.Editor editor = mSharedPreferences.edit();
+            editor.remove("u_name");
+            editor.remove("password");
+            editor.commit();
+        }
+    }
 }

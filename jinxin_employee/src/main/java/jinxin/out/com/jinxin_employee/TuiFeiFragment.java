@@ -35,6 +35,7 @@ public class TuiFeiFragment extends BaseFragment {
 
     private List<TuiFeiModule> mdatas = new ArrayList<>();
     private MyAdapter myAdapter = new MyAdapter();
+    private boolean is_adapter_set = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class TuiFeiFragment extends BaseFragment {
         //if (mdatas.size() == 0) {
         mdatas.clear();
         page_id = 1;
-        loadTuiFeiList();
+        //loadTuiFeiList();
         //}
         isFirstShow = false;
     }
@@ -62,6 +63,7 @@ public class TuiFeiFragment extends BaseFragment {
         initListView(mList, null);
         mList.setAdapter(myAdapter);
         isViewCreate = true;
+        loadTuiFeiList();
         return mView;
     }
 
@@ -90,6 +92,10 @@ public class TuiFeiFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         if (isViewCreate) {
+            //if(!is_adapter_set) {
+                //mList.setAdapter(myAdapter);
+                //is_adapter_set = true;
+            //}
             myAdapter.notifyDataSetChanged();
         }
     }

@@ -73,7 +73,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         remark = getArguments().getString("remark");
         mXiaofeiList.clear();
         mXiaofeiList_temp.clear();
-        loadList();
+        //loadList();
     }
 
     //http://staff.mind-node.com/staff/api/consumption_record/list?token=11111
@@ -145,6 +145,7 @@ public class KehuXiaoFeiFragment extends BaseFragment {
         mList.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         mList.setAdapter(myAdapter);
         isViewCreate = true;
+        loadList();
         return mView;
     }
 

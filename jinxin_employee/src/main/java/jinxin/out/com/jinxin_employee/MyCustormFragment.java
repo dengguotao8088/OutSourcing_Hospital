@@ -61,6 +61,7 @@ public class MyCustormFragment extends BaseFragment {
 
     private CustomerInformedFragment mCustomerInformedFragment;
     private XiaoFeiFragment xiaoFeiFragment;
+    private boolean is_adapter_set = false;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -159,6 +160,10 @@ public class MyCustormFragment extends BaseFragment {
     @Override
     public void refreshUI() {
         if (isViewCreate) {
+            //if(!is_adapter_set) {
+                //mList.setAdapter(myAdapter);
+                //is_adapter_set = true;
+            //}
             myAdapter.notifyDataSetChanged();
         }
     }
@@ -168,17 +173,6 @@ public class MyCustormFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         page_id = 1;
         searhText = "";
-        Bundle data = getArguments();
-        if (data != null) {
-            String search_text = data.getString("search_data");
-            if (search_text != null && !search_text.equals("")) {
-                searchWithMobile(search_text);
-            } else {
-                loadAllData();
-            }
-        } else {
-            loadAllData();
-        }
         isFirstShow = false;
     }
 
@@ -196,7 +190,19 @@ public class MyCustormFragment extends BaseFragment {
         mList = mView.findViewById(R.id.my_custorm_layout_list);
         initListView(mList, null);
         mList.setOnItemClickListener(onItemClickListener);
+        is_adapter_set = false;
         mList.setAdapter(myAdapter);
+        Bundle data = getArguments();
+        if (data != null) {
+            String search_text = data.getString("search_data");
+            if (search_text != null && !search_text.equals("")) {
+                searchWithMobile(search_text);
+            } else {
+                loadAllData();
+            }
+        } else {
+            loadAllData();
+        }
         isViewCreate = true;
         return mView;
     }
