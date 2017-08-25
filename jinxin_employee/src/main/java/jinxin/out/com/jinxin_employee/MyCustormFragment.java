@@ -52,7 +52,7 @@ public class MyCustormFragment extends BaseFragment {
 
     private View mView;
     private SearchView mSearchView;
-    private String searhText;
+    public String searhText = "";
     private ImageView mSearchClose;
     private PullToRefreshListView mList;
     private List<CustormData> mCusDatas = new ArrayList<>();
@@ -142,6 +142,10 @@ public class MyCustormFragment extends BaseFragment {
         if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
             return;
         }
+        if(searhText != null && !searhText.equals("")){
+            searchWithMobile(searhText);
+            return;
+        }
         page_id = 1;
         loadAllData();
     }
@@ -149,6 +153,10 @@ public class MyCustormFragment extends BaseFragment {
     @Override
     public void loadData() {
         if (!LoginManager.getInstance(mActivity).isNetworkConnected()) {
+            return;
+        }
+        if(searhText != null && !searhText.equals("")){
+            searchWithMobile(searhText);
             return;
         }
         if (mCusDatas != null && mCusDatas.size() >= (10 * page_id)) {
@@ -164,6 +172,7 @@ public class MyCustormFragment extends BaseFragment {
                 //mList.setAdapter(myAdapter);
                 //is_adapter_set = true;
             //}
+            mSearchView.setText(searhText);
             myAdapter.notifyDataSetChanged();
         }
     }
@@ -172,14 +181,13 @@ public class MyCustormFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         page_id = 1;
-        searhText = "";
         isFirstShow = false;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.my_custorm_layout, container, false);
         mSearchView = mView.findViewById(R.id.custom_search);
         mSearchView.setText(searhText);
@@ -192,14 +200,8 @@ public class MyCustormFragment extends BaseFragment {
         mList.setOnItemClickListener(onItemClickListener);
         is_adapter_set = false;
         mList.setAdapter(myAdapter);
-        Bundle data = getArguments();
-        if (data != null) {
-            String search_text = data.getString("search_data");
-            if (search_text != null && !search_text.equals("")) {
-                searchWithMobile(search_text);
-            } else {
-                loadAllData();
-            }
+        if (searhText != null && !"".equals(searhText)) {
+            searchWithMobile(searhText);
         } else {
             loadAllData();
         }
@@ -217,7 +219,6 @@ public class MyCustormFragment extends BaseFragment {
                     }
                     Bundle data = new Bundle();
                     data.putInt("custorm_id", mCusDatas.get((int) l).id);
-                    Log.d("dengguotao","click: "+l+"   cid: "+mCusDatas.get((int) l).id);
                     data.putBoolean("xiaofei_fragement_reset", true);
                     xiaoFeiFragment.setArguments(data);
                     mActivity.showContent(xiaoFeiFragment);
@@ -240,8 +241,13 @@ public class MyCustormFragment extends BaseFragment {
                     if (i == EditorInfo.IME_ACTION_SEARCH) {
                         mSearchView.clearFocus();
                         String searh = mSearchView.getText().toString();
+                        searhText = searh;
                         HideSoft();
-                        searchWithMobile(searh);
+                        if (searh == null || searh.equals("")) {
+                            loadAllData();
+                        } else {
+                            searchWithMobile(searh);
+                        }
                         mActivity.showHUD("搜索中");
                         return true;
                     }
@@ -251,6 +257,7 @@ public class MyCustormFragment extends BaseFragment {
 
     private void searchWithMobile(String mobile) {
         page_id = 1;
+        Log.d("dengguotao","search mobile: "+mobile);
         searhText = mobile;
         RequestBody body = new FormBody.Builder().add("token", mLoginManager.getToken())
                 .add("mobile", mobile).build();

@@ -10,11 +10,12 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.widget.EditText;
 
 import jinxin.out.com.jinxin_employee.R;
 
 
-public class SearchView extends android.support.v7.widget.AppCompatEditText {
+public class SearchView extends EditText {
 
     private float searchSize = 0;
     private float textSize = 0;
